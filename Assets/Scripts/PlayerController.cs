@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float speed;
     [SerializeField]
-    private int _jumpHeight = 5;
+    private int _jumpHeight = 6;
 
     [SerializeField]
     private VariableJoystick variableJoystick;
@@ -38,13 +38,13 @@ public class PlayerController : MonoBehaviour
         //Debug.Log(IsGrounded());
         if (IsGrounded())
         {
-            _rb.AddForce(new Vector3(0f, transform.position.y * _jumpHeight, 0f), ForceMode.Impulse);
+            _rb.AddForce(new Vector3(0f, transform.position.y, 0f).normalized * _jumpHeight, ForceMode.Impulse);
         }
     }
 
     private bool IsGrounded(float length = 0.2f)
     {
-        if(Physics.SphereCast(_ballSphereCollider.transform.position, _ballSphereCollider.radius, Vector3.down, out RaycastHit hit, _ballSphereCollider.bounds.extents.y + 0.1f, _groundLayer))
+        if(Physics.SphereCast(_ballSphereCollider.transform.position, _ballSphereCollider.radius/2f, Vector3.down, out RaycastHit hit, _ballSphereCollider.bounds.extents.y + 0.1f, _groundLayer))
         {
             return true;
         }

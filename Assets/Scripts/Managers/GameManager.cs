@@ -1,12 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     [SerializeField]
     private GameObject _player;
+
+    private int _enemyDanceAnimationId;
+
+    private bool isPlayerDead = false;
+
+    public bool IsPlayerDead
+    {
+        get { return isPlayerDead; }
+        set { isPlayerDead = value; }
+    }
 
     private void Awake()
     {
@@ -22,8 +33,9 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        isPlayerDead = true;
         UIManager.Instance._gameOver.SetActive(true);
-        Time.timeScale = 0f;
+        
         _player.SetActive(false);
     }
   

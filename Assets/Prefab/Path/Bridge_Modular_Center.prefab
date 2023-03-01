@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7431611469031883388}
   - component: {fileID: 4667580827277571766}
   - component: {fileID: 6270982835066981239}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Bridge_Modular_Center
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 6613087969138055011}
   m_LocalRotation: {x: -0.7069834, y: 0, z: 0, w: 0.7072302}
   m_LocalPosition: {x: 8.42, y: 0.57, z: -0.09}
-  m_LocalScale: {x: 100, y: 120, z: 100}
+  m_LocalScale: {x: 100, y: 130, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}

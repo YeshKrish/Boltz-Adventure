@@ -56,7 +56,8 @@ public class PlayerController : MonoBehaviour
         Debug.Log(collision.gameObject.layer);
         if((( 1 << collision.gameObject.layer) & _enemyLayer) != 0)
         {
-            Debug.Log("Dead" + " " + collision.gameObject.name);
+            Debug.Log("Plater Dead");
+            GameManager.instance.GameOver();
         }
     }
 

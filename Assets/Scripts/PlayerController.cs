@@ -1,10 +1,15 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+
+
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject _tower;
     [SerializeField]
     private float speed;
     [SerializeField]
@@ -17,14 +22,29 @@ public class PlayerController : MonoBehaviour
     private LayerMask _groundLayer;  
     [SerializeField]
     private LayerMask _enemyLayer;
+    [SerializeField]
+    private LayerMask _winLayer;
 
     private Rigidbody _rb;
     private SphereCollider _ballSphereCollider;
+
+    private int _doorToBeOpenedDist = 10;
+
+    public static event Action DoorOpen;
+    public static event Action LevelCompleted;
 
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
         _ballSphereCollider = GetComponent<SphereCollider>();
+    }
+
+    private void Update()
+    {
+        if (Vector3.Distance(transform.position, _tower.transform.position) < _doorToBeOpenedDist)
+        {
+            DoorOpen?.Invoke();
+        }
     }
 
     private void FixedUpdate()
@@ -53,7 +73,6 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision.gameObject.name);
         if((( 1 << collision.gameObject.layer) & _enemyLayer) != 0)
         {
             Debug.Log("Plater Dead");
@@ -67,10 +86,14 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.gameObject.tag);
         if (other.gameObject.CompareTag("EnemyHead"))
         {
             other.transform.parent.gameObject.SetActive(false);
+        }
+        if (((1 << other.gameObject.layer) & _winLayer) != 0)
+        {
+            Debug.Log("Won");
+            LevelCompleted?.Invoke();
         }
     }
 }

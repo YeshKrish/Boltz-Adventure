@@ -8,10 +8,22 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     [SerializeField]
     private GameObject _player;
-
-    private int _enemyDanceAnimationId;
+    [SerializeField]
+    private Animator _doorOpenAnimator;
 
     private bool isPlayerDead = false;
+
+    private void OnEnable()
+    {
+        PlayerController.DoorOpen += OpenDoor;
+        PlayerController.LevelCompleted += NextLevel;
+    }
+
+    private void OnDisable()
+    {
+        PlayerController.DoorOpen -= OpenDoor;
+        PlayerController.LevelCompleted -= NextLevel;
+    }
 
     public bool IsPlayerDead
     {
@@ -37,6 +49,16 @@ public class GameManager : MonoBehaviour
         UIManager.Instance._gameOver.SetActive(true);
         
         _player.SetActive(false);
+    }
+
+    public void OpenDoor()
+    {
+        _doorOpenAnimator.enabled = true;
+    }
+
+    public void NextLevel()
+    {
+        Debug.Log("Level 2");
     }
   
 }

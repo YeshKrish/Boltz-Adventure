@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance;
 
     public GameObject _gameOver;
+    public GameObject MainMenu;
 
     private void Awake()
     {
@@ -30,5 +31,11 @@ public class UIManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void GameStart()
+    {
+        MainMenu.SetActive(false);
+        Time.timeScale = 1f;
     }
 }

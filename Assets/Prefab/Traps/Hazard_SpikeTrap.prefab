@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3501128602173457779}
+  - component: {fileID: 3576234147838331554}
   m_Layer: 6
   m_Name: Hazard_SpikeTrap
   m_TagString: Untagged
@@ -33,6 +34,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &3576234147838331554
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4313693376750952393}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 7878679f00bace6469d702509303157b, type: 2}
+  m_Controller: {fileID: 9100000, guid: 68d9b19aaae2d6a4b94387445816a642, type: 2}
+  m_CullingMode: 1
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &5512420381596147730
 GameObject:
   m_ObjectHideFlags: 0
@@ -44,7 +65,7 @@ GameObject:
   - component: {fileID: 4793973603357431633}
   m_Layer: 6
   m_Name: Root
-  m_TagString: Untagged
+  m_TagString: Spikes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -64,7 +85,7 @@ Transform:
   - {fileID: 8609290207062761957}
   m_Father: {fileID: 1933811779496937133}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 89.98021, y: -0.000013660376, z: 0}
 --- !u!1 &6203717400124535617
 GameObject:
   m_ObjectHideFlags: 0
@@ -75,7 +96,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8607181649400590362}
   - component: {fileID: 268550708213042020}
-  - component: {fileID: 3971111183977192427}
   m_Layer: 6
   m_Name: Hazard_SpikeTrap
   m_TagString: Untagged
@@ -91,7 +111,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6203717400124535617}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: -0, y: 0, z: 0.08}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -154,20 +174,6 @@ SkinnedMeshRenderer:
     m_Center: {x: 0, y: 0.0032662197, z: 0}
     m_Extent: {x: 0.010000002, y: 0.0034838787, z: 0.009999999}
   m_DirtyAABB: 0
---- !u!64 &3971111183977192427
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6203717400124535617}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 2800079365637101791, guid: 3cc27f4f72be8f947bda68bccd5141df, type: 3}
 --- !u!1 &8102915939085722674
 GameObject:
   m_ObjectHideFlags: 0
@@ -179,7 +185,7 @@ GameObject:
   - component: {fileID: 8609290207062761957}
   m_Layer: 6
   m_Name: Spikes
-  m_TagString: Untagged
+  m_TagString: Spikes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -192,14 +198,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8102915939085722674}
   m_LocalRotation: {x: -3.552712e-15, y: -7.1054274e-15, z: 4.235165e-22, w: 1}
-  m_LocalPosition: {x: -0, y: -0.0012, z: -0}
+  m_LocalPosition: {x: 0, y: -2.9802322e-10, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 343067706559613809}
   m_Father: {fileID: 4793973603357431633}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -4.071108e-13, y: -8.1422195e-13, z: 4.8531417e-20}
 --- !u!1 &8330729349476435013
 GameObject:
   m_ObjectHideFlags: 0
@@ -209,9 +215,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1933811779496937133}
+  - component: {fileID: 4366078891761618140}
   m_Layer: 6
   m_Name: Hazard_SpikeTrap_Armature
-  m_TagString: Untagged
+  m_TagString: Spikes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -231,7 +238,21 @@ Transform:
   - {fileID: 4793973603357431633}
   m_Father: {fileID: 3501128602173457779}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -89.98021, y: 0, z: 0}
+--- !u!64 &4366078891761618140
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8330729349476435013}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 2800079365637101791, guid: 3cc27f4f72be8f947bda68bccd5141df, type: 3}
 --- !u!1 &8579399147942206280
 GameObject:
   m_ObjectHideFlags: 0
@@ -243,7 +264,7 @@ GameObject:
   - component: {fileID: 343067706559613809}
   m_Layer: 6
   m_Name: Spikes_end
-  m_TagString: Untagged
+  m_TagString: Spikes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

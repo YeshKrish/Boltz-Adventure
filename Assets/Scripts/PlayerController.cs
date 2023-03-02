@@ -53,10 +53,14 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision.gameObject.layer);
+        Debug.Log(collision.gameObject.name);
         if((( 1 << collision.gameObject.layer) & _enemyLayer) != 0)
         {
             Debug.Log("Plater Dead");
+            GameManager.instance.GameOver();
+        }
+        if (collision.gameObject.CompareTag("Spikes"))
+        {
             GameManager.instance.GameOver();
         }
     }

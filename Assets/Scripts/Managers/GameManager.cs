@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
@@ -33,8 +34,6 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        Time.timeScale = 0f;
-
         if(instance == null)
         {
             instance = this;
@@ -43,14 +42,19 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+
+    }
+
+    private void Start()
+    {
+       
     }
 
     public void GameOver()
     {
+        PlayerPrefs.SetInt("Current Level", SceneManager.GetActiveScene().buildIndex);
         isPlayerDead = true;
-        UIManager.Instance._gameOver.SetActive(true);
-        
-        _player.SetActive(false);
+        SceneManager.LoadScene("GameOver");
     }
 
     public void OpenDoor()
@@ -61,6 +65,11 @@ public class GameManager : MonoBehaviour
     public void NextLevel()
     {
         Debug.Log("Level 2");
+    }
+
+    public int GetCurrentScene()
+    {
+        return(PlayerPrefs.GetInt("Current Level"));
     }
   
 }

@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
     public GameObject _gameOver;
-    public GameObject MainMenu;
 
     private void Awake()
     {
@@ -20,7 +20,6 @@ public class UIManager : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        //MainMenu.transform.GetChild(4).GetComponent<Animation>().Play();
     }
 
     // Start is called before the first frame update
@@ -37,12 +36,11 @@ public class UIManager : MonoBehaviour
 
     public void GameStart()
     {
-        MainMenu.SetActive(false);
         Time.timeScale = 1f;
     }
 
     public void RetryLevel()
     {
-
+        SceneManager.LoadScene(GameManager.instance.GetCurrentScene());
     }
 }

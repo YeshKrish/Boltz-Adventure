@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
     private float speed;
     [SerializeField]
     private int _jumpHeight = 6;
+    [SerializeField]
+    private int _bounceHeight = 10;
 
     [SerializeField]
     private VariableJoystick variableJoystick;
@@ -24,6 +26,8 @@ public class PlayerController : MonoBehaviour
     private LayerMask _enemyLayer;
     [SerializeField]
     private LayerMask _winLayer;
+    [SerializeField]
+    private LayerMask _bouncingLayer;
 
     private Rigidbody _rb;
     private SphereCollider _ballSphereCollider;
@@ -32,6 +36,7 @@ public class PlayerController : MonoBehaviour
 
     public static event Action DoorOpen;
     public static event Action LevelCompleted;
+    public static event Action Bounce;
 
     private void Start()
     {
@@ -58,7 +63,7 @@ public class PlayerController : MonoBehaviour
         //Debug.Log(IsGrounded());
         if (IsGrounded())
         {
-            _rb.AddForce(new Vector3(0f, transform.position.y, 0f).normalized * _jumpHeight, ForceMode.Impulse);
+            _rb.AddForce(new Vector3(0f, Math.Abs(transform.position.y), 0f).normalized * _jumpHeight, ForceMode.Impulse);
         }
     }
 
@@ -94,6 +99,12 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Won");
             LevelCompleted?.Invoke();
+        } 
+        if (other.gameObject.CompareTag("BouncingHead"))
+        {
+            Debug.Log("Bounceeeee!");
+            Bounce?.Invoke();
+            _rb.AddForce(new Vector3(0f, Math.Abs(transform.position.y), 0f).normalized * _bounceHeight, ForceMode.Impulse);
         }
     }
 }

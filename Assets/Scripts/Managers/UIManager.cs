@@ -19,6 +19,8 @@ public class UIManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+
+        //MainMenu.transform.GetChild(4).GetComponent<Animation>().Play();
     }
 
     // Start is called before the first frame update
@@ -37,5 +39,10 @@ public class UIManager : MonoBehaviour
     {
         MainMenu.SetActive(false);
         Time.timeScale = 1f;
+    }
+
+    public void RetryLevel()
+    {
+
     }
 }

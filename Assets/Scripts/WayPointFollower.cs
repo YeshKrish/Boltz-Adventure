@@ -24,4 +24,5 @@ public class WayPointFollower : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, wayPoints[_currentWayPointIndex].transform.position, wayPointSpeed * Time.deltaTime);
         }
     }
+
 }

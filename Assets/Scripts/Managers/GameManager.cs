@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour
 
     public void NextLevel()
     {
-        Debug.Log("Level 2");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public int GetCurrentScene()

@@ -12,7 +12,6 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         _animator = GetComponent<Animator>();
-        isDancingHash = Animator.StringToHash("isPlayerDead");
     }
 
     private void Update()

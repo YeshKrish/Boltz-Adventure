@@ -12,7 +12,7 @@ GameObject:
   m_Layer: 7
   m_Name: WayPoint1
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -157,7 +157,7 @@ GameObject:
   m_Layer: 7
   m_Name: WayPoint3
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -228,7 +228,7 @@ MonoBehaviour:
   - {fileID: 1833362276654486439}
   - {fileID: 7912581477035332277}
   - {fileID: 6172694158591097627}
-  wayPointSpeed: 2
+  wayPointSpeed: 7
 --- !u!1 &2073516406697656140
 GameObject:
   m_ObjectHideFlags: 0
@@ -375,7 +375,7 @@ Animator:
   m_GameObject: {fileID: 2616339784223674890}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: bf9e244c453dfad4f81af66a6597961c, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f0dd377707238f0428748407155eba05, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -441,7 +441,7 @@ GameObject:
   - component: {fileID: 4554528004285250474}
   m_Layer: 7
   m_Name: BeeHead
-  m_TagString: Untagged
+  m_TagString: EnemyHead
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -472,8 +472,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.153939, y: 0.5110177, z: 1.2888777}
-  m_Center: {x: 0.004527569, y: 0.24449116, z: 0.14443895}
+  m_Size: {x: 2.2532563, y: 0.37794197, z: 1.5070856}
+  m_Center: {x: 0.06327844, y: 0.1779533, z: 0.12987852}
 --- !u!1 &4336290174071974292
 GameObject:
   m_ObjectHideFlags: 0
@@ -580,7 +580,7 @@ GameObject:
   m_Layer: 7
   m_Name: WayPoint4
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -676,7 +676,7 @@ GameObject:
   m_Layer: 7
   m_Name: WayPoint2
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1

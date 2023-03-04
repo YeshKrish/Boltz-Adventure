@@ -50,6 +50,7 @@ public class PlayerController : MonoBehaviour
         {
             DoorOpen?.Invoke();
         }
+
         OnFalling();
     }
 
@@ -111,21 +112,22 @@ public class PlayerController : MonoBehaviour
 
     void OnFalling()
     {
-        if(!Physics.SphereCast(_ballSphereCollider.transform.position, _ballSphereCollider.radius / 2f, Vector3.down, out RaycastHit hit, _ballSphereCollider.bounds.extents.y + 10f, _groundLayer))
+        if(!Physics.SphereCast(_ballSphereCollider.transform.position, _ballSphereCollider.radius / 2f, Vector3.down, out RaycastHit hit, _ballSphereCollider.bounds.extents.y + 10f, _groundLayer) )
         {
-            StartCoroutine(WaitForFewSeconds());
-            
+            if(transform.position.y < -10f)
+            GameManager.instance.GameOver();
+
         }
     }
 
-    IEnumerator WaitForFewSeconds()
-    {
-        yield return new WaitForSeconds(1f);
-        if (!Physics.SphereCast(_ballSphereCollider.transform.position, _ballSphereCollider.radius / 2f, Vector3.down, out RaycastHit hit, _ballSphereCollider.bounds.extents.y + 10f, _groundLayer))
-        {
-            GameManager.instance.GameOver();
-        }
-    }
+    //IEnumerator WaitForFewSeconds()
+    //{
+    //    yield return new WaitForSeconds(.5f);
+    //    if (!Physics.SphereCast(_ballSphereCollider.transform.position, _ballSphereCollider.radius / 2f, Vector3.down, out RaycastHit hit, _ballSphereCollider.bounds.extents.y + 10f, _groundLayer))
+    //    {
+           
+    //    }
+    //}
 
 }
 

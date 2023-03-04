@@ -50,6 +50,7 @@ public class PlayerController : MonoBehaviour
         {
             DoorOpen?.Invoke();
         }
+        OnFalling();
     }
 
     private void FixedUpdate()
@@ -107,5 +108,24 @@ public class PlayerController : MonoBehaviour
             _rb.AddForce(new Vector3(0f, Math.Abs(transform.position.y), 0f).normalized * _bounceHeight, ForceMode.Impulse);
         }
     }
+
+    void OnFalling()
+    {
+        if(!Physics.SphereCast(_ballSphereCollider.transform.position, _ballSphereCollider.radius / 2f, Vector3.down, out RaycastHit hit, _ballSphereCollider.bounds.extents.y + 10f, _groundLayer))
+        {
+            StartCoroutine(WaitForFewSeconds());
+            
+        }
+    }
+
+    IEnumerator WaitForFewSeconds()
+    {
+        yield return new WaitForSeconds(1f);
+        if (!Physics.SphereCast(_ballSphereCollider.transform.position, _ballSphereCollider.radius / 2f, Vector3.down, out RaycastHit hit, _ballSphereCollider.bounds.extents.y + 10f, _groundLayer))
+        {
+            GameManager.instance.GameOver();
+        }
+    }
+
 }
 

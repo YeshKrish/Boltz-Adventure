@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private int _jumpHeight = 6;
     [SerializeField]
-    private int _bounceHeight = 10;
+    private int _bounceHeight = 11;
 
     [SerializeField]
     private VariableJoystick variableJoystick;

@@ -17,12 +17,14 @@ public class GameManager : MonoBehaviour
     private void OnEnable()
     {
         PlayerController.DoorOpen += OpenDoor;
+        Lever.DoorOpen += OpenDoor;
         PlayerController.LevelCompleted += NextLevel;
     }
 
     private void OnDisable()
     {
         PlayerController.DoorOpen -= OpenDoor;
+        Lever.DoorOpen -= OpenDoor;
         PlayerController.LevelCompleted -= NextLevel;
     }
 

@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
-
+using UnityEngine.SceneManagement;
 
 
 [RequireComponent(typeof(Rigidbody))]
@@ -48,7 +48,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (Vector3.Distance(transform.position, _tower.transform.position) < _doorToBeOpenedDist)
+        if (Vector3.Distance(transform.position, _tower.transform.position) < _doorToBeOpenedDist && SceneManager.GetActiveScene().name != "Level5")
         {
             DoorOpen?.Invoke();
         }

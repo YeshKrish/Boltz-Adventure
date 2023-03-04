@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private int _jumpHeight = 6;
     [SerializeField]
-    private int _bounceHeight = 11;
+    private int _bounceHeight;
 
     [SerializeField]
     private VariableJoystick variableJoystick;
@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log(_bounceHeight);
         _rb = GetComponent<Rigidbody>();
         _ballSphereCollider = GetComponent<SphereCollider>();
     }
@@ -110,6 +111,7 @@ public class PlayerController : MonoBehaviour
             _rb.AddForce(new Vector3(0f, Math.Abs(transform.position.y), 0f).normalized * _bounceHeight, ForceMode.Impulse);
         }
     }
+
 
     void OnFalling()
     {

@@ -133,6 +133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bounceAnimator: {fileID: 4974743207753645155}
+  _bounceAnimationClip: {fileID: 7400000, guid: e4fdc72ba30090f49b1034271604c725, type: 2}
 --- !u!135 &7786581094686722216
 SphereCollider:
   m_ObjectHideFlags: 0

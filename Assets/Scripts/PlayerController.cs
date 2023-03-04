@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody _rb;
     private SphereCollider _ballSphereCollider;
+    private Bouncer _bouncer;
 
     private int _doorToBeOpenedDist = 10;
 

@@ -12,6 +12,19 @@ public class Bouncer : MonoBehaviour
 
     private bool _isBounced = false;
 
+    public int SpringHeight;
+
+    //private void Start()
+    //{
+    //    SpringHeight = _springHeight;
+    //}
+
+    //public int SpringHeight
+    //{
+    //    get { return _springHeight; }
+    //    set { _springHeight = value; }
+    //}
+
     private void OnEnable()
     {
         PlayerController.Bounce += Bounce;

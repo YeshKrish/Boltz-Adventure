@@ -7,6 +7,9 @@ public class MainMenu : MonoBehaviour
 {
     public void StartGame()
     {
+        MusicManager.instance.ButtonClickSound();
+        MusicManager.instance.GameMusic();
+        MusicManager.instance.MainMenuMusicStop();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }

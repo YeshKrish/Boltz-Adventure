@@ -7,10 +7,16 @@ public class MusicManager : MonoBehaviour
 {
     public static MusicManager instance;
 
-    public AudioSource MainMenuAudio;
 
     private bool _audioMute = false;
 
+    
+    public AudioSource MainMenuAudio;
+
+    [SerializeField]
+    private AudioSource _buttonSound;
+    [SerializeField]
+    private AudioSource _gameMusic;
     [SerializeField]
     private Sprite[] _audioSprites;
     [SerializeField]
@@ -28,6 +34,7 @@ public class MusicManager : MonoBehaviour
         }
 
         MainMenuAudio.Play();
+        DontDestroyOnLoad(this.gameObject);
     }
 
     public void MuteAudio()
@@ -47,4 +54,18 @@ public class MusicManager : MonoBehaviour
         }
     }
 
+    public void ButtonClickSound()
+    {
+        _buttonSound.Play();
+    }
+
+    public void GameMusic()
+    {
+        Debug.Log("Playyy");
+        _gameMusic.Play();
+    }
+    public void MainMenuMusicStop()
+    {
+        MainMenuAudio.Stop();
+    }
 }

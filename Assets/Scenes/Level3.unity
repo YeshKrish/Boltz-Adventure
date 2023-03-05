@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: f3fde3424e97c9f4b84bb58ff6d5d252, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -4183,6 +4183,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MainMenuAudio: {fileID: 734561987}
+  _buttonSound: {fileID: 0}
+  _gameMusic: {fileID: 0}
   _audioSprites:
   - {fileID: -2047359591, guid: 4ae4e7c0ce60fed4c8a0e08fc7fae898, type: 3}
   - {fileID: -1697515250, guid: 4ae4e7c0ce60fed4c8a0e08fc7fae898, type: 3}

@@ -41,6 +41,7 @@ public class UIManager : MonoBehaviour
 
     public void RetryLevel()
     {
+        MusicManager.instance.ButtonClickSound();
         SceneManager.LoadScene(GameManager.instance.GetCurrentScene());
     }
 }

@@ -27,7 +27,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private LayerMask _winLayer;
     [SerializeField]
-    private LayerMask _bouncingLayer;
+    private LayerMask _bouncingLayer;    
+    [SerializeField]
+    private LayerMask _collectibleLayer;
 
     private Rigidbody _rb;
     private SphereCollider _ballSphereCollider;
@@ -108,6 +110,11 @@ public class PlayerController : MonoBehaviour
             Bounce?.Invoke();
             _rb.AddForce(new Vector3(0f, Math.Abs(transform.position.y), 0f).normalized * _bounceHeight, ForceMode.Impulse);
         }
+        if (((1 << other.gameObject.layer) & _collectibleLayer) != 0)
+        {
+            UIManager.Instance.UpdateScoreText();
+            other.gameObject.SetActive(false);
+        } 
     }
 
     IEnumerator Win()

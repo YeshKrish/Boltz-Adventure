@@ -103,6 +103,9 @@ MonoBehaviour:
   _bouncingLayer:
     serializedVersion: 2
     m_Bits: 0
+  _collectibleLayer:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!1001 &4303211622948131903
 PrefabInstance:
   m_ObjectHideFlags: 0

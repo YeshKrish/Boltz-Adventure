@@ -10,11 +10,16 @@ public class MainMenu : MonoBehaviour
         MusicManager.instance.ButtonClickSound();
         MusicManager.instance.GameMusic();
         MusicManager.instance.MainMenuMusicStop();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadScene("LevelSelect");
     }
 
-    public void LevelSelect()
+    public void CustomizePlayer()
     {
-        SceneManager.LoadScene("LevelSelect");
+
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
     }
 }

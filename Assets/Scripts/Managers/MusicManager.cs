@@ -61,7 +61,6 @@ public class MusicManager : MonoBehaviour
 
     public void GameMusic()
     {
-        Debug.Log("Playyy");
         _gameMusic.Play();
     }
     public void MainMenuMusicStop()

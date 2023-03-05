@@ -44,4 +44,9 @@ public class UIManager : MonoBehaviour
         MusicManager.instance.ButtonClickSound();
         SceneManager.LoadScene(GameManager.instance.GetCurrentScene());
     }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 }

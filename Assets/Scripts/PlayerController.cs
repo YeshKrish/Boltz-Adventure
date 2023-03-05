@@ -101,17 +101,20 @@ public class PlayerController : MonoBehaviour
         }
         if (((1 << other.gameObject.layer) & _winLayer) != 0)
         {
-            Debug.Log("Won");
-            LevelCompleted?.Invoke();
+            StartCoroutine(Win());
         } 
         if (other.gameObject.CompareTag("BouncingHead"))
         {
-            Debug.Log("Bounceeeee!");
             Bounce?.Invoke();
             _rb.AddForce(new Vector3(0f, Math.Abs(transform.position.y), 0f).normalized * _bounceHeight, ForceMode.Impulse);
         }
     }
 
+    IEnumerator Win()
+    {
+        yield return new WaitForSeconds(.8f);
+        LevelCompleted?.Invoke();
+    }
 
     void OnFalling()
     {

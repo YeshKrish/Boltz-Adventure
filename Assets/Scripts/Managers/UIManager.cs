@@ -30,14 +30,15 @@ public class UIManager : MonoBehaviour
 
     public void UpdateScoreText()
     {
-        _total++;
-        if(_total < 10)
+        Item.quatity = Item.quatity + 1;
+        //_total++;
+        if (Item.quatity < 10)
         {
-            _cointText.SetText("0" + _total.ToString());
+            _cointText.SetText("0" + Item.quatity.ToString());
         }
         else
         {
-            _cointText.SetText(_total.ToString());
+            _cointText.SetText(Item.quatity.ToString());
         }
     }
 

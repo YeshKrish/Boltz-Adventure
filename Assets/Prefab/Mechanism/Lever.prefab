@@ -163,6 +163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameObjectsToActivate: []
+  _gameObjectsToDeActivate: []
   _leverOn: {fileID: 0}
 --- !u!1 &6235130051267466423
 GameObject:
@@ -208,6 +209,7 @@ GameObject:
   - component: {fileID: 3564325608084069822}
   - component: {fileID: 8338125952368412506}
   - component: {fileID: 8353003320324189693}
+  - component: {fileID: 4951947937147455452}
   m_Layer: 0
   m_Name: Lever
   m_TagString: Untagged
@@ -314,3 +316,24 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.020517735, y: 0.018751057, z: 0.013798492}
   m_Center: {x: -0.0043338737, y: 0.00046835004, z: 0.006830823}
+--- !u!114 &4951947937147455452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8670280765556544213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc29941201dedd145b25e2df928b4de6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gameObjectsToActivate:
+  - {fileID: 0}
+  _gameObjectsToDeActivate:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _leverOn: {fileID: 904736220262969468}

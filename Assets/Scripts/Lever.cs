@@ -8,6 +8,8 @@ public class Lever : MonoBehaviour
     [SerializeField]
     private GameObject[] _gameObjectsToActivate;
     [SerializeField]
+    private GameObject[] _gameObjectsToDeActivate;
+    [SerializeField]
     private Animator _leverOn;
 
     public static event Action DoorOpen;
@@ -21,6 +23,10 @@ public class Lever : MonoBehaviour
             foreach (GameObject _gameObj in _gameObjectsToActivate)
             {
                 _gameObj.GetComponent<WayPointFollower>().enabled = true;
+            } 
+            foreach (GameObject _gameObj in _gameObjectsToDeActivate)
+            {
+                _gameObj.SetActive(false);
             }
             
             DoorOpen?.Invoke();

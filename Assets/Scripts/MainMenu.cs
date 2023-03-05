@@ -12,4 +12,9 @@ public class MainMenu : MonoBehaviour
         MusicManager.instance.MainMenuMusicStop();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
+
+    public void LevelSelect()
+    {
+        SceneManager.LoadScene("LevelSelect");
+    }
 }

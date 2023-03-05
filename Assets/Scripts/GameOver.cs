@@ -5,6 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class GameOver : MonoBehaviour
 {
+    private void Start()
+    {
+        PlayerPrefs.SetInt("GameOverLevel", 6);
+    }
+
     public void MainMenu()
     {
         SceneManager.LoadScene("MainMenu");

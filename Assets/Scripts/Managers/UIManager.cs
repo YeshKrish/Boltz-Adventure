@@ -8,10 +8,12 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
+    public GameObject QuestTextObj;
+
     [SerializeField]
     private TMP_Text _cointText;
 
-    private int _total = 0;
+    private static int _total = 0;
 
     private void Awake()
     {
@@ -25,12 +27,6 @@ public class UIManager : MonoBehaviour
         }
 
     }
-
-    void Start()
-    {
-        
-    }
-
 
     public void UpdateScoreText()
     {

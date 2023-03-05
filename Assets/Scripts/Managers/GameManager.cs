@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if(instance == null)
+        if (instance == null)
         {
             instance = this;
         }
@@ -44,12 +44,26 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-
     }
 
     private void Start()
     {
-       
+        if (PlayerPrefs.HasKey("LevelCleared"))
+        {
+
+        }
+        else
+        {
+            PlayerPrefs.SetInt("LevelCleared", 0);
+            if (PlayerPrefs.HasKey("LevelClearedCount"))
+            {
+
+            }
+            else
+            {
+                PlayerPrefs.SetInt("LevelClearedCount", 0);
+            }
+        }
     }
 
     public void GameOver()
@@ -66,7 +80,26 @@ public class GameManager : MonoBehaviour
 
     public void NextLevel()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        int prevoiusBuildIndex = PlayerPrefs.GetInt("LevelCleared");
+        int currentBuildIndex = SceneManager.GetActiveScene().buildIndex;
+        int previousLevelCount = PlayerPrefs.GetInt("LevelClearedCount");
+
+        if(currentBuildIndex > prevoiusBuildIndex)
+        {
+            PlayerPrefs.SetInt("LevelCleared", SceneManager.GetActiveScene().buildIndex);
+            PlayerPrefs.SetInt("LevelClearedCount", previousLevelCount + 1);
+        }
+
+        int nextScene = SceneManager.GetActiveScene().buildIndex + 1;
+
+        if (PlayerPrefs.GetInt("GameOverLevel") != nextScene)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
+        else
+        {
+            SceneManager.LoadScene("GameCompleted");
+        }
     }
 
     public int GetCurrentScene()

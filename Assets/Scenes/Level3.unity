@@ -4620,6 +4620,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1786526712}
     m_Modifications:
+    - target: {fileID: 1867537384547444109, guid: c137133c484d0ec4194aaeca0352be13, type: 3}
+      propertyPath: _enemy
+      value: 
+      objectReference: {fileID: 1564534083}
     - target: {fileID: 2616339784223674890, guid: c137133c484d0ec4194aaeca0352be13, type: 3}
       propertyPath: m_Name
       value: Bee (1)
@@ -8636,6 +8640,11 @@ RectTransform:
   m_AnchoredPosition: {x: 100, y: 0}
   m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1564534083 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1888656608754037078, guid: c137133c484d0ec4194aaeca0352be13, type: 3}
+  m_PrefabInstance: {fileID: 746878194}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1565502932
 GameObject:
   m_ObjectHideFlags: 0
@@ -11153,6 +11162,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1917456207 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1888656608754037078, guid: c137133c484d0ec4194aaeca0352be13, type: 3}
+  m_PrefabInstance: {fileID: 5090133232741108760}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1917456209 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2827399001419664356, guid: c137133c484d0ec4194aaeca0352be13, type: 3}
+  m_PrefabInstance: {fileID: 5090133232741108760}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1917456207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20676bff840bd7a4bbdab6ed6e4f8a23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1945428945
 GameObject:
   m_ObjectHideFlags: 0
@@ -12292,6 +12317,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1786526712}
     m_Modifications:
+    - target: {fileID: 1867537384547444109, guid: c137133c484d0ec4194aaeca0352be13, type: 3}
+      propertyPath: _enemy
+      value: 
+      objectReference: {fileID: 1917456207}
+    - target: {fileID: 1867537384547444109, guid: c137133c484d0ec4194aaeca0352be13, type: 3}
+      propertyPath: _enemyWay
+      value: 
+      objectReference: {fileID: 1917456209}
     - target: {fileID: 2616339784223674890, guid: c137133c484d0ec4194aaeca0352be13, type: 3}
       propertyPath: m_Name
       value: Bee
@@ -12344,10 +12377,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8783399520799183562, guid: c137133c484d0ec4194aaeca0352be13, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: f0dd377707238f0428748407155eba05, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c137133c484d0ec4194aaeca0352be13, type: 3}
 --- !u!4 &5335614505348183623 stripped

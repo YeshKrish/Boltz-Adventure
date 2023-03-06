@@ -650,7 +650,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9154384134770732639}
   - component: {fileID: 543450652516479225}
-  - component: {fileID: 1292940548}
+  - component: {fileID: 8216824035084161731}
   m_Layer: 7
   m_Name: Crab
   m_TagString: Untagged
@@ -696,7 +696,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &1292940548
+--- !u!114 &8216824035084161731
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -708,6 +708,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2a5fdc1e0fde574eaf16390c738290d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _animator: {fileID: 543450652516479225}
 --- !u!1 &8397395746722460381
 GameObject:
   m_ObjectHideFlags: 0

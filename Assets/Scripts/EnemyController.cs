@@ -2,17 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
 public class EnemyController : MonoBehaviour
 {
+    [SerializeField]
     private Animator _animator;
 
-    private int isDancingHash;
-    // Start is called before the first frame update
-    void Start()
-    {
-        _animator = GetComponent<Animator>();
-    }
+    //private void OnEnable()
+    //{
+    //    PlayerController.EnemyDead += DeadAnimation;
+    //}
+
+    //private void OnDisable()
+    //{
+    //    PlayerController.EnemyDead -= DeadAnimation;
+    //}
 
     private void Update()
     {
@@ -22,4 +25,15 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    //private void DeadAnimation()
+    //{
+    //    if(_animator != null || _enemy != null)
+    //    {
+    //        _enemy.GetComponentInChildren<MeshCollider>().enabled = false;
+    //        _enemy.GetComponent<WayPointFollower>().enabled = false;
+    //        _animator.SetBool("isDead", true);
+    //        Destroy(this.gameObject, 2f);
+    //    }
+
+    //}
 }

@@ -4371,9 +4371,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1786526712}
     m_Modifications:
+    - target: {fileID: 6040801319747428520, guid: 23e4803cc68e3db42bb8c22abd83b057, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8167697510592372018, guid: 23e4803cc68e3db42bb8c22abd83b057, type: 3}
       propertyPath: m_Name
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 8403468397225685619, guid: 23e4803cc68e3db42bb8c22abd83b057, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8796283444230555528, guid: 23e4803cc68e3db42bb8c22abd83b057, type: 3}
       propertyPath: m_RootOrder

@@ -11,9 +11,7 @@ public class UIManager : MonoBehaviour
     public GameObject QuestTextObj;
 
     [SerializeField]
-    private TMP_Text _cointText;
-
-    private static int _total = 0;
+    private TMP_Text _coinText;
 
     private void Awake()
     {
@@ -28,17 +26,21 @@ public class UIManager : MonoBehaviour
 
     }
 
+    private void Start()
+    {
+        _coinText.text = Item.quatity.ToString();
+    }
+
     public void UpdateScoreText()
     {
         Item.quatity = Item.quatity + 1;
-        //_total++;
         if (Item.quatity < 10)
         {
-            _cointText.SetText("0" + Item.quatity.ToString());
+            _coinText.text = "0" + Item.quatity.ToString();
         }
         else
         {
-            _cointText.SetText(Item.quatity.ToString());
+            _coinText.text = Item.quatity.ToString();
         }
     }
 

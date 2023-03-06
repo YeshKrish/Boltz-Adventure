@@ -121,8 +121,12 @@ public class PlayerController : MonoBehaviour
         }
         if (((1 << other.gameObject.layer) & _collectibleLayer) != 0)
         {
-            UIManager.Instance.UpdateScoreText();
-            other.gameObject.SetActive(false);
+            Item hitObject = other.gameObject.GetComponent<Consumables>().item;
+            if(hitObject != null)
+            {
+                UIManager.Instance.UpdateScoreText();
+                other.gameObject.SetActive(false);
+            }
         } 
     }
 

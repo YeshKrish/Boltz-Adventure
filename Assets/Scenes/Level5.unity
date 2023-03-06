@@ -5036,7 +5036,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   QuestTextObj: {fileID: 245558057}
-  _cointText: {fileID: 1585761265}
+  _coinText: {fileID: 1585761265}
 --- !u!1 &701488207
 GameObject:
   m_ObjectHideFlags: 0
@@ -10842,7 +10842,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 00
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 94d7d37cb6d95e0429ee6ab2633a681f, type: 2}
   m_sharedMaterial: {fileID: -5197198595775808472, guid: 94d7d37cb6d95e0429ee6ab2633a681f, type: 2}
@@ -15102,6 +15102,10 @@ PrefabInstance:
       propertyPath: _tower
       value: 
       objectReference: {fileID: 967497939}
+    - target: {fileID: 7542476071875454518, guid: eca8a225ca249484cad8bcf98d92e915, type: 3}
+      propertyPath: _cointText
+      value: 
+      objectReference: {fileID: 1585761265}
     - target: {fileID: 7542476071875454518, guid: eca8a225ca249484cad8bcf98d92e915, type: 3}
       propertyPath: _bounceHeight
       value: 10

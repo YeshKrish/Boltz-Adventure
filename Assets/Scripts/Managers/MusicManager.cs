@@ -18,6 +18,8 @@ public class MusicManager : MonoBehaviour
     [SerializeField]
     private AudioSource _enemyDyingSound;
     [SerializeField]
+    private AudioSource _coinCollectSound;
+    [SerializeField]
     private AudioSource _gameMusic;
     [SerializeField]
     private Sprite[] _audioSprites;
@@ -73,5 +75,9 @@ public class MusicManager : MonoBehaviour
     public void EnemyDyingSound()
     {
         _enemyDyingSound.Play();
+    }
+    public void CoinCollectSound()
+    {
+        _coinCollectSound.Play();
     }
 }

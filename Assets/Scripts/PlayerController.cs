@@ -136,6 +136,7 @@ public class PlayerController : MonoBehaviour
             Item hitObject = other.gameObject.GetComponent<Consumables>().item;
             if(hitObject != null)
             {
+                MusicManager.instance.CoinCollectSound();
                 UIManager.Instance.UpdateScoreText();
                 other.gameObject.SetActive(false);
             }

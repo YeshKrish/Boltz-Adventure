@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
     private Bouncer _bouncer;
 
     private int _doorToBeOpenedDist = 10;
+    private int _enemyDeadJumpHeight = 4;
 
     public static event Action DoorOpen;
     public static event Action LevelCompleted;
@@ -109,6 +110,8 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("EnemyHead"))
         {
+            MusicManager.instance.EnemyDyingSound();
+            _rb.AddForce(new Vector3(0f, Math.Abs(transform.position.y), 0f).normalized * _enemyDeadJumpHeight, ForceMode.Impulse);
             //Debug.Log(other.transform.parent.gameObject.GetComponentInChildren<MeshCollider>());
             if (other.transform.parent.gameObject.GetComponentInChildren<MeshCollider>() != null)
             {

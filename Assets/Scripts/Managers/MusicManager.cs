@@ -14,7 +14,9 @@ public class MusicManager : MonoBehaviour
     public AudioSource MainMenuAudio;
 
     [SerializeField]
-    private AudioSource _buttonSound;
+    private AudioSource _buttonSound;  
+    [SerializeField]
+    private AudioSource _enemyDyingSound;
     [SerializeField]
     private AudioSource _gameMusic;
     [SerializeField]
@@ -66,5 +68,10 @@ public class MusicManager : MonoBehaviour
     public void MainMenuMusicStop()
     {
         MainMenuAudio.Stop();
+    }
+
+    public void EnemyDyingSound()
+    {
+        _enemyDyingSound.Play();
     }
 }

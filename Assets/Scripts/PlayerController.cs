@@ -40,6 +40,7 @@ public class PlayerController : MonoBehaviour
     public static event Action DoorOpen;
     public static event Action LevelCompleted;
     public static event Action Bounce;
+    //public static event Action EnemyDead;
 
     private void Start()
     {
@@ -108,7 +109,15 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("EnemyHead"))
         {
-            other.transform.parent.gameObject.SetActive(false);
+            //Debug.Log(other.transform.parent.gameObject.GetComponentInChildren<MeshCollider>());
+            if (other.transform.parent.gameObject.GetComponentInChildren<MeshCollider>() != null)
+            {
+                other.transform.parent.gameObject.GetComponentInChildren<MeshCollider>().enabled = false;
+            }
+            other.GetComponentInParent<WayPointFollower>().enabled = false;
+            other.transform.parent.gameObject.transform.parent.GetComponent<Animator>().SetBool("isDead", true);
+            Destroy(other.transform.parent.gameObject, 2f);
+            //EnemyDead?.BeginInvoke(other);
         }
         if (((1 << other.gameObject.layer) & _winLayer) != 0)
         {

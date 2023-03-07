@@ -28,6 +28,7 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
+        Item.quatity = 0;
         _coinText.text = Item.quatity.ToString();
     }
 

@@ -68,6 +68,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        Item.quatity = 0;
         PlayerPrefs.SetInt("Current Level", SceneManager.GetActiveScene().buildIndex);
         isPlayerDead = true;
         SceneManager.LoadScene("GameOver");

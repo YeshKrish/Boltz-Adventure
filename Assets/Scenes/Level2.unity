@@ -2878,6 +2878,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainMenuAudio: {fileID: 734561987}
   _buttonSound: {fileID: 0}
+  _enemyDyingSound: {fileID: 0}
+  _coinCollectSound: {fileID: 0}
   _gameMusic: {fileID: 0}
   _audioSprites:
   - {fileID: -2047359591, guid: 4ae4e7c0ce60fed4c8a0e08fc7fae898, type: 3}
@@ -4371,17 +4373,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1786526712}
     m_Modifications:
-    - target: {fileID: 6040801319747428520, guid: 23e4803cc68e3db42bb8c22abd83b057, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8167697510592372018, guid: 23e4803cc68e3db42bb8c22abd83b057, type: 3}
       propertyPath: m_Name
       value: Enemy
-      objectReference: {fileID: 0}
-    - target: {fileID: 8403468397225685619, guid: 23e4803cc68e3db42bb8c22abd83b057, type: 3}
-      propertyPath: m_Enabled
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8796283444230555528, guid: 23e4803cc68e3db42bb8c22abd83b057, type: 3}
       propertyPath: m_RootOrder
@@ -5752,7 +5746,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3881087803549984436, guid: ec536a7718376554185e4a856d5ae230, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 55
       objectReference: {fileID: 0}
     - target: {fileID: 3881087803549984436, guid: ec536a7718376554185e4a856d5ae230, type: 3}
       propertyPath: m_AnchoredPosition.y

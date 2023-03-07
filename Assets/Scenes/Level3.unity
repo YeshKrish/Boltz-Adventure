@@ -2714,7 +2714,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3881087803549984436, guid: ec536a7718376554185e4a856d5ae230, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 55
       objectReference: {fileID: 0}
     - target: {fileID: 3881087803549984436, guid: ec536a7718376554185e4a856d5ae230, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -4408,6 +4408,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainMenuAudio: {fileID: 734561987}
   _buttonSound: {fileID: 0}
+  _enemyDyingSound: {fileID: 0}
+  _coinCollectSound: {fileID: 0}
   _gameMusic: {fileID: 0}
   _audioSprites:
   - {fileID: -2047359591, guid: 4ae4e7c0ce60fed4c8a0e08fc7fae898, type: 3}

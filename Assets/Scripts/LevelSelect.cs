@@ -4,11 +4,26 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System.Runtime.InteropServices;
 
 public class LevelSelect : MonoBehaviour
 {
     [SerializeField]
     private Button[] _levelsToUnlock;
+
+    private static LevelSelect instance;
+
+    private void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+    }
 
     private void Start()
     {
@@ -16,12 +31,45 @@ public class LevelSelect : MonoBehaviour
         if (!PlayerPrefs.HasKey("LevelClearedCount"))
             PlayerPrefs.SetInt("LevelClearedCount", 0);
 
+        LevelClearer();
+
+    }
+
+    public void LevelClearer()
+    {
         int levelCleared = PlayerPrefs.GetInt("LevelClearedCount");
-        for(int i = 0; i < levelCleared+1; i++)
+        for (int i = 0; i < levelCleared + 1; i++)
         {
             _levelsToUnlock[i].interactable = true;
-            _levelsToUnlock[i].GetComponent<Transform>().GetChild(0).transform.GetChild(1).GetComponent<Transform>().gameObject.SetActive(false);
+            if(i < levelCleared)
+            {
+                _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+            }
+            else if (_levelsToUnlock[i].interactable == true && i > levelCleared)
+            {
+                _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.GetComponent<Animator>().enabled = true;
+                if (PlayerPrefs.GetInt("IsLastSceneMainMenu") == 0)
+                {
+                    StartCoroutine(DisableLockWithAnimation(i));
+                }
+                else
+                {
+                    DisableLock(i);
+                }
+            }
+
         }
+    }
+
+    private void DisableLock(int lockNo)
+    {
+        _levelsToUnlock[lockNo].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+    }
+
+    IEnumerator DisableLockWithAnimation(int lockNo)
+    {
+        yield return new WaitForSeconds(1f);
+        _levelsToUnlock[lockNo].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
     }
 
     public void LevelToBeOpened(int level)

@@ -14,26 +14,11 @@ public class GameManager : MonoBehaviour
 
     private bool isPlayerDead = false;
 
-    private void OnEnable()
-    {
-        PlayerController.DoorOpen += OpenDoor;
-        Lever.DoorOpen += OpenDoor;
-        PlayerController.LevelCompleted += NextLevel;
-    }
-
-    private void OnDisable()
-    {
-        PlayerController.DoorOpen -= OpenDoor;
-        Lever.DoorOpen -= OpenDoor;
-        PlayerController.LevelCompleted -= NextLevel;
-    }
-
     public bool IsPlayerDead
     {
         get { return isPlayerDead; }
         set { isPlayerDead = value; }
     }
-
     private void Awake()
     {
         if (instance == null)
@@ -46,8 +31,25 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        PlayerController.DoorOpen -= OpenDoor;
+        Lever.DoorOpen -= OpenDoor;
+        PlayerController.LevelCompleted -= NextLevel;
+    }
+
+
+    private void OnEnable()
+    {
+        PlayerController.DoorOpen += OpenDoor;
+        Lever.DoorOpen += OpenDoor;
+        PlayerController.LevelCompleted += NextLevel;
+    }
+
     private void Start()
     {
+        PlayerPrefs.SetInt("IsLastSceneMainMenu", 0);
+
         if (PlayerPrefs.HasKey("LevelCleared"))
         {
 
@@ -85,6 +87,10 @@ public class GameManager : MonoBehaviour
         int currentBuildIndex = SceneManager.GetActiveScene().buildIndex;
         int previousLevelCount = PlayerPrefs.GetInt("LevelClearedCount");
 
+        PlayerPrefs.SetInt("ActiveSceneIndex", SceneManager.GetActiveScene().buildIndex);
+
+        PlayerPrefs.SetInt("CoinsCollected", Item.quatity + PlayerPrefs.GetInt("CoinsCollected"));
+
         if(currentBuildIndex > prevoiusBuildIndex)
         {
             PlayerPrefs.SetInt("LevelCleared", SceneManager.GetActiveScene().buildIndex);
@@ -95,7 +101,8 @@ public class GameManager : MonoBehaviour
 
         if (PlayerPrefs.GetInt("GameOverLevel") != nextScene)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            SceneManager.LoadScene("LevelSelect");
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
         else
         {

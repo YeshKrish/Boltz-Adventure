@@ -66,6 +66,11 @@ public class PlayerController : MonoBehaviour
             UIManager.Instance.QuestTextObj.SetActive(true);
         }
 
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Jump();
+        }
+
         OnFalling();
     }
 

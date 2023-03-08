@@ -65,5 +65,9 @@ public class LevelSelect : MonoBehaviour
             levels.interactable = false;
         }
     }
+    public void MainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
 
 }

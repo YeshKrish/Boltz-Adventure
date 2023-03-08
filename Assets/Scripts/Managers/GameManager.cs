@@ -66,12 +66,13 @@ public class GameManager : MonoBehaviour
                 PlayerPrefs.SetInt("LevelClearedCount", 0);
             }
         }
+
+        PlayerPrefs.SetInt("Current Level", SceneManager.GetActiveScene().buildIndex);
     }
 
     public void GameOver()
     {
         Item.quatity = 0;
-        PlayerPrefs.SetInt("Current Level", SceneManager.GetActiveScene().buildIndex);
         isPlayerDead = true;
         SceneManager.LoadScene("GameOver");
     }
@@ -86,8 +87,6 @@ public class GameManager : MonoBehaviour
         int prevoiusBuildIndex = PlayerPrefs.GetInt("LevelCleared");
         int currentBuildIndex = SceneManager.GetActiveScene().buildIndex;
         int previousLevelCount = PlayerPrefs.GetInt("LevelClearedCount");
-
-        PlayerPrefs.SetInt("ActiveSceneIndex", SceneManager.GetActiveScene().buildIndex);
 
         PlayerPrefs.SetInt("CoinsCollected", Item.quatity + PlayerPrefs.GetInt("CoinsCollected"));
 

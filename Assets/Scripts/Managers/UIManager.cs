@@ -11,7 +11,9 @@ public class UIManager : MonoBehaviour
     public GameObject QuestTextObj;
 
     [SerializeField]
-    private TMP_Text _coinText;
+    private TMP_Text _coinText; 
+    [SerializeField]
+    private GameObject _pauseScreen;
 
     private void Awake()
     {
@@ -52,12 +54,30 @@ public class UIManager : MonoBehaviour
 
     public void RetryLevel()
     {
-        MusicManager.instance.ButtonClickSound();
+        //MusicManager.instance.ButtonClickSound();
         SceneManager.LoadScene(GameManager.instance.GetCurrentScene());
+        Time.timeScale = 1f;
     }
 
     public void QuitGame()
     {
         Application.Quit();
     }
+
+    public void MainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    public void PauseScreen()
+    {
+        Time.timeScale = 0;
+        _pauseScreen.SetActive(true);
+    }
+    public void ResumeGame()
+    {
+        Time.timeScale = 1;
+        _pauseScreen.SetActive(false);
+    }
+
 }

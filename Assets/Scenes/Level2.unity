@@ -2728,7 +2728,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   QuestTextObj: {fileID: 0}
   _coinText: {fileID: 42284575}
-  _pauseScreen: {fileID: 0}
+  _pauseScreen: {fileID: 577428636}
 --- !u!4 &691820274 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7702552866995684768, guid: cd2aa77482ca45e45975780cc734d590, type: 3}
@@ -7875,6 +7875,10 @@ PrefabInstance:
       propertyPath: _cointText
       value: 
       objectReference: {fileID: 42284575}
+    - target: {fileID: 7542476071875454518, guid: eca8a225ca249484cad8bcf98d92e915, type: 3}
+      propertyPath: _bounceHeight
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 7542476071875454518, guid: eca8a225ca249484cad8bcf98d92e915, type: 3}
       propertyPath: variableJoystick
       value: 

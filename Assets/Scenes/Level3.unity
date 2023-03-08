@@ -4414,7 +4414,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   QuestTextObj: {fileID: 0}
   _coinText: {fileID: 1528126342}
-  _pauseScreen: {fileID: 0}
+  _pauseScreen: {fileID: 424045111}
 --- !u!1001 &691702957
 PrefabInstance:
   m_ObjectHideFlags: 0

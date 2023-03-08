@@ -16162,7 +16162,7 @@ PrefabInstance:
       objectReference: {fileID: 1585761265}
     - target: {fileID: 7542476071875454518, guid: eca8a225ca249484cad8bcf98d92e915, type: 3}
       propertyPath: _bounceHeight
-      value: 10
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7542476071875454518, guid: eca8a225ca249484cad8bcf98d92e915, type: 3}
       propertyPath: variableJoystick

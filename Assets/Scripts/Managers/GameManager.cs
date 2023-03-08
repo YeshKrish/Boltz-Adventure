@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     private Animator _doorOpenAnimator;
 
     private bool isPlayerDead = false;
+    public bool isDoorOpened = false;
 
     public bool IsPlayerDead
     {
@@ -48,6 +49,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        isDoorOpened = false;
         PlayerPrefs.SetInt("IsLastSceneMainMenu", 0);
 
         if (PlayerPrefs.HasKey("LevelCleared"))
@@ -80,6 +82,7 @@ public class GameManager : MonoBehaviour
     public void OpenDoor()
     {
         _doorOpenAnimator.enabled = true;
+        isDoorOpened = true;
     }
 
     public void NextLevel()
@@ -99,7 +102,7 @@ public class GameManager : MonoBehaviour
         int nextScene = SceneManager.GetActiveScene().buildIndex + 1;
 
         if (PlayerPrefs.GetInt("GameOverLevel") != nextScene)
-        {
+        {  
             SceneManager.LoadScene("LevelSelect");
             //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }

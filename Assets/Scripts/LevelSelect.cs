@@ -31,45 +31,23 @@ public class LevelSelect : MonoBehaviour
         if (!PlayerPrefs.HasKey("LevelClearedCount"))
             PlayerPrefs.SetInt("LevelClearedCount", 0);
 
-        LevelClearer();
-
-    }
-
-    public void LevelClearer()
-    {
-        int levelCleared = PlayerPrefs.GetInt("LevelClearedCount");
-        for (int i = 0; i < levelCleared + 1; i++)
+        int levelClearedCount = PlayerPrefs.GetInt("LevelClearedCount");
+        for (int i = 0; i < levelClearedCount + 1; i++)
         {
-            _levelsToUnlock[i].interactable = true;
-            if(i < levelCleared)
+            if (levelClearedCount == 5)
             {
+                for (int j = 0; j < levelClearedCount; j++)
+                {
+                    _levelsToUnlock[j].interactable = true;
+                    _levelsToUnlock[j].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+                }
+            }
+            else
+            {
+                _levelsToUnlock[i].interactable = true;
                 _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
             }
-            else if (_levelsToUnlock[i].interactable == true && i > levelCleared)
-            {
-                _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.GetComponent<Animator>().enabled = true;
-                if (PlayerPrefs.GetInt("IsLastSceneMainMenu") == 0)
-                {
-                    StartCoroutine(DisableLockWithAnimation(i));
-                }
-                else
-                {
-                    DisableLock(i);
-                }
-            }
-
         }
-    }
-
-    private void DisableLock(int lockNo)
-    {
-        _levelsToUnlock[lockNo].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
-    }
-
-    IEnumerator DisableLockWithAnimation(int lockNo)
-    {
-        yield return new WaitForSeconds(1f);
-        _levelsToUnlock[lockNo].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
     }
 
     public void LevelToBeOpened(int level)

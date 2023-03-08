@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (Vector3.Distance(transform.position, _tower.transform.position) > _doorToBeOpenedDist && SceneManager.GetActiveScene().name == "Level5")
+        if (Vector3.Distance(transform.position, _tower.transform.position) > _doorToBeOpenedDist && SceneManager.GetActiveScene().name == "Level5" && !GameManager.instance.isDoorOpened)
         {
             UIManager.Instance.QuestTextObj.SetActive(false);
         }
@@ -61,7 +61,7 @@ public class PlayerController : MonoBehaviour
         {
             DoorOpen?.Invoke();
         }
-        else if(Vector3.Distance(transform.position, _tower.transform.position) < _doorToBeOpenedDist)
+        else if(Vector3.Distance(transform.position, _tower.transform.position) < _doorToBeOpenedDist && !GameManager.instance.isDoorOpened)
         {
             UIManager.Instance.QuestTextObj.SetActive(true);
         }

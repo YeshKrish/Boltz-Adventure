@@ -41,7 +41,6 @@ public class PlayerController : MonoBehaviour
     public static event Action DoorOpen;
     public static event Action LevelCompleted;
     public static event Action Bounce;
-    //public static event Action EnemyDead;
 
     private void Start()
     {
@@ -82,7 +81,6 @@ public class PlayerController : MonoBehaviour
 
     public void Jump()
     {
-        //Debug.Log(IsGrounded());
         if (IsGrounded())
         {
             _rb.AddForce(new Vector3(0f, Math.Abs(transform.position.y), 0f).normalized * _jumpHeight, ForceMode.Impulse);
@@ -117,7 +115,6 @@ public class PlayerController : MonoBehaviour
         {
             MusicManager.instance.EnemyDyingSound();
             _rb.AddForce(new Vector3(0f, Math.Abs(transform.position.y), 0f).normalized * _enemyDeadJumpHeight, ForceMode.Impulse);
-            //Debug.Log(other.transform.parent.gameObject.GetComponentInChildren<MeshCollider>());
             if (other.transform.parent.gameObject.GetComponentInChildren<MeshCollider>() != null)
             {
                 other.transform.parent.gameObject.GetComponentInChildren<MeshCollider>().enabled = false;
@@ -125,7 +122,6 @@ public class PlayerController : MonoBehaviour
             other.GetComponentInParent<WayPointFollower>().enabled = false;
             other.transform.parent.gameObject.transform.parent.GetComponent<Animator>().SetBool("isDead", true);
             Destroy(other.transform.parent.gameObject, 2f);
-            //EnemyDead?.BeginInvoke(other);
         }
         if (((1 << other.gameObject.layer) & _winLayer) != 0)
         {
@@ -163,15 +159,6 @@ public class PlayerController : MonoBehaviour
 
         }
     }
-
-    //IEnumerator WaitForFewSeconds()
-    //{
-    //    yield return new WaitForSeconds(.5f);
-    //    if (!Physics.SphereCast(_ballSphereCollider.transform.position, _ballSphereCollider.radius / 2f, Vector3.down, out RaycastHit hit, _ballSphereCollider.bounds.extents.y + 10f, _groundLayer))
-    //    {
-           
-    //    }
-    //}
 
 }
 

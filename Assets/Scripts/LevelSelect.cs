@@ -67,6 +67,7 @@ public class LevelSelect : MonoBehaviour
     }
     public void MainMenu()
     {
+        MusicManager.instance.ButtonClickSound();
         SceneManager.LoadScene("MainMenu");
     }
 

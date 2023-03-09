@@ -54,28 +54,32 @@ public class UIManager : MonoBehaviour
 
     public void RetryLevel()
     {
-        //MusicManager.instance.ButtonClickSound();
+        MusicManager.instance.ButtonClickSound();
         SceneManager.LoadScene(GameManager.instance.GetCurrentScene());
         Time.timeScale = 1f;
     }
 
     public void QuitGame()
     {
+        MusicManager.instance.ButtonClickSound();
         Application.Quit();
     }
 
     public void MainMenu()
     {
+        MusicManager.instance.ButtonClickSound();
         SceneManager.LoadScene("MainMenu");
     }
 
     public void PauseScreen()
     {
+        MusicManager.instance.ButtonClickSound();
         Time.timeScale = 0;
         _pauseScreen.SetActive(true);
     }
     public void ResumeGame()
     {
+        MusicManager.instance.ButtonClickSound();
         Time.timeScale = 1;
         _pauseScreen.SetActive(false);
     }

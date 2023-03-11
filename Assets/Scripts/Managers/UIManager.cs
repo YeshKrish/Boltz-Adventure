@@ -67,6 +67,7 @@ public class UIManager : MonoBehaviour
 
     public void MainMenu()
     {
+        Time.timeScale = 1;
         MusicManager.instance.ButtonClickSound();
         SceneManager.LoadScene("MainMenu");
     }

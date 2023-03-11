@@ -9,8 +9,17 @@ public class MainMenu : MonoBehaviour
 {
     public TMP_Text Coinstext;
 
+    [SerializeField]
+    private Button _muteAudio;
+    [SerializeField]
+    private Sprite[] _audioSprites;
+
+    public Image _musicImage;
+
     private void Start()
     {
+        MusicManager.instance.ChangeMainMenuMusic();
+
         PlayerPrefs.SetInt("IsLastSceneMainMenu", 1);
 
         int coins = 0;
@@ -26,6 +35,22 @@ public class MainMenu : MonoBehaviour
         }
 
         Coinstext.SetText(coins.ToString());
+
+    }
+
+    public void MuteAudio()
+    {
+        Debug.Log(MusicManager.instance.MainMenuAudio.isPlaying);
+        if (!MusicManager.instance.MainMenuAudio.isPlaying)
+        {
+            _musicImage.sprite = _audioSprites[0];
+            MusicManager.instance.MainMenuAudio.Play();
+        }
+        else
+        {
+            _musicImage.sprite = _audioSprites[1];
+            MusicManager.instance.MainMenuAudio.Stop();
+        }
     }
 
     public void StartGame()

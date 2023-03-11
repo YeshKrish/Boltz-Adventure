@@ -281,6 +281,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fruit (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8178740332022120363, guid: bd2dd1488667eab40afcc6886b879ef2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8848280599981909265, guid: bd2dd1488667eab40afcc6886b879ef2, type: 3}
       propertyPath: m_RootOrder
       value: 17
@@ -640,6 +644,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Grass_2 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5858552353094934026, guid: 8ac30729190111c4c8bf98a7b839f3e4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6486893203372950704, guid: 8ac30729190111c4c8bf98a7b839f3e4, type: 3}
       propertyPath: m_RootOrder
       value: 16
@@ -838,7 +846,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 101335778}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -25.86, y: 1.9, z: -1.65}
+  m_LocalPosition: {x: -25.86, y: 4.7800293, z: -1.65}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -886,17 +894,17 @@ SpriteRenderer:
   m_SortingLayerID: -1799599765
   m_SortingLayer: -1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 07c11332bc77f7649aaa23f0204e9ba7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 19.2, y: 10.8}
+  m_Size: {x: 182.3, y: 8.89}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!1001 &108701657
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2457,6 +2465,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rock_2 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 8433317612171196216, guid: 8044b5e7706137440ba3c752ee588494, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9098107990085610882, guid: 8044b5e7706137440ba3c752ee588494, type: 3}
       propertyPath: m_RootOrder
       value: 23
@@ -3060,6 +3072,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rock_2 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8433317612171196216, guid: 8044b5e7706137440ba3c752ee588494, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9098107990085610882, guid: 8044b5e7706137440ba3c752ee588494, type: 3}
       propertyPath: m_RootOrder
       value: 22
@@ -3625,6 +3641,10 @@ PrefabInstance:
     - target: {fileID: 3617505077523747973, guid: c1913125081170d4bb2ee9d916829247, type: 3}
       propertyPath: m_Name
       value: Tree_Fruit (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3617505077523747973, guid: c1913125081170d4bb2ee9d916829247, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4141100672513330751, guid: c1913125081170d4bb2ee9d916829247, type: 3}
       propertyPath: m_RootOrder
@@ -4446,10 +4466,6 @@ MonoBehaviour:
   _enemyDyingSound: {fileID: 734561988}
   _coinCollectSound: {fileID: 734561989}
   _gameMusic: {fileID: 0}
-  _audioSprites:
-  - {fileID: -2047359591, guid: 4ae4e7c0ce60fed4c8a0e08fc7fae898, type: 3}
-  - {fileID: -1697515250, guid: 4ae4e7c0ce60fed4c8a0e08fc7fae898, type: 3}
-  _musicImage: {fileID: 0}
 --- !u!4 &734561986
 Transform:
   m_ObjectHideFlags: 0
@@ -7756,6 +7772,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RockPlatforms_1 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1625249059117125887, guid: 68d5de45c2740184985d54b0afe6598f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2145362432682789445, guid: 68d5de45c2740184985d54b0afe6598f, type: 3}
       propertyPath: m_RootOrder
       value: 21
@@ -10024,6 +10044,10 @@ PrefabInstance:
     - target: {fileID: 3558592185729845799, guid: cc8294544780b0d44a6c351de2f4b865, type: 3}
       propertyPath: m_Name
       value: RockPlatforms_Medium (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3558592185729845799, guid: cc8294544780b0d44a6c351de2f4b865, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4191012944808038557, guid: cc8294544780b0d44a6c351de2f4b865, type: 3}
       propertyPath: m_RootOrder
@@ -12662,6 +12686,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fruit (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 8178740332022120363, guid: bd2dd1488667eab40afcc6886b879ef2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8848280599981909265, guid: bd2dd1488667eab40afcc6886b879ef2, type: 3}
       propertyPath: m_RootOrder
       value: 18
@@ -12986,6 +13014,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RockPlatforms_1
       objectReference: {fileID: 0}
+    - target: {fileID: 1625249059117125887, guid: 68d5de45c2740184985d54b0afe6598f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2145362432682789445, guid: 68d5de45c2740184985d54b0afe6598f, type: 3}
       propertyPath: m_RootOrder
       value: 12
@@ -13042,6 +13074,10 @@ PrefabInstance:
     - target: {fileID: 1701429631676960854, guid: b72adeecdaba33142965754142c63f05, type: 3}
       propertyPath: m_Name
       value: Tree
+      objectReference: {fileID: 0}
+    - target: {fileID: 1701429631676960854, guid: b72adeecdaba33142965754142c63f05, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2078237027863464684, guid: b72adeecdaba33142965754142c63f05, type: 3}
       propertyPath: m_RootOrder
@@ -13144,6 +13180,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Grass_3
       objectReference: {fileID: 0}
+    - target: {fileID: 3231814515922210601, guid: 6baab3117f1b7d240bb7502bb7fe9028, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6baab3117f1b7d240bb7502bb7fe9028, type: 3}
 --- !u!1001 &2345936815526712514
@@ -13200,6 +13240,10 @@ PrefabInstance:
     - target: {fileID: 3192797923077487417, guid: 30000215d5241674bab3333caff95aea, type: 3}
       propertyPath: m_Name
       value: Bush_Fruit
+      objectReference: {fileID: 0}
+    - target: {fileID: 3192797923077487417, guid: 30000215d5241674bab3333caff95aea, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30000215d5241674bab3333caff95aea, type: 3}
@@ -13337,6 +13381,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tree_Fruit
       objectReference: {fileID: 0}
+    - target: {fileID: 3617505077523747973, guid: c1913125081170d4bb2ee9d916829247, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4141100672513330751, guid: c1913125081170d4bb2ee9d916829247, type: 3}
       propertyPath: m_RootOrder
       value: 13
@@ -13393,6 +13441,10 @@ PrefabInstance:
     - target: {fileID: 3558592185729845799, guid: cc8294544780b0d44a6c351de2f4b865, type: 3}
       propertyPath: m_Name
       value: RockPlatforms_Medium
+      objectReference: {fileID: 0}
+    - target: {fileID: 3558592185729845799, guid: cc8294544780b0d44a6c351de2f4b865, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4191012944808038557, guid: cc8294544780b0d44a6c351de2f4b865, type: 3}
       propertyPath: m_RootOrder
@@ -13643,6 +13695,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Grass_2
       objectReference: {fileID: 0}
+    - target: {fileID: 5858552353094934026, guid: 8ac30729190111c4c8bf98a7b839f3e4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6486893203372950704, guid: 8ac30729190111c4c8bf98a7b839f3e4, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -13700,6 +13756,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rock_2
       objectReference: {fileID: 0}
+    - target: {fileID: 8433317612171196216, guid: 8044b5e7706137440ba3c752ee588494, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9098107990085610882, guid: 8044b5e7706137440ba3c752ee588494, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -13756,6 +13816,10 @@ PrefabInstance:
     - target: {fileID: 8178740332022120363, guid: bd2dd1488667eab40afcc6886b879ef2, type: 3}
       propertyPath: m_Name
       value: Fruit
+      objectReference: {fileID: 0}
+    - target: {fileID: 8178740332022120363, guid: bd2dd1488667eab40afcc6886b879ef2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8848280599981909265, guid: bd2dd1488667eab40afcc6886b879ef2, type: 3}
       propertyPath: m_RootOrder

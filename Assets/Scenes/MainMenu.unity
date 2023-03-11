@@ -1935,8 +1935,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 419440440}
-        m_TargetAssemblyTypeName: MusicManager, Assembly-CSharp
+      - m_Target: {fileID: 1573039673}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
         m_MethodName: MuteAudio
         m_Mode: 1
         m_Arguments:
@@ -2484,6 +2484,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Coinstext: {fileID: 1520647292}
+  _muteAudio: {fileID: 1323142311}
+  _audioSprites:
+  - {fileID: -2047359591, guid: 4ae4e7c0ce60fed4c8a0e08fc7fae898, type: 3}
+  - {fileID: -1697515250, guid: 4ae4e7c0ce60fed4c8a0e08fc7fae898, type: 3}
+  _musicImage: {fileID: 1323142312}
 --- !u!1 &1831884889
 GameObject:
   m_ObjectHideFlags: 0

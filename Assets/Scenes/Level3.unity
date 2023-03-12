@@ -4795,10 +4795,6 @@ MonoBehaviour:
   _enemyDyingSound: {fileID: 0}
   _coinCollectSound: {fileID: 0}
   _gameMusic: {fileID: 0}
-  _audioSprites:
-  - {fileID: -2047359591, guid: 4ae4e7c0ce60fed4c8a0e08fc7fae898, type: 3}
-  - {fileID: -1697515250, guid: 4ae4e7c0ce60fed4c8a0e08fc7fae898, type: 3}
-  _musicImage: {fileID: 0}
 --- !u!4 &734561986
 Transform:
   m_ObjectHideFlags: 0
@@ -10702,7 +10698,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1747117556}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -24, y: 3.35, z: -11}
+  m_LocalPosition: {x: -24, y: 3.8, z: -11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12218,20 +12214,24 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4191012944808038557, guid: cc8294544780b0d44a6c351de2f4b865, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 104.9166
+      objectReference: {fileID: 0}
+    - target: {fileID: 4191012944808038557, guid: cc8294544780b0d44a6c351de2f4b865, type: 3}
       propertyPath: m_LocalScale.y
       value: 99.999985
       objectReference: {fileID: 0}
     - target: {fileID: 4191012944808038557, guid: cc8294544780b0d44a6c351de2f4b865, type: 3}
       propertyPath: m_LocalScale.z
-      value: 163.74994
+      value: 245.28911
       objectReference: {fileID: 0}
     - target: {fileID: 4191012944808038557, guid: cc8294544780b0d44a6c351de2f4b865, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12.406347
+      value: -12.2881
       objectReference: {fileID: 0}
     - target: {fileID: 4191012944808038557, guid: cc8294544780b0d44a6c351de2f4b865, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.88342476
+      value: -3.2549
       objectReference: {fileID: 0}
     - target: {fileID: 4191012944808038557, guid: cc8294544780b0d44a6c351de2f4b865, type: 3}
       propertyPath: m_LocalPosition.z

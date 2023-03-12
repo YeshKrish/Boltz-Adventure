@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System.Threading.Tasks;
 
 public class MainMenu : MonoBehaviour
 {
@@ -13,6 +14,10 @@ public class MainMenu : MonoBehaviour
     private Button _muteAudio;
     [SerializeField]
     private Sprite[] _audioSprites;
+    [SerializeField]
+    private GameObject _comingSoon;
+    [SerializeField]
+    private Button _customizeButton;
 
     public Image _musicImage;
 
@@ -63,7 +68,16 @@ public class MainMenu : MonoBehaviour
 
     public void CustomizePlayer()
     {
+        _comingSoon.SetActive(true);
+        _customizeButton.interactable = false;
+        DisableCustomize();
+    }
 
+    private async void DisableCustomize()
+    {
+        await Task.Delay(1000);
+        _comingSoon.SetActive(false);
+        _customizeButton.interactable = true;
     }
 
     public void Quit()

@@ -25,6 +25,6 @@ public class GameOver : MonoBehaviour
     public void QuitGame()
     {
         MusicManager.instance.ButtonClickSound();
-        UIManager.Instance.QuitGame();
+        Application.Quit();
     }
 }

@@ -117,7 +117,17 @@ public class PlayerController : MonoBehaviour
             _rb.AddForce(new Vector3(0f, Math.Abs(transform.position.y), 0f).normalized * _enemyDeadJumpHeight, ForceMode.Impulse);
             if (other.transform.parent.gameObject.GetComponentInChildren<MeshCollider>() != null)
             {
-                other.transform.parent.gameObject.GetComponentInChildren<MeshCollider>().enabled = false;
+                if(other.transform.parent.gameObject.name == "EnemyBody")
+                {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        other.transform.parent.gameObject.GetComponentsInChildren<MeshCollider>()[i].enabled = false;
+                    }
+                }
+                else
+                {
+                    other.transform.parent.gameObject.GetComponentInChildren<MeshCollider>().enabled = false;
+                }
             }
             other.GetComponentInParent<WayPointFollower>().enabled = false;
             other.transform.parent.gameObject.transform.parent.GetComponent<Animator>().SetBool("isDead", true);

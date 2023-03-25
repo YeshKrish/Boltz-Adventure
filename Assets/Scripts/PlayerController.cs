@@ -44,7 +44,6 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log(_bounceHeight);
         _rb = GetComponent<Rigidbody>();
         _ballSphereCollider = GetComponent<SphereCollider>();
     }
@@ -100,7 +99,6 @@ public class PlayerController : MonoBehaviour
     {
         if((( 1 << collision.gameObject.layer) & _enemyLayer) != 0)
         {
-            Debug.Log("Plater Dead");
             GameManager.instance.GameOver();
         }
         if (collision.gameObject.CompareTag("Spikes"))

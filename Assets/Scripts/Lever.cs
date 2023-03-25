@@ -6,6 +6,8 @@ using UnityEngine.Events;
 public class Lever : MonoBehaviour
 {
     [SerializeField]
+    private GameObject[] _wayPointsBricksToActivate; 
+    [SerializeField]
     private GameObject[] _gameObjectsToActivate;
     [SerializeField]
     private GameObject[] _gameObjectsToDeActivate;
@@ -20,7 +22,7 @@ public class Lever : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             _leverOn.SetBool("canLevelOn", true);
-            foreach (GameObject _gameObj in _gameObjectsToActivate)
+            foreach (GameObject _gameObj in _wayPointsBricksToActivate)
             {
                 _gameObj.GetComponent<WayPointFollower>().enabled = true;
             } 
@@ -28,8 +30,13 @@ public class Lever : MonoBehaviour
             {
                 _gameObj.SetActive(false);
             }
-            
+            foreach (GameObject _gameObj in _gameObjectsToActivate)
+            {
+                _gameObj.SetActive(true);
+            }
+
             DoorOpen?.Invoke();
         }
     }
 }
+

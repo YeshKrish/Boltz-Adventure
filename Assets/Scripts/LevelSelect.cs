@@ -10,8 +10,12 @@ public class LevelSelect : MonoBehaviour
 {
     [SerializeField]
     private Button[] _levelsToUnlock;
+    [SerializeField]
+    private GameObject[] _locksToUnlock;
 
     private static LevelSelect instance;
+
+    private static List<int> _previousLevelClearedCount = new List<int>();
 
     private void Awake()
     {
@@ -32,23 +36,82 @@ public class LevelSelect : MonoBehaviour
             PlayerPrefs.SetInt("LevelClearedCount", 0);
 
         int levelClearedCount = PlayerPrefs.GetInt("LevelClearedCount");
-        for (int i = 0; i < levelClearedCount + 1; i++)
+        Debug.Log(levelClearedCount + " " + _previousLevelClearedCount.Contains(levelClearedCount));
+        //Checking if it is a new level, if nw adding the levelCleareddCount to previouseLevelCount list
+        if (levelClearedCount > 0 && !_previousLevelClearedCount.Contains(levelClearedCount))
+        {
+            //If LevelSelect screen loads from a Level
+            if (PlayerPrefs.GetInt("IsLastSceneMainMenu") == 0)
+            {
+                for (int i = 0; i < levelClearedCount; i++)
+                {
+                    _levelsToUnlock[i].interactable = true;
+                    _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+                }
+                _levelsToUnlock[levelClearedCount].transform.GetChild(0).GetChild(1).gameObject.GetComponent<Animator>().enabled = true;
+                 StartCoroutine(DisableLockWithAnimation(levelClearedCount));
+            }
+            //If LevelSelect screen loads from a Menu
+            else
+            {
+                if(levelClearedCount == 5)
+                {
+                    for (int i = 0; i < levelClearedCount; i++)
+                    {
+                        _levelsToUnlock[i].interactable = true;
+                        _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < levelClearedCount + 1; i++)
+                    {
+                        _levelsToUnlock[i].interactable = true;
+                        _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+                    }
+                }
+            }
+            _previousLevelClearedCount.Add(levelClearedCount);
+
+            foreach (int levels in _previousLevelClearedCount)
+            {
+
+                Debug.Log(levels);
+            }
+        }
+        else if(levelClearedCount > 0 && _previousLevelClearedCount.Contains(levelClearedCount))
         {
             if (levelClearedCount == 5)
             {
-                for (int j = 0; j < levelClearedCount; j++)
+                for (int i = 0; i < levelClearedCount; i++)
                 {
-                    _levelsToUnlock[j].interactable = true;
-                    _levelsToUnlock[j].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+                    _levelsToUnlock[i].interactable = true;
+                    _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
                 }
             }
             else
             {
-                _levelsToUnlock[i].interactable = true;
-                _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+                for (int i = 0; i < levelClearedCount + 1; i++)
+                {
+                    _levelsToUnlock[i].interactable = true;
+                    _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+                }
             }
         }
+        else if(levelClearedCount == 0)
+        {
+            _levelsToUnlock[levelClearedCount].interactable = true;
+            _levelsToUnlock[levelClearedCount].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+        }
     }
+
+    IEnumerator DisableLockWithAnimation(int lockNo)
+    {
+        yield return new WaitForSeconds(1f);
+        _levelsToUnlock[lockNo].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+        _levelsToUnlock[lockNo].interactable = true;
+    }
+
 
     public void LevelToBeOpened(int level)
     {
@@ -63,6 +126,10 @@ public class LevelSelect : MonoBehaviour
         foreach (var levels in _levelsToUnlock)
         {
             levels.interactable = false;
+        }
+        foreach (GameObject animators in _locksToUnlock)
+        {
+            animators.GetComponent<Animator>().enabled = false;
         }
     }
     public void MainMenu()

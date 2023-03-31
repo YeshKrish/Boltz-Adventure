@@ -12,6 +12,8 @@ public class LevelSelect : MonoBehaviour
     private Button[] _levelsToUnlock;
     [SerializeField]
     private GameObject[] _locksToUnlock;
+    [SerializeField]
+    private GameObject[] _stars;
 
     private static LevelSelect instance;
 
@@ -43,6 +45,30 @@ public class LevelSelect : MonoBehaviour
             //If LevelSelect screen loads from a Level
             if (PlayerPrefs.GetInt("IsLastSceneMainMenu") == 0)
             {
+                //No of stars to be poped up
+                if(PlayerPrefs.GetString("CoinsCollected") == "CollectedAll")
+                {
+                    Debug.Log("Three" + " " + _levelsToUnlock[levelClearedCount - 1].transform.GetChild(0).GetChild(2).GetChild(0).gameObject.name);
+                    _levelsToUnlock[levelClearedCount-1].transform.GetChild(0).GetChild(2).GetChild(0).gameObject.SetActive(true);
+                    _levelsToUnlock[levelClearedCount-1].transform.GetChild(0).GetChild(2).GetChild(1).gameObject.SetActive(true);
+                    _levelsToUnlock[levelClearedCount-1].transform.GetChild(0).GetChild(2).GetChild(2).gameObject.SetActive(true);
+                }
+                if(PlayerPrefs.GetString("CoinsCollected") == "Collected Half")
+                {
+                    Debug.Log("Two" + " " + _levelsToUnlock[levelClearedCount - 1].transform.GetChild(0).GetChild(2).GetChild(0).gameObject.name);
+                    _levelsToUnlock[levelClearedCount - 1].transform.GetChild(0).GetChild(2).GetChild(0).gameObject.SetActive(true);
+                    _levelsToUnlock[levelClearedCount - 1].transform.GetChild(0).GetChild(2).GetChild(1).gameObject.SetActive(true);
+                    _levelsToUnlock[levelClearedCount - 1].transform.GetChild(0).GetChild(2).GetChild(2).gameObject.SetActive(false);
+                }
+                if(PlayerPrefs.GetString("CoinsCollected") == "Collected Quater")
+                {
+                    Debug.Log("One" + " " + _levelsToUnlock[levelClearedCount - 1].transform.GetChild(0).GetChild(2).GetChild(0).gameObject.name);
+                    _levelsToUnlock[levelClearedCount - 1].transform.GetChild(0).GetChild(2).GetChild(0).gameObject.SetActive(true);
+                    _levelsToUnlock[levelClearedCount - 1].transform.GetChild(0).GetChild(2).GetChild(1).gameObject.SetActive(false);
+                    _levelsToUnlock[levelClearedCount - 1].transform.GetChild(0).GetChild(2).GetChild(2).gameObject.SetActive(false);
+                }
+
+
                 for (int i = 0; i < levelClearedCount; i++)
                 {
                     _levelsToUnlock[i].interactable = true;

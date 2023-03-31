@@ -11,9 +11,13 @@ public class GameManager : MonoBehaviour
     private GameObject _player;
     [SerializeField]
     private Animator _doorOpenAnimator;
+    [SerializeField]
+    private GameObject _coinBag;
 
     private bool isPlayerDead = false;
     public bool isDoorOpened = false;
+
+    private int _coinCount;
 
     public bool IsPlayerDead
     {
@@ -49,6 +53,9 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        _coinCount = _coinBag.transform.childCount;
+        Debug.Log(_coinCount);
+
         isDoorOpened = false;
         PlayerPrefs.SetInt("IsLastSceneMainMenu", 0);
 
@@ -68,7 +75,6 @@ public class GameManager : MonoBehaviour
                 PlayerPrefs.SetInt("LevelClearedCount", 0);
             }
         }
-
         PlayerPrefs.SetInt("Current Level", SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -91,7 +97,23 @@ public class GameManager : MonoBehaviour
         int currentBuildIndex = SceneManager.GetActiveScene().buildIndex;
         int previousLevelCount = PlayerPrefs.GetInt("LevelClearedCount");
 
+
         PlayerPrefs.SetInt("CoinsCollected", Item.quatity + PlayerPrefs.GetInt("CoinsCollected"));
+
+
+        //Total Coin quatity checking
+        if(Item.quatity == _coinCount)
+        {
+            PlayerPrefs.SetString("CoinsCollected", "CollectedAll");
+        }
+        else if(Item.quatity < _coinCount && Item.quatity == Mathf.Ceil(_coinCount / 2))
+        {
+            PlayerPrefs.SetString("CoinsCollected", "Collected Half");
+        }
+        else if(Item.quatity < _coinCount && Item.quatity == Mathf.Ceil(_coinCount / 4))
+        {
+            PlayerPrefs.SetString("CoinsCollected", "Collected Quater");
+        }
 
         if(currentBuildIndex > prevoiusBuildIndex)
         {

@@ -18,6 +18,7 @@ public class LevelSelect : MonoBehaviour
     private static LevelSelect instance;
 
     private static List<int> _previousLevelClearedCount = new List<int>();
+    private static Dictionary<int, int> _levelCompleteAndStarsGainedDict = new Dictionary<int, int>();
 
     private void Awake()
     {
@@ -49,6 +50,7 @@ public class LevelSelect : MonoBehaviour
                 if(PlayerPrefs.GetString("CoinsCollected") == "CollectedAll")
                 {
                     Debug.Log("Three" + " " + _levelsToUnlock[levelClearedCount - 1].transform.GetChild(0).GetChild(2).GetChild(0).gameObject.name);
+                    _levelCompleteAndStarsGainedDict.Add(levelClearedCount - 1, 3);
                     _levelsToUnlock[levelClearedCount-1].transform.GetChild(0).GetChild(2).GetChild(0).gameObject.SetActive(true);
                     _levelsToUnlock[levelClearedCount-1].transform.GetChild(0).GetChild(2).GetChild(1).gameObject.SetActive(true);
                     _levelsToUnlock[levelClearedCount-1].transform.GetChild(0).GetChild(2).GetChild(2).gameObject.SetActive(true);
@@ -56,6 +58,7 @@ public class LevelSelect : MonoBehaviour
                 if(PlayerPrefs.GetString("CoinsCollected") == "Collected Half")
                 {
                     Debug.Log("Two" + " " + _levelsToUnlock[levelClearedCount - 1].transform.GetChild(0).GetChild(2).GetChild(0).gameObject.name);
+                    _levelCompleteAndStarsGainedDict.Add(levelClearedCount - 1, 2);
                     _levelsToUnlock[levelClearedCount - 1].transform.GetChild(0).GetChild(2).GetChild(0).gameObject.SetActive(true);
                     _levelsToUnlock[levelClearedCount - 1].transform.GetChild(0).GetChild(2).GetChild(1).gameObject.SetActive(true);
                     _levelsToUnlock[levelClearedCount - 1].transform.GetChild(0).GetChild(2).GetChild(2).gameObject.SetActive(false);
@@ -63,6 +66,7 @@ public class LevelSelect : MonoBehaviour
                 if(PlayerPrefs.GetString("CoinsCollected") == "Collected Quater")
                 {
                     Debug.Log("One" + " " + _levelsToUnlock[levelClearedCount - 1].transform.GetChild(0).GetChild(2).GetChild(0).gameObject.name);
+                    _levelCompleteAndStarsGainedDict.Add(levelClearedCount - 1, 1);
                     _levelsToUnlock[levelClearedCount - 1].transform.GetChild(0).GetChild(2).GetChild(0).gameObject.SetActive(true);
                     _levelsToUnlock[levelClearedCount - 1].transform.GetChild(0).GetChild(2).GetChild(1).gameObject.SetActive(false);
                     _levelsToUnlock[levelClearedCount - 1].transform.GetChild(0).GetChild(2).GetChild(2).gameObject.SetActive(false);
@@ -164,4 +168,12 @@ public class LevelSelect : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
+    //Need to work
+    private void StarFetcher(int levelCompletedCount)
+    {
+        foreach (KeyValuePair<int, int> dictionaryItem in _levelCompleteAndStarsGainedDict)
+        {
+
+        }
+    }
 }

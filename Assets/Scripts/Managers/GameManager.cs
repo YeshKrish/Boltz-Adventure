@@ -100,17 +100,17 @@ public class GameManager : MonoBehaviour
 
         PlayerPrefs.SetInt("CoinsCollected", Item.quatity + PlayerPrefs.GetInt("CoinsCollected"));
 
-
+        Debug.Log("Item" + Item.quatity);
         //Total Coin quatity checking
         if(Item.quatity == _coinCount)
         {
             PlayerPrefs.SetString("CoinsCollected", "CollectedAll");
         }
-        else if(Item.quatity < _coinCount && Item.quatity == Mathf.Ceil(_coinCount / 2))
+        else if(Item.quatity < _coinCount && Item.quatity >= Mathf.Ceil(_coinCount / 2))
         {
             PlayerPrefs.SetString("CoinsCollected", "Collected Half");
         }
-        else if(Item.quatity < _coinCount && Item.quatity == Mathf.Ceil(_coinCount / 4))
+        else if(Item.quatity < _coinCount && Item.quatity >= Mathf.Ceil(_coinCount / 4))
         {
             PlayerPrefs.SetString("CoinsCollected", "Collected Quater");
         }

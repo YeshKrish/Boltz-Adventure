@@ -22,7 +22,6 @@ public class LevelSelect : MonoBehaviour
 
     private static List<int> _previousLevelClearedCount = new List<int>();
     
-    //private static List<string> _loadedFile = new List<string> ();
     private Dictionary<int, int> _levelCompleteAndStarsGainedDict = new Dictionary<int, int>();
 
     private void Awake()
@@ -39,11 +38,6 @@ public class LevelSelect : MonoBehaviour
 
     private void Start()
     {
-        //foreach (KeyValuePair<int, int>  keyValue in LevelAndStar.Instance.LevelAndStarDict)
-        //{
-        //    Debug.Log(keyValue.Key + " " + keyValue.Value);
-        //}
-
         _levelCompleteAndStarsGainedDict = SaveManager.Instance.LoadJson();
         foreach(KeyValuePair<int, int> load in _levelCompleteAndStarsGainedDict)
         {
@@ -60,7 +54,7 @@ public class LevelSelect : MonoBehaviour
             PlayerPrefs.SetInt("LevelClearedCount", 0);
 
         int levelClearedCount = PlayerPrefs.GetInt("LevelClearedCount");
-        //Debug.Log(levelClearedCount + " " + _previousLevelClearedCount.Contains(levelClearedCount));
+
         //Checking if it is a new level, if nw adding the levelCleareddCount to previouseLevelCount list
         if (levelClearedCount > 0 && !_previousLevelClearedCount.Contains(levelClearedCount))
         {
@@ -72,20 +66,20 @@ public class LevelSelect : MonoBehaviour
                 {
                     _levelAndStar.LevelAndStarDict.Add(levelClearedCount - 1, 3);
                     StarPopper(3, levelClearedCount - 1);
-                    SaveManager.Instance.SaveJson();
+                    SaveManager.Instance.SaveJson(3, levelClearedCount -1);
                     
                 }
                 if(PlayerPrefs.GetString("CoinsCollected") == "Collected Half")
                 {
                     _levelAndStar.LevelAndStarDict.Add(levelClearedCount - 1, 2);
                     StarPopper(2, levelClearedCount - 1);
-                    SaveManager.Instance.SaveJson();
+                    SaveManager.Instance.SaveJson(2, levelClearedCount - 1);
                 }
                 if(PlayerPrefs.GetString("CoinsCollected") == "Collected Quater")
                 {
                     _levelAndStar.LevelAndStarDict.Add(levelClearedCount - 1, 1);
                     StarPopper(1, levelClearedCount - 1);
-                    SaveManager.Instance.SaveJson();
+                    SaveManager.Instance.SaveJson(1, levelClearedCount - 1);
                 }
 
 
@@ -165,6 +159,7 @@ public class LevelSelect : MonoBehaviour
             {
                 foreach (KeyValuePair<int, int> keyValuePair in _levelCompleteAndStarsGainedDict)
                 {
+
                     StarPopper(keyValuePair.Value, keyValuePair.Key);
                 }
                 for (int i = 0; i < levelClearedCount + 1; i++)

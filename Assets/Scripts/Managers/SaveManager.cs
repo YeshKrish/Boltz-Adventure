@@ -10,9 +10,6 @@ public class SaveManager : MonoBehaviour
 
     public static SaveManager Instance;
 
-    [HideInInspector]
-    public List<string> _loadedLines = new List<string>();
-
     Dictionary<int, int> dict = new Dictionary<int, int>();
 
     private void Awake()
@@ -26,23 +23,11 @@ public class SaveManager : MonoBehaviour
     }
 
 
-    public void SaveJson()
+    public void SaveJson(int star, int level)
     {
-        using(StreamWriter file = new StreamWriter(Application.dataPath + "/levelAndStar.txt"))
-        {
-            foreach (int stars in _levelAndStar.LevelAndStarDict.Keys)
-            {
-                foreach(int level in _levelAndStar.LevelAndStarDict.Values)
-                {
-                    file.WriteLine(stars.ToString() + "\t" + level.ToString());
-                }
-
-            }
-            file.Close();
-        }
-        //string json = JsonUtility.ToJson(_levelAndStar);
-        //string filePath = Application.dataPath + "/levelAndStar.json";
-        //File.WriteAllText(filePath, json);
+        string readFromFilePath = Application.dataPath + "/levelAndStar.txt";
+        string content = level + "\t" + star + "\n"; // add a newline character to separate from previous content
+        File.AppendAllText(readFromFilePath, content);
     }
 
     public Dictionary<int, int> LoadJson()
@@ -76,6 +61,13 @@ public class SaveManager : MonoBehaviour
         return null;
     }
 
+    public void OverrideJson(int key, int star)
+    {
+        string readFromFilePath = Application.dataPath + "/levelAndStar.txt";
+        string content = key + "\t" + star + "\n"; // add a newline character to separate from previous content
+        File.AppendAllText(readFromFilePath, content);
+
+    }
 }
 
 

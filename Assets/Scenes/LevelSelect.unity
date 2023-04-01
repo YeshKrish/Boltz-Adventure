@@ -366,6 +366,7 @@ MonoBehaviour:
   - {fileID: 873203867}
   - {fileID: 2015113175}
   _stars: []
+  _levelAndStar: {fileID: 11400000, guid: 614f9d09e38695d4da4113b6e77ef14e, type: 2}
 --- !u!4 &681847330
 Transform:
   m_ObjectHideFlags: 0

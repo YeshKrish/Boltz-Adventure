@@ -65,20 +65,20 @@ public class LevelSelect : MonoBehaviour
                 if(PlayerPrefs.GetString("CoinsCollected") == "CollectedAll")
                 {
                     _levelAndStar.LevelAndStarDict.Add(levelClearedCount - 1, 3);
-                    StarPopper(3, levelClearedCount - 1);
+                    StarPopper(levelClearedCount - 1, 3);
                     SaveManager.Instance.SaveJson(3, levelClearedCount -1);
                     
                 }
                 if(PlayerPrefs.GetString("CoinsCollected") == "Collected Half")
                 {
                     _levelAndStar.LevelAndStarDict.Add(levelClearedCount - 1, 2);
-                    StarPopper(2, levelClearedCount - 1);
+                    StarPopper(levelClearedCount - 1, 2);
                     SaveManager.Instance.SaveJson(2, levelClearedCount - 1);
                 }
                 if(PlayerPrefs.GetString("CoinsCollected") == "Collected Quater")
                 {
                     _levelAndStar.LevelAndStarDict.Add(levelClearedCount - 1, 1);
-                    StarPopper(1, levelClearedCount - 1);
+                    StarPopper(levelClearedCount - 1, 1);
                     SaveManager.Instance.SaveJson(1, levelClearedCount - 1);
                 }
 
@@ -87,7 +87,7 @@ public class LevelSelect : MonoBehaviour
                 {
                     if(_levelAndStar.LevelAndStarDict != null)
                     {
-                        StarPopper(StarValueFetcher(i), i);
+                        StarPopper(i, StarValueFetcher(i));
                     }
                     _levelsToUnlock[i].interactable = true;
                     _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
@@ -102,7 +102,7 @@ public class LevelSelect : MonoBehaviour
                 {
                     foreach (KeyValuePair<int, int> keyValuePair in _levelCompleteAndStarsGainedDict)
                     {
-                        StarPopper(keyValuePair.Value, keyValuePair.Key);
+                        StarPopper(keyValuePair.Key, keyValuePair.Value);
                     }
                     for (int i = 0; i < levelClearedCount; i++)
                     {
@@ -119,7 +119,7 @@ public class LevelSelect : MonoBehaviour
                 {
                     foreach (KeyValuePair<int, int> keyValuePair in _levelCompleteAndStarsGainedDict)
                     {
-                        StarPopper(keyValuePair.Value, keyValuePair.Key);
+                        StarPopper(keyValuePair.Key, keyValuePair.Value);
                     }
                     for (int i = 0; i < levelClearedCount + 1; i++)
                     {
@@ -142,7 +142,7 @@ public class LevelSelect : MonoBehaviour
             {
                 foreach (KeyValuePair<int, int> keyValuePair in _levelCompleteAndStarsGainedDict)
                 {
-                    StarPopper(keyValuePair.Value, keyValuePair.Key);
+                    StarPopper(keyValuePair.Key, keyValuePair.Value);
                 }
                 for (int i = 0; i < levelClearedCount; i++)
                 {
@@ -157,10 +157,29 @@ public class LevelSelect : MonoBehaviour
             }
             else
             {
+                int startsColected = 0;
+
+                if (PlayerPrefs.GetString("CoinsCollected") == "CollectedAll")
+                {
+                    startsColected = 3;
+
+                }
+                if (PlayerPrefs.GetString("CoinsCollected") == "Collected Half")
+                {
+                    startsColected = 2;
+                }
+                if (PlayerPrefs.GetString("CoinsCollected") == "Collected Quater")
+                {
+                    startsColected = 1;
+                }
+
+                Debug.Log("I a popping" + startsColected);
                 foreach (KeyValuePair<int, int> keyValuePair in _levelCompleteAndStarsGainedDict)
                 {
-
-                    StarPopper(keyValuePair.Value, keyValuePair.Key);
+                    if(_levelCompleteAndStarsGainedDict.ContainsKey(PlayerPrefs.GetInt("Current Level")))
+                    {
+                        StarPopper(keyValuePair.Key, keyValuePair.Value);
+                    }
                 }
                 for (int i = 0; i < levelClearedCount + 1; i++)
                 {
@@ -231,7 +250,7 @@ public class LevelSelect : MonoBehaviour
         return _levelAndStar.LevelAndStarDict[key];
     }
 
-    private void StarPopper(int starCount, int level)
+    private void StarPopper(int level, int starCount)
     {
         if(starCount == 3)
         {

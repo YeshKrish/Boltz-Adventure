@@ -100,7 +100,6 @@ public class GameManager : MonoBehaviour
 
         PlayerPrefs.SetInt("CoinsCollected", Item.quatity + PlayerPrefs.GetInt("CoinsCollected"));
 
-        Debug.Log("Item" + Item.quatity);
         //Total Coin quatity checking
         if(Item.quatity == _coinCount)
         {

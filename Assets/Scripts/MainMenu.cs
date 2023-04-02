@@ -25,18 +25,28 @@ public class MainMenu : MonoBehaviour
     {
         MusicManager.instance.ChangeMainMenuMusic();
 
+        //Is music playing check
+        if (MusicManager.instance.MainMenuAudio.isPlaying)
+        {
+            _musicImage.sprite = _audioSprites[0];
+        }
+        else
+        {
+            _musicImage.sprite = _audioSprites[1];
+        }
+
         PlayerPrefs.SetInt("IsLastSceneMainMenu", 1);
 
         int coins = 0;
-        if (!PlayerPrefs.HasKey("CoinsCollected"))
+        if (!PlayerPrefs.HasKey("CoinsCollectedQuantity"))
         {
             coins = 0;
-            PlayerPrefs.SetInt("CoinsCollected", 0);
+            PlayerPrefs.SetInt("CoinsCollectedQuantity", 0);
            
         }
         else
         {
-            coins = PlayerPrefs.GetInt("CoinsCollected");
+            coins = PlayerPrefs.GetInt("CoinsCollectedQuantity");
         }
 
         Coinstext.SetText(coins.ToString());

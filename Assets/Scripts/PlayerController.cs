@@ -111,6 +111,7 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("EnemyHead"))
         {
+            other.gameObject.SetActive(false);
             MusicManager.instance.EnemyDyingSound();
             _rb.AddForce(new Vector3(0f, Math.Abs(transform.position.y), 0f).normalized * _enemyDeadJumpHeight, ForceMode.Impulse);
             if (other.transform.parent.gameObject.GetComponentInChildren<MeshCollider>() != null)

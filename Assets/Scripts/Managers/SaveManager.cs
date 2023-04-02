@@ -5,9 +5,6 @@ using System.IO;
 using System.Linq;
 public class SaveManager : MonoBehaviour
 {
-    [SerializeField]
-    private LevelAndStar _levelAndStar;
-
     public static SaveManager Instance;
 
     Dictionary<int, int> dict = new Dictionary<int, int>();

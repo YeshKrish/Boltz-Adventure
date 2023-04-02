@@ -128,6 +128,20 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            int levelClearedCount = PlayerPrefs.GetInt("LevelClearedCount");
+            if (PlayerPrefs.GetString("CoinsCollected") == "CollectedAll")
+            {
+                SaveManager.Instance.SaveJson(3, levelClearedCount - 1);
+
+            }
+            if (PlayerPrefs.GetString("CoinsCollected") == "Collected Half")
+            {
+                SaveManager.Instance.SaveJson(2, levelClearedCount - 1);
+            }
+            if (PlayerPrefs.GetString("CoinsCollected") == "Collected Quater")
+            {
+                SaveManager.Instance.SaveJson(1, levelClearedCount - 1);
+            }
             SceneManager.LoadScene("GameCompleted");
         }
 

@@ -97,7 +97,7 @@ public class GameManager : MonoBehaviour
         int previousLevelCount = PlayerPrefs.GetInt("LevelClearedCount");
 
 
-        PlayerPrefs.SetInt("CoinsCollected", Item.quatity + PlayerPrefs.GetInt("CoinsCollected"));
+        PlayerPrefs.SetInt("CoinsCollectedQuantity", Item.quatity + PlayerPrefs.GetInt("CoinsCollectedQuantity"));
 
         //Total Coin quatity checking
         if(Item.quatity == _coinCount)

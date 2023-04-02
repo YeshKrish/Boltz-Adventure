@@ -114,6 +114,27 @@ public class LevelSelect : MonoBehaviour
         }
         else if(levelClearedCount > 0 && _previousLevelClearedCount.Contains(levelClearedCount))
         {
+            int startsColected = 0;
+            int currentLevel = PlayerPrefs.GetInt("Current Level");
+
+            if (PlayerPrefs.GetString("CoinsCollected") == "CollectedAll")
+            {
+                startsColected = 3;
+            }
+            if (PlayerPrefs.GetString("CoinsCollected") == "Collected Half")
+            {
+                startsColected = 2;
+            }
+            if (PlayerPrefs.GetString("CoinsCollected") == "Collected Quater")
+            {
+                startsColected = 1;
+            }
+            if (startsColected > 0 && PlayerPrefs.GetInt("IsLastSceneMainMenu") == 0)
+            {
+                SaveManager.Instance.OverrideJson(currentLevel - 1, startsColected);
+                LoadDictionary();
+            }
+
             if (levelClearedCount == 5)
             {
                 foreach (KeyValuePair<int, int> keyValuePair in _levelCompleteAndStarsGainedDict)
@@ -128,28 +149,6 @@ public class LevelSelect : MonoBehaviour
             }
             else
             {
-                int startsColected = 0;
-                int currentLevel = PlayerPrefs.GetInt("Current Level");
-
-                if (PlayerPrefs.GetString("CoinsCollected") == "CollectedAll")
-                {
-                    startsColected = 3;
-                }
-                if (PlayerPrefs.GetString("CoinsCollected") == "Collected Half")
-                {
-                    startsColected = 2;
-                }
-                if (PlayerPrefs.GetString("CoinsCollected") == "Collected Quater")
-                {
-                    startsColected = 1;
-                }
-
-                if(startsColected > 0 && PlayerPrefs.GetInt("IsLastSceneMainMenu") == 0)
-                {
-                    SaveManager.Instance.OverrideJson(currentLevel-1, startsColected);
-                    LoadDictionary();
-                }
-
                 Debug.Log("I a popping" + startsColected);
                 foreach (KeyValuePair<int, int> keyValuePair in _levelCompleteAndStarsGainedDict)
                 {

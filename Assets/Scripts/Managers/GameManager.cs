@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
@@ -131,6 +130,8 @@ public class GameManager : MonoBehaviour
         {
             SceneManager.LoadScene("GameCompleted");
         }
+
+
     }
 
     public int GetCurrentScene()

@@ -113,6 +113,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7542476071875454519}
     m_Modifications:
+    - target: {fileID: 2680771112912792497, guid: e8afa618388d74243b5e5a072e7aca76, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4617247048938693941, guid: e8afa618388d74243b5e5a072e7aca76, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -182,6 +186,10 @@ PrefabInstance:
     - target: {fileID: 6317962878229099873, guid: e6c642ab485196c4187dacf7d9516391, type: 3}
       propertyPath: m_Name
       value: robot_ball
+      objectReference: {fileID: 0}
+    - target: {fileID: 6317962878229099873, guid: e6c642ab485196c4187dacf7d9516391, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6694101045544710107, guid: e6c642ab485196c4187dacf7d9516391, type: 3}
       propertyPath: m_RootOrder

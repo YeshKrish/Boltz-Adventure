@@ -15,8 +15,6 @@ public class LevelSelect : MonoBehaviour
     private GameObject[] _locksToUnlock;
     [SerializeField]
     private GameObject[] _stars;
-    [SerializeField]
-    LevelAndStar _levelAndStar;
 
     private static LevelSelect instance;
 
@@ -39,15 +37,6 @@ public class LevelSelect : MonoBehaviour
     private void Start()
     {
         LoadDictionary();
-        foreach (KeyValuePair<int, int> load in _levelCompleteAndStarsGainedDict)
-        {
-            Debug.Log(load);
-        }
-
-        foreach (int prev in _previousLevelClearedCount)
-        {
-            Debug.Log(prev);
-        }
 
         DisableAll();
         if (!PlayerPrefs.HasKey("LevelClearedCount"))
@@ -64,20 +53,17 @@ public class LevelSelect : MonoBehaviour
                 //No of stars to be poped up
                 if(PlayerPrefs.GetString("CoinsCollected") == "CollectedAll")
                 {
-                    //_levelAndStar.LevelAndStarDict.Add(levelClearedCount - 1, 3);
                     StarPopper(levelClearedCount - 1, 3);
                     SaveManager.Instance.SaveJson(3, levelClearedCount -1);
                     
                 }
                 if(PlayerPrefs.GetString("CoinsCollected") == "Collected Half")
                 {
-                    //_levelAndStar.LevelAndStarDict.Add(levelClearedCount - 1, 2);
                     StarPopper(levelClearedCount - 1, 2);
                     SaveManager.Instance.SaveJson(2, levelClearedCount - 1);
                 }
                 if(PlayerPrefs.GetString("CoinsCollected") == "Collected Quater")
                 {
-                    //_levelAndStar.LevelAndStarDict.Add(levelClearedCount - 1, 1);
                     StarPopper(levelClearedCount - 1, 1);
                     SaveManager.Instance.SaveJson(1, levelClearedCount - 1);
                 }
@@ -106,11 +92,6 @@ public class LevelSelect : MonoBehaviour
                     }
                     for (int i = 0; i < levelClearedCount; i++)
                     {
-                        //if (_levelAndStar.LevelAndStarDict != null)
-                        //{
-                        //    Debug.Log(i + " " + StarValueFetcher(i));
-                        //    StarPopper(StarValueFetcher(i), i);
-                        //}
                         _levelsToUnlock[i].interactable = true;
                         _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
                     }
@@ -123,13 +104,7 @@ public class LevelSelect : MonoBehaviour
                         StarPopper(keyValuePair.Key, keyValuePair.Value);
                     }
                     for (int i = 0; i < levelClearedCount + 1; i++)
-                    {
-                        //if (_levelAndStar.LevelAndStarDict != null && i < levelClearedCount)
-                        //{
-                        //    Debug.Log(i + " " + StarValueFetcher(i));
-                        //    StarPopper(StarValueFetcher(i), i);
-                        //}
-                       
+                    {                       
                         _levelsToUnlock[i].interactable = true;
                         _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
                     }
@@ -147,11 +122,6 @@ public class LevelSelect : MonoBehaviour
                 }
                 for (int i = 0; i < levelClearedCount; i++)
                 {
-                    //if (_levelAndStar.LevelAndStarDict != null)
-                    //{
-                    //    Debug.Log(i + " " + StarValueFetcher(i));
-                    //    StarPopper(StarValueFetcher(i), i);
-                    //}
                     _levelsToUnlock[i].interactable = true;
                     _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
                 }
@@ -187,11 +157,6 @@ public class LevelSelect : MonoBehaviour
                 }
                 for (int i = 0; i < levelClearedCount + 1; i++)
                 {
-                    //if (_levelAndStar.LevelAndStarDict != null && i < levelClearedCount)
-                    //{
-                    //    Debug.Log(i + " " + StarValueFetcher(i));
-                    //    StarPopper(StarValueFetcher(i), i);
-                    //}
                     _levelsToUnlock[i].interactable = true;
                     _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
                 }
@@ -236,23 +201,6 @@ public class LevelSelect : MonoBehaviour
         MusicManager.instance.ButtonClickSound();
         SceneManager.LoadScene("MainMenu");
     }
-
-    //Need to work
-    //private int StarKeyFetcher()
-    //{
-    //    if(_levelCompleteAndStarsGainedDict != null)
-    //    {
-    //        foreach (KeyValuePair<int, int> dictionaryItem in _levelCompleteAndStarsGainedDict)
-    //        {
-    //            return dictionaryItem.Key;
-    //        }
-    //    }
-    //    return 0;
-    //} 
-    //private int StarValueFetcher(int key)
-    //{
-    //    return _levelAndStar.LevelAndStarDict[key];
-    //}
 
     private void StarPopper(int level, int starCount)
     {

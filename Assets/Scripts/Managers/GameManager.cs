@@ -7,11 +7,13 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     [SerializeField]
-    private GameObject _player;
+    private Transform _player;
     [SerializeField]
     private Animator _doorOpenAnimator;
     [SerializeField]
     private GameObject _coinBag;
+    [SerializeField]
+    private ChooseBall _ballPool;
 
     private bool isPlayerDead = false;
     public bool isDoorOpened = false;
@@ -33,6 +35,7 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+        SetPlayerBall();
     }
 
     private void OnDisable()
@@ -150,7 +153,18 @@ public class GameManager : MonoBehaviour
 
     public int GetCurrentScene()
     {
-        return(PlayerPrefs.GetInt("Current Level"));
+        return (PlayerPrefs.GetInt("Current Level"));
+    }
+
+    private void SetPlayerBall()
+    {
+        for (int i = 0; i < _ballPool.BallPool.Length; i++)
+        {
+            if (_ballPool.BallPool[i].activeSelf)
+            {
+                Instantiate(_ballPool.BallPool[i].gameObject, _player.position, Quaternion.Euler(0f, 90f, 0f), _player);
+            }
+        }
     }
   
 }

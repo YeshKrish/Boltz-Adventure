@@ -197,8 +197,7 @@ public class LevelSelect : MonoBehaviour
     }
     public void MainMenu()
     {
-        MusicManager.instance.ButtonClickSound();
-        SceneManager.LoadScene("MainMenu");
+        NavigationManager.Instance.MainMenu();
     }
 
     private void StarPopper(int level, int starCount)

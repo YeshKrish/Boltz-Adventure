@@ -79,8 +79,9 @@ public class MainMenu : MonoBehaviour
     public void CustomizePlayer()
     {
         _comingSoon.SetActive(true);
-        _customizeButton.interactable = false;
-        DisableCustomize();
+        SceneManager.LoadScene("Customize");
+        //_customizeButton.interactable = false;
+        //DisableCustomize();
     }
 
     private async void DisableCustomize()

@@ -3267,6 +3267,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3020925470940084414, guid: eca8a225ca249484cad8bcf98d92e915, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7542476071875454508, guid: eca8a225ca249484cad8bcf98d92e915, type: 3}
       propertyPath: m_Name
       value: Player (1)
@@ -6550,9 +6554,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7c9bebbdc72e2d409dfb04b7d0b1962, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player: {fileID: 1347842671}
+  _player: {fileID: 1125389252}
   _doorOpenAnimator: {fileID: 967497941}
   _coinBag: {fileID: 1601923991}
+  _ballPool: {fileID: 11400000, guid: 27da63295c75b984d9b0367db30cce3f, type: 2}
   isDoorOpened: 0
 --- !u!4 &869181316
 Transform:

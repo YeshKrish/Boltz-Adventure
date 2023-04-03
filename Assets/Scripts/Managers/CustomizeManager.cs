@@ -30,14 +30,26 @@ public class CustomizeManager : MonoBehaviour
 
     public void ActivateParticularBall(int ballId)
     {
+        Debug.Log(ballId);
         for (int i = 0; i < _ballPool.BallPool.Length; i++)
         {
             if(i == ballId)
             {
-                _ballPool.BallPool[i].SetActive(true);
-                _defaultBall.SetActive(false);
+                if(i == 0)
+                {
+                    _defaultBall.SetActive(true);
+                    _ballPool.BallPool[i+1].SetActive(false);
+                }
+                else
+                {
+                    _ballPool.BallPool[i].SetActive(true);
+                    _defaultBall.SetActive(false);
+                }
             }
         }
     }
-
+    public void MainMenu()
+    {
+        NavigationManager.Instance.MainMenu();
+    }
 }

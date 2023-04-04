@@ -1,0 +1,14 @@
+
+newmtl 3DMelon001_SQ-1K-JPG
+Ns 50
+Ka 1 1 1
+Kd 1 1 1
+Ks 0.1 0.1 0.1
+Ke 0 0 0
+Ni 1.45
+d 1.000000
+illum 2
+map_Kd 3DMelon001_SQ-1K_Color.jpg
+map_bump 3DMelon001_SQ-1K_NormalGL.jpg
+map_Ka 3DMelon001_SQ-1K_AmbientOcclusion.jpg
+

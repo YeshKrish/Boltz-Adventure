@@ -1,12 +1,37 @@
 fileFormatVersion: 2
-guid: cdb2bd77a7ffc8c4389a4a12089ec63c
+guid: 5f5815b320249194fbf17299f598ebd0
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BRANCO
+    second: {fileID: 2100000, guid: d0f63c885c2218748b8c5fbecc1056b1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: LUZ
+    second: {fileID: 2100000, guid: 39f0b721d2d42bc409b881dec595d6f5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: METAL
+    second: {fileID: 2100000, guid: 7c5487a9bf169fa46a175906df85af35, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Materiais.001
+    second: {fileID: 2100000, guid: 7787a464b32434d48a0cbeeec6e10d2e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: VERMELHO
+    second: {fileID: 2100000, guid: 335c4b87a39dad1459868f91a66d410a, type: 2}
   materials:
     materialImportMode: 2
-    materialName: 0
+    materialName: 1
     materialSearch: 1
     materialLocation: 1
   animations:
@@ -88,7 +113,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.01
+    globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

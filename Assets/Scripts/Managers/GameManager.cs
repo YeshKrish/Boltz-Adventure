@@ -162,7 +162,7 @@ public class GameManager : MonoBehaviour
         {
             if (_ballPool.BallPool[i].activeSelf)
             {
-                Instantiate(_ballPool.BallPool[i].gameObject, _player.position, Quaternion.Euler(0f, 90f, 0f), _player);
+                Instantiate(_ballPool.BallPool[i].gameObject, _player.position, Quaternion.Euler(_ballPool.BallPool[i].gameObject.transform.localRotation.eulerAngles.x, _ballPool.BallPool[i].gameObject.transform.localRotation.eulerAngles.y, _ballPool.BallPool[i].gameObject.transform.localRotation.eulerAngles.z), _player);
             }
         }
     }

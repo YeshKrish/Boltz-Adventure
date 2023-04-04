@@ -35,16 +35,22 @@ public class CustomizeManager : MonoBehaviour
         {
             if(i == ballId)
             {
-                if(i == 0)
-                {
-                    _defaultBall.SetActive(true);
-                    _ballPool.BallPool[i+1].SetActive(false);
-                }
-                else
-                {
-                    _ballPool.BallPool[i].SetActive(true);
-                    _defaultBall.SetActive(false);
-                }
+                _ballPool.BallPool[i].SetActive(true);
+                //if(i == 0)
+                //{
+                //    _defaultBall.SetActive(true);
+
+                //}
+                //else
+                //{
+                //    _ballPool.BallPool[i].SetActive(true);
+                //    _defaultBall.SetActive(false);
+                //}
+                //_ballPool.BallPool[i + 1].SetActive(false);
+            }
+            else
+            {
+                _ballPool.BallPool[i].SetActive(false);
             }
         }
     }

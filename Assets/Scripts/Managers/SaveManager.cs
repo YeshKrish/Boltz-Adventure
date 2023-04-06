@@ -11,6 +11,7 @@ public class SaveManager : MonoBehaviour
 
     private void Awake()
     {
+        Debug.Log(Application.persistentDataPath);
         if (Instance == null)
         {
             Instance = this;
@@ -22,20 +23,20 @@ public class SaveManager : MonoBehaviour
 
     public void SaveJson(int star, int level)
     {
-        string readFromFilePath = Application.dataPath + "/levelAndStar.txt";
+        string readFromFilePath = Application.persistentDataPath + "/levelAndStar.txt";
         string content = level + "\t" + star + "\n"; // add a newline character to separate from previous content
         File.AppendAllText(readFromFilePath, content);
     }
 
     public Dictionary<int, int> LoadJson()
     {
-        if(File.Exists(Application.dataPath + "/levelAndStar.txt"))
+        Dictionary<int, int> dict = new Dictionary<int, int>();
+        string filePath = Application.persistentDataPath + "/levelAndStar.txt";
+        if (File.Exists(filePath))
         {
-            string readFromFilePath = Application.dataPath + "/levelAndStar.txt";
-            StreamReader reader = new StreamReader(readFromFilePath);
-            while (!reader.EndOfStream)
+            string[] lines = File.ReadAllLines(filePath);
+            foreach (string line in lines)
             {
-                string line = reader.ReadLine();
                 string[] parts = line.Split('\t'); // Replace '\t' with your delimiter character
                 int key = int.Parse(parts[0]);
                 int value = int.Parse(parts[1]);
@@ -45,22 +46,25 @@ public class SaveManager : MonoBehaviour
                 }
                 else
                 {
-                    if(value > dict[key])
+                    if (value > dict[key])
                     {
                         dict[key] = value;
                     }
                 }
             }
 
-            reader.Close();
             return dict;
         }
-        return null;
+        else
+        {
+            Debug.LogError("File not found: " + filePath);
+            return null;
+        }
     }
 
     public void OverrideJson(int key, int star)
     {
-        string readFromFilePath = Application.dataPath + "/levelAndStar.txt";
+        string readFromFilePath = Application.persistentDataPath + "/levelAndStar.txt";
         string content = key + "\t" + star + "\n"; // add a newline character to separate from previous content
         File.AppendAllText(readFromFilePath, content);
 

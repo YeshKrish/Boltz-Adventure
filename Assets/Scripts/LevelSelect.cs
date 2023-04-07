@@ -50,24 +50,25 @@ public class LevelSelect : MonoBehaviour
             //If LevelSelect screen loads from a Level
             if (PlayerPrefs.GetInt("IsLastSceneMainMenu") == 0)
             {
+                int startsColected = 0;
                 //No of stars to be poped up
-                if(PlayerPrefs.GetString("CoinsCollected") == "CollectedAll")
+                if (PlayerPrefs.GetString("CoinsCollected") == "CollectedAll")
                 {
-                    StarPopper(levelClearedCount - 1, 3);
-                    SaveManager.Instance.SaveJson(3, levelClearedCount -1);
-                    
+                    startsColected = 3;
+                    StarPopper(levelClearedCount - 1, 3);                   
                 }
                 if(PlayerPrefs.GetString("CoinsCollected") == "Collected Half")
                 {
+                    startsColected = 2;
                     StarPopper(levelClearedCount - 1, 2);
-                    SaveManager.Instance.SaveJson(2, levelClearedCount - 1);
                 }
                 if(PlayerPrefs.GetString("CoinsCollected") == "Collected Quater")
                 {
+                    startsColected = 1;
                     StarPopper(levelClearedCount - 1, 1);
-                    SaveManager.Instance.SaveJson(1, levelClearedCount - 1);
                 }
-
+                SaveManager.Instance.SaveJson(startsColected, levelClearedCount - 1);
+                LoadDictionary();
 
                 for (int i = 0; i < levelClearedCount; i++)
                 {

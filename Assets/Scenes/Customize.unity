@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 4776488}
   - component: {fileID: 4776487}
   m_Layer: 5
-  m_Name: Ball1
+  m_Name: Ball3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -401,6 +401,7 @@ GameObject:
   - component: {fileID: 232876394}
   - component: {fileID: 232876393}
   - component: {fileID: 232876395}
+  - component: {fileID: 232876396}
   m_Layer: 5
   m_Name: Ball1
   m_TagString: Untagged
@@ -522,6 +523,23 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &232876396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 232876391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!1 &549417529
 GameObject:
   m_ObjectHideFlags: 0
@@ -830,7 +848,7 @@ GameObject:
   - component: {fileID: 885622846}
   - component: {fileID: 885622845}
   m_Layer: 5
-  m_Name: Ball1
+  m_Name: Ball2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1057,7 +1075,7 @@ GameObject:
   - component: {fileID: 1157328364}
   - component: {fileID: 1157328363}
   m_Layer: 5
-  m_Name: Ball1
+  m_Name: Ball4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1369,6 +1387,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _player: {fileID: 7542476071875454508, guid: eca8a225ca249484cad8bcf98d92e915, type: 3}
   _ballPool: {fileID: 11400000, guid: 27da63295c75b984d9b0367db30cce3f, type: 2}
+  BallImages:
+  - {fileID: 232876393}
+  - {fileID: 885622846}
+  - {fileID: 4776488}
+  - {fileID: 1157328364}
 --- !u!4 &1360616536
 Transform:
   m_ObjectHideFlags: 0

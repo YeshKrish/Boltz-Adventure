@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CustomizeManager : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class CustomizeManager : MonoBehaviour
 
     public static CustomizeManager Instance;
 
-    
+    public List<Image> BallImages = new List<Image>();
     
 
     private void Awake()
@@ -36,6 +37,7 @@ public class CustomizeManager : MonoBehaviour
             if(i == ballId)
             {
                 _ballPool.BallPool[i].SetActive(true);
+                ImageAlphaChange(i);
                 //if(i == 0)
                 //{
                 //    _defaultBall.SetActive(true);
@@ -57,5 +59,24 @@ public class CustomizeManager : MonoBehaviour
     public void MainMenu()
     {
         NavigationManager.Instance.MainMenu();
+    }
+
+    private void ImageAlphaChange(int ballId)
+    {
+        for (int i = 0; i < BallImages.Count; i++)
+        {
+            if(i == ballId)
+            {
+                Color temp = BallImages[i].color;
+                temp.a = 1f;
+                BallImages[i].color = temp;
+            }
+            else
+            {
+                Color temp = BallImages[i].color;
+                temp.a = 0.5f;
+                BallImages[i].color = temp;
+            }
+        }
     }
 }

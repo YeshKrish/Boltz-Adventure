@@ -24,10 +24,17 @@ public class CustomizeManager : MonoBehaviour
         }
 
         _defaultBall = _ballPool.BallPool[0];
-        _defaultBall.SetActive(true);
+        if (_ballPool.PreviousBall != null)
+        {
+            _ballPool.PreviousBall.SetActive(true);
+        }
+        else
+        {
+            _defaultBall.SetActive(true);
+        }
+
         DontDestroyOnLoad(Instance);
     }
-
     public void ActivateParticularBall(int ballId)
     {
         Debug.Log(ballId);
@@ -37,6 +44,7 @@ public class CustomizeManager : MonoBehaviour
             {
                 SpotLightChoose(i);
                 _ballPool.BallPool[i].SetActive(true);
+                _ballPool.PreviousBall = _ballPool.BallPool[i];
                 //if(i == 0)
                 //{
                 //    _defaultBall.SetActive(true);

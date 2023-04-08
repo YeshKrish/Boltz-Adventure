@@ -14,8 +14,7 @@ public class CustomizeManager : MonoBehaviour
 
     public static CustomizeManager Instance;
 
-    public List<Image> BallImages = new List<Image>();
-    
+    public List<GameObject> SpotLights = new List<GameObject>();
 
     private void Awake()
     {
@@ -36,8 +35,8 @@ public class CustomizeManager : MonoBehaviour
         {
             if(i == ballId)
             {
+                SpotLightChoose(i);
                 _ballPool.BallPool[i].SetActive(true);
-                ImageAlphaChange(i);
                 //if(i == 0)
                 //{
                 //    _defaultBall.SetActive(true);
@@ -61,21 +60,19 @@ public class CustomizeManager : MonoBehaviour
         NavigationManager.Instance.MainMenu();
     }
 
-    private void ImageAlphaChange(int ballId)
+    private void SpotLightChoose(int ballId)
     {
-        for (int i = 0; i < BallImages.Count; i++)
+        for (int i = 0; i < _ballPool.SpotLight.Length; i++)
         {
             if(i == ballId)
             {
-                Color temp = BallImages[i].color;
-                temp.a = 1f;
-                BallImages[i].color = temp;
+                _ballPool.SpotLight[i].SetActive(true);
+                SpotLights[i].SetActive(true);
             }
             else
             {
-                Color temp = BallImages[i].color;
-                temp.a = 0.5f;
-                BallImages[i].color = temp;
+                _ballPool.SpotLight[i].SetActive(false);
+                SpotLights[i].SetActive(false);
             }
         }
     }

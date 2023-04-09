@@ -24,6 +24,7 @@ public class AllSceneManager : MonoBehaviour
     private void SetPreviousBall()
     {
         _ballPool.PreviousBall = _ballPool.BallPool[PlayerPrefs.GetInt("PreviousBall")];
+        _ballPool.PreviousBall.SetActive(true);
     }
 
 }

@@ -24,6 +24,7 @@ public class CustomizeManager : MonoBehaviour
         }
 
         _defaultBall = _ballPool.BallPool[0];
+
         if (_ballPool.PreviousBall != null)
         {
             _ballPool.PreviousBall.SetActive(true);
@@ -45,17 +46,7 @@ public class CustomizeManager : MonoBehaviour
                 SpotLightChoose(i);
                 _ballPool.BallPool[i].SetActive(true);
                 _ballPool.PreviousBall = _ballPool.BallPool[i];
-                //if(i == 0)
-                //{
-                //    _defaultBall.SetActive(true);
-
-                //}
-                //else
-                //{
-                //    _ballPool.BallPool[i].SetActive(true);
-                //    _defaultBall.SetActive(false);
-                //}
-                //_ballPool.BallPool[i + 1].SetActive(false);
+                SetPreviousBallName(_ballPool.PreviousBall.gameObject.name);
             }
             else
             {
@@ -82,6 +73,26 @@ public class CustomizeManager : MonoBehaviour
                 _ballPool.SpotLight[i].SetActive(false);
                 SpotLights[i].SetActive(false);
             }
+        }
+    }
+
+    private void SetPreviousBallName(string ballName)
+    {
+        if (ballName == "robot_ball")
+        {
+            PlayerPrefs.SetInt("PreviousBall", 0);
+        }
+        if (ballName == "rocket ball")
+        {
+            PlayerPrefs.SetInt("PreviousBall", 1);
+        }
+        if (ballName == "poke bola")
+        {
+            PlayerPrefs.SetInt("PreviousBall", 2);
+        }
+        if (ballName == "FootBall")
+        {
+            PlayerPrefs.SetInt("PreviousBall", 3);
         }
     }
 }

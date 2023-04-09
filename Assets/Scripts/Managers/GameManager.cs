@@ -38,11 +38,7 @@ public class GameManager : MonoBehaviour
         }
 
         _defaultBall = _ballPool.BallPool[0];
-        if (_ballPool.PreviousBall != null)
-        {
-            _ballPool.PreviousBall.SetActive(true);
-        }
-        else
+        if (_ballPool.PreviousBall == null)
         {
             _defaultBall.SetActive(true);
         }

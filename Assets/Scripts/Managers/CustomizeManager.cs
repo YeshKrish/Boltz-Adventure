@@ -27,11 +27,12 @@ public class CustomizeManager : MonoBehaviour
 
         if (_ballPool.PreviousBall != null)
         {
-            _ballPool.PreviousBall.SetActive(true);
+            SpotLightChoose(PlayerPrefs.GetInt("PreviousBall"));
         }
         else
         {
             _defaultBall.SetActive(true);
+            SpotLightChoose(0);
         }
 
         DontDestroyOnLoad(Instance);

@@ -33,7 +33,6 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody _rb;
     private SphereCollider _ballSphereCollider;
-    private Bouncer _bouncer;
 
     private int _doorToBeOpenedDist = 10;
     private int _enemyDeadJumpHeight = 4;
@@ -139,7 +138,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("BouncingHead"))
         {
             Bounce?.Invoke();
-            _rb.AddForce(new Vector3(0f, Math.Abs(transform.position.y), 0f).normalized * _bounceHeight, ForceMode.Impulse);
+            //_rb.AddForce(new Vector3(0f, Math.Abs(transform.position.y), 0f).normalized * _bounceHeight, ForceMode.Impulse);
         }
         if (((1 << other.gameObject.layer) & _collectibleLayer) != 0)
         {

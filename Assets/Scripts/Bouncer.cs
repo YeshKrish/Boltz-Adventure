@@ -9,37 +9,34 @@ public class Bouncer : MonoBehaviour
     private Animator _bounceAnimator;
     [SerializeField]
     private AnimationClip _bounceAnimationClip;
+    [SerializeField]
+    private Transform _nearByBrick;
+    [SerializeField]
+    private GameObject _player;
+
+    private Rigidbody _playerRigidBody;
 
     private bool _isBounced = false;
 
-    public int SpringHeight;
-
-    //private void Start()
-    //{
-    //    SpringHeight = _springHeight;
-    //}
-
-    //public int SpringHeight
-    //{
-    //    get { return _springHeight; }
-    //    set { _springHeight = value; }
-    //}
+    private float _distanceBetweenBouncerAndBrick;
 
     private void OnEnable()
     {
         PlayerController.Bounce += Bounce;
     }
 
-    private void OnDisable()
+    private void Start()
     {
-        PlayerController.Bounce -= Bounce;
+        _playerRigidBody = _player.GetComponent<Rigidbody>();
     }
 
     private void Bounce()
     {
-        Debug.Log("Bounce Value:" + _isBounced);
         if (!_isBounced)
         {
+            _isBounced = true;
+            Debug.Log(_distanceBetweenBouncerAndBrick + " " + transform.up);
+            _playerRigidBody.AddForce(transform.up * (_distanceBetweenBouncerAndBrick+1), ForceMode.Impulse);
             _bounceAnimator.SetBool("canBounce", true);
             StartCoroutine(IdleState());
         }
@@ -49,5 +46,16 @@ public class Bouncer : MonoBehaviour
     {
         yield return new WaitForSeconds(_bounceAnimationClip.length);
         _bounceAnimator.SetBool("canBounce", false);
+        _isBounced = false;
     }
+
+    private void Update()
+    {
+        _distanceBetweenBouncerAndBrick = Mathf.Abs(transform.position.y - _nearByBrick.position.y);
+    }
+    private void OnDisable()
+    {
+        PlayerController.Bounce -= Bounce;
+    }
+
 }

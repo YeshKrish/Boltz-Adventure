@@ -42,6 +42,10 @@ public class GameManager : MonoBehaviour
         {
             _defaultBall.SetActive(true);
         }
+        else
+        {
+            _defaultBall.SetActive(false);
+        }
         SetPlayerBall();
     }
 

@@ -11000,12 +11000,17 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7542476071875454518, guid: eca8a225ca249484cad8bcf98d92e915, type: 3}
   m_PrefabInstance: {fileID: 1766188458}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1766188460}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b8fea905c138696479a7e4342669d322, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1766188460 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7542476071875454508, guid: eca8a225ca249484cad8bcf98d92e915, type: 3}
+  m_PrefabInstance: {fileID: 1766188458}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1774996322
 GameObject:
   m_ObjectHideFlags: 0
@@ -14476,6 +14481,30 @@ PrefabInstance:
     - target: {fileID: 1775028409345047715, guid: 0107142baa2b20d44a5481578bf8cd99, type: 3}
       propertyPath: m_Name
       value: Bouncer
+      objectReference: {fileID: 0}
+    - target: {fileID: 4210564825923737716, guid: 0107142baa2b20d44a5481578bf8cd99, type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 1766188460}
+    - target: {fileID: 4210564825923737716, guid: 0107142baa2b20d44a5481578bf8cd99, type: 3}
+      propertyPath: _nearByBrick
+      value: 
+      objectReference: {fileID: 1213496384}
+    - target: {fileID: 7786581094686722216, guid: 0107142baa2b20d44a5481578bf8cd99, type: 3}
+      propertyPath: m_Radius
+      value: 1.0075188
+      objectReference: {fileID: 0}
+    - target: {fileID: 7786581094686722216, guid: 0107142baa2b20d44a5481578bf8cd99, type: 3}
+      propertyPath: m_Center.x
+      value: 0.010702133
+      objectReference: {fileID: 0}
+    - target: {fileID: 7786581094686722216, guid: 0107142baa2b20d44a5481578bf8cd99, type: 3}
+      propertyPath: m_Center.y
+      value: 1.92
+      objectReference: {fileID: 0}
+    - target: {fileID: 7786581094686722216, guid: 0107142baa2b20d44a5481578bf8cd99, type: 3}
+      propertyPath: m_Center.z
+      value: -0.029999971
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0107142baa2b20d44a5481578bf8cd99, type: 3}

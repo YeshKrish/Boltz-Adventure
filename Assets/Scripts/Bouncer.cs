@@ -18,7 +18,8 @@ public class Bouncer : MonoBehaviour
 
     private bool _isBounced = false;
 
-    private float _distanceBetweenBouncerAndBrick;
+    private Vector3 _distanceBetweenBouncerAndBrick;
+    private float _verticalDistanceBetweenBouncerAndBrick;
 
     private void OnEnable()
     {
@@ -30,13 +31,18 @@ public class Bouncer : MonoBehaviour
         _playerRigidBody = _player.GetComponent<Rigidbody>();
     }
 
+    //Find the Vertical distance betweem the Bouncer and the Nearby Store and find the angle betwwn those and add the Angle with the Vertical Distance
     private void Bounce()
     {
         if (!_isBounced)
         {
             _isBounced = true;
-            Debug.Log(_distanceBetweenBouncerAndBrick + " " + transform.up);
-            _playerRigidBody.AddForce(transform.up * (_distanceBetweenBouncerAndBrick+1), ForceMode.Impulse);
+            _verticalDistanceBetweenBouncerAndBrick = Mathf.Abs(transform.position.y - _nearByBrick.position.y);
+            _distanceBetweenBouncerAndBrick = (_nearByBrick.position - transform.position).normalized;
+            float dot = Vector3.Dot(transform.up, _distanceBetweenBouncerAndBrick);
+            float angle = Mathf.Acos(dot);
+            Debug.Log(dot + " Dot and distance " + _distanceBetweenBouncerAndBrick + " " + angle);
+            _playerRigidBody.AddForce(transform.up * (_verticalDistanceBetweenBouncerAndBrick + angle), ForceMode.Impulse);
             _bounceAnimator.SetBool("canBounce", true);
             StartCoroutine(IdleState());
         }
@@ -49,10 +55,6 @@ public class Bouncer : MonoBehaviour
         _isBounced = false;
     }
 
-    private void Update()
-    {
-        _distanceBetweenBouncerAndBrick = Mathf.Abs(transform.position.y - _nearByBrick.position.y);
-    }
     private void OnDisable()
     {
         PlayerController.Bounce -= Bounce;

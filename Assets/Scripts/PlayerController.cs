@@ -41,10 +41,15 @@ public class PlayerController : MonoBehaviour
     public static event Action LevelCompleted;
     public static event Action Bounce;
 
+    private Vector3 _ballVelocity;
+    private Vector3 _initialVelocity;
+
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
         _ballSphereCollider = GetComponent<SphereCollider>();
+
+        _initialVelocity = _rb.velocity;
     }
 
     private void Update()
@@ -69,6 +74,9 @@ public class PlayerController : MonoBehaviour
         }
 
         OnFalling();
+
+        _ballVelocity = _rb.velocity;
+        Debug.Log(_rb.velocity);
     }
 
     private void FixedUpdate()
@@ -137,6 +145,12 @@ public class PlayerController : MonoBehaviour
         } 
         if (other.gameObject.CompareTag("BouncingHead"))
         {
+            if (_ballVelocity.y < 0f)
+            {
+                _ballVelocity.y = 0f;
+                _rb.velocity = _ballVelocity;
+            }
+            else { _rb.velocity = _ballVelocity; }
             Bounce?.Invoke();
             //_rb.AddForce(new Vector3(0f, Math.Abs(transform.position.y), 0f).normalized * _bounceHeight, ForceMode.Impulse);
         }

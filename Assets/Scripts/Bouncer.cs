@@ -19,6 +19,7 @@ public class Bouncer : MonoBehaviour
     private bool _isBounced = false;
 
     private Vector3 _distanceBetweenBouncerAndBrick;
+    private Vector3 _distanceBetweenBouncerAndBrickNor;
     private float _verticalDistanceBetweenBouncerAndBrick;
 
     private void OnEnable()
@@ -38,10 +39,14 @@ public class Bouncer : MonoBehaviour
         {
             _isBounced = true;
             _verticalDistanceBetweenBouncerAndBrick = Mathf.Abs(transform.position.y - _nearByBrick.position.y);
-            _distanceBetweenBouncerAndBrick = (_nearByBrick.position - transform.position).normalized;
-            float dot = Vector3.Dot(transform.up, _distanceBetweenBouncerAndBrick);
-            float angle = Mathf.Acos(dot);
-            Debug.Log(dot + " Dot and distance " + _distanceBetweenBouncerAndBrick + " " + angle);
+            _distanceBetweenBouncerAndBrick = _nearByBrick.position - transform.position;
+            float opp = _distanceBetweenBouncerAndBrick.y;
+            float adj = _distanceBetweenBouncerAndBrick.x;
+            float angle = Mathf.Atan2(opp, adj);
+            _distanceBetweenBouncerAndBrickNor = (_nearByBrick.position - transform.position).normalized;
+            float dot = Vector3.Dot(transform.up, _distanceBetweenBouncerAndBrickNor);
+            float dotAngle = Mathf.Acos(dot);
+            Debug.Log(dot + " Dot and distance " + _distanceBetweenBouncerAndBrickNor + " " + dotAngle + " " + _distanceBetweenBouncerAndBrick + " " + angle);
             _playerRigidBody.AddForce(transform.up * (_verticalDistanceBetweenBouncerAndBrick + angle), ForceMode.Impulse);
             _bounceAnimator.SetBool("canBounce", true);
             StartCoroutine(IdleState());

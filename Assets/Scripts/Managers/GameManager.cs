@@ -19,7 +19,6 @@ public class GameManager : MonoBehaviour
     public bool isDoorOpened = false;
 
     private int _coinCount;
-    private GameObject _defaultBall;
 
     public bool IsPlayerDead
     {
@@ -37,15 +36,6 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        _defaultBall = _ballPool.BallPool[0];
-        if (_ballPool.PreviousBall == null)
-        {
-            _defaultBall.SetActive(true);
-        }
-        else
-        {
-            _defaultBall.SetActive(false);
-        }
         SetPlayerBall();
     }
 

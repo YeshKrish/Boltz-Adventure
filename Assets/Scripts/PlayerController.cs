@@ -76,7 +76,6 @@ public class PlayerController : MonoBehaviour
         OnFalling();
 
         _ballVelocity = _rb.velocity;
-        Debug.Log(_rb.velocity);
     }
 
     private void FixedUpdate()

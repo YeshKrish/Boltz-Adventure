@@ -1,20 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class CustomizeManager : MonoBehaviour
+public class BallManager : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject _player;
+    public static BallManager Instance;
 
-    private GameObject _defaultBall;
+    //Scriptable Objects
     [SerializeField]
     private ChooseBall _ballPool;
-
-    public static CustomizeManager Instance;
-
-    public List<GameObject> SpotLights = new List<GameObject>();
 
     private void Awake()
     {
@@ -23,28 +17,23 @@ public class CustomizeManager : MonoBehaviour
             Instance = this;
         }
 
-        _defaultBall = _ballPool.BallPool[0];
-
-        if (_ballPool.PreviousBall != null)
-        {
-            SpotLightChoose(PlayerPrefs.GetInt("PreviousBall"));
-        }
-        else
-        {
-            _defaultBall.SetActive(true);
-            SpotLightChoose(0);
-        }
-
-        DontDestroyOnLoad(Instance);
+        SetPreviousBall();
+        DontDestroyOnLoad(this);
     }
+
+    private void SetPreviousBall()
+    {
+        _ballPool.PreviousBall = _ballPool.BallPool[PlayerPrefs.GetInt("PreviousBall")];
+        _ballPool.PreviousBall.SetActive(true);
+    }
+
     public void ActivateParticularBall(int ballId)
     {
         Debug.Log(ballId);
         for (int i = 0; i < _ballPool.BallPool.Length; i++)
         {
-            if(i == ballId)
+            if (i == ballId)
             {
-                SpotLightChoose(i);
                 _ballPool.BallPool[i].SetActive(true);
                 _ballPool.PreviousBall = _ballPool.BallPool[i];
                 SetPreviousBallName(_ballPool.PreviousBall.gameObject.name);
@@ -52,27 +41,6 @@ public class CustomizeManager : MonoBehaviour
             else
             {
                 _ballPool.BallPool[i].SetActive(false);
-            }
-        }
-    }
-    public void MainMenu()
-    {
-        NavigationManager.Instance.MainMenu();
-    }
-
-    private void SpotLightChoose(int ballId)
-    {
-        for (int i = 0; i < _ballPool.SpotLight.Length; i++)
-        {
-            if(i == ballId)
-            {
-                _ballPool.SpotLight[i].SetActive(true);
-                SpotLights[i].SetActive(true);
-            }
-            else
-            {
-                _ballPool.SpotLight[i].SetActive(false);
-                SpotLights[i].SetActive(false);
             }
         }
     }
@@ -95,5 +63,21 @@ public class CustomizeManager : MonoBehaviour
         {
             PlayerPrefs.SetInt("PreviousBall", 3);
         }
+    }
+
+    public int GetActiveball()
+    {
+        if (_ballPool.BallPool.Length > 0)
+        {
+            for (int i = 0; i < _ballPool.BallPool.Length; i++)
+            {
+                if (_ballPool.BallPool[i].activeSelf)
+                {
+                    return i;
+                }
+            }
+        }
+        return 0;
+
     }
 }

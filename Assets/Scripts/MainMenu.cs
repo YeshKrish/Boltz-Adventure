@@ -18,12 +18,17 @@ public class MainMenu : MonoBehaviour
     private GameObject _comingSoon;
     [SerializeField]
     private Button _customizeButton;
+    [SerializeField]
+    private Animator _logoAnimation;
+    [SerializeField]
+    private Animator _boardAnimation;
 
     public Image _musicImage;
 
     private void Start()
     {
         MusicManager.instance.ChangeMainMenuMusic();
+        PlayAnimation();
 
         //Is music playing check
         if (MusicManager.instance.MainMenuAudio.isPlaying)
@@ -71,6 +76,7 @@ public class MainMenu : MonoBehaviour
     public void StartGame()
     {
         MusicManager.instance.ButtonClickSound();
+        MainMenuChangedOnce();
         //MusicManager.instance.GameMusic();
         //MusicManager.instance.MainMenuMusicStop();
         SceneManager.LoadScene("LevelSelect");
@@ -79,6 +85,7 @@ public class MainMenu : MonoBehaviour
     public void CustomizePlayer()
     {
         SceneManager.LoadScene("Customize");
+        MainMenuChangedOnce();
         //_comingSoon.SetActive(true);
         //_customizeButton.interactable = false;
         //DisableCustomize();
@@ -96,4 +103,17 @@ public class MainMenu : MonoBehaviour
         Application.Quit();
     }
 
+    private void MainMenuChangedOnce()
+    {
+        PlayerPrefs.SetInt("IsMainMenuChnagedAtLeastOnce", 1);
+    }
+
+    private void PlayAnimation()
+    {
+        if(PlayerPrefs.GetInt("IsMainMenuChnagedAtLeastOnce") == 0)
+        {
+            _logoAnimation.enabled = true;
+            _boardAnimation.enabled = true;
+        }
+    }
 }

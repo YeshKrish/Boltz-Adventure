@@ -9477,6 +9477,7 @@ MonoBehaviour:
   _collectibleLayer:
     serializedVersion: 2
     m_Bits: 1024
+  joystickSensitivity: 2
 --- !u!1001 &1348959180
 PrefabInstance:
   m_ObjectHideFlags: 0

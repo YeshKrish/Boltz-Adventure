@@ -9100,6 +9100,8 @@ MonoBehaviour:
   _collectibleLayer:
     serializedVersion: 2
     m_Bits: 1024
+  joystickSensitivity: 2
+  maxVelocity: 7
 --- !u!4 &1352181530 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7702552866995684768, guid: cd2aa77482ca45e45975780cc734d590, type: 3}

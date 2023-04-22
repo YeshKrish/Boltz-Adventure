@@ -98,7 +98,7 @@ MonoBehaviour:
   background: {fileID: 3881087803815115471}
   handle: {fileID: 3881087804030458062}
   moveThreshold: 1
-  joystickType: 0
+  joystickType: 1
 --- !u!1 &3881087803815115468
 GameObject:
   m_ObjectHideFlags: 0

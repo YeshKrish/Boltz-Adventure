@@ -14,8 +14,6 @@ public class PlayerController : MonoBehaviour
     private float speed;
     [SerializeField]
     private int _jumpHeight = 6;
-    [SerializeField]
-    private int _bounceHeight;
 
     [SerializeField]
     private VariableJoystick variableJoystick;
@@ -43,6 +41,8 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 _ballVelocity;
     private Vector3 _initialVelocity;
+    public float joystickSensitivity = 2.0f;
+    public float maxVelocity = 7.0f;
 
     private void Start()
     {
@@ -80,8 +80,16 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector3 direction = Vector3.right * variableJoystick.Horizontal;
+        float moveHorizontal = variableJoystick.Horizontal * joystickSensitivity;
+        Vector3 direction = Vector3.right * moveHorizontal;
+
         _rb.AddForce(direction * speed * Time.fixedDeltaTime, ForceMode.VelocityChange);
+        // Limit the velocity of the ball
+        if (Mathf.Abs(_rb.velocity.x) > maxVelocity)
+        {
+            float sign = Mathf.Sign(_rb.velocity.x);
+            _rb.velocity = new Vector2(sign * maxVelocity, _rb.velocity.y);
+        }
     }
 
     public void Jump()
@@ -104,6 +112,10 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if((( 1 << collision.gameObject.layer) & _enemyLayer) != 0)
+        {
+            GameManager.instance.GameOver();
+        }
+        if (collision.gameObject.CompareTag("Spikes"))
         {
             GameManager.instance.GameOver();
         }

@@ -107,10 +107,6 @@ public class PlayerController : MonoBehaviour
         {
             GameManager.instance.GameOver();
         }
-        if (collision.gameObject.CompareTag("Spikes"))
-        {
-            GameManager.instance.GameOver();
-        }
     }
 
     private void OnTriggerEnter(Collider other)

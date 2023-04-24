@@ -104,4 +104,4 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   joystickSensitivity: 2
-  maxVelocity: 7
+  maxVelocity: 7.5

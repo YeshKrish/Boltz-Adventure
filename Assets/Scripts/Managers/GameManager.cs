@@ -57,7 +57,6 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         _coinCount = _coinBag.transform.childCount;
-        Debug.Log(_coinCount);
 
         isDoorOpened = false;
         PlayerPrefs.SetInt("IsLastSceneMainMenu", 0);

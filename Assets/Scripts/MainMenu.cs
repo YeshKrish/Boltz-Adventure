@@ -60,7 +60,6 @@ public class MainMenu : MonoBehaviour
 
     public void MuteAudio()
     {
-        Debug.Log(MusicManager.instance.MainMenuAudio.isPlaying);
         if (!MusicManager.instance.MainMenuAudio.isPlaying)
         {
             _musicImage.sprite = _audioSprites[0];
@@ -77,8 +76,6 @@ public class MainMenu : MonoBehaviour
     {
         MusicManager.instance.ButtonClickSound();
         MainMenuChangedOnce();
-        //MusicManager.instance.GameMusic();
-        //MusicManager.instance.MainMenuMusicStop();
         SceneManager.LoadScene("LevelSelect");
     }
 
@@ -86,16 +83,6 @@ public class MainMenu : MonoBehaviour
     {
         SceneManager.LoadScene("Customize");
         MainMenuChangedOnce();
-        //_comingSoon.SetActive(true);
-        //_customizeButton.interactable = false;
-        //DisableCustomize();
-    }
-
-    private async void DisableCustomize()
-    {
-        await Task.Delay(1000);
-        _comingSoon.SetActive(false);
-        _customizeButton.interactable = true;
     }
 
     public void Quit()

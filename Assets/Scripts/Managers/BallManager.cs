@@ -29,7 +29,6 @@ public class BallManager : MonoBehaviour
 
     public void ActivateParticularBall(int ballId)
     {
-        Debug.Log(ballId);
         for (int i = 0; i < _ballPool.BallPool.Length; i++)
         {
             if (i == ballId)

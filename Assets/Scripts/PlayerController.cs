@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 _ballVelocity;
     private Vector3 _initialVelocity;
     public float joystickSensitivity = 2.0f;
-    public float maxVelocity = 7.0f;
+    public float maxVelocity = 7.5f;
 
     private void Start()
     {

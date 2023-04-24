@@ -99,7 +99,6 @@ public class LevelSelect : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("I am from MainMenu");
                     foreach (KeyValuePair<int, int> keyValuePair in _levelCompleteAndStarsGainedDict)
                     {
                         StarPopper(keyValuePair.Key, keyValuePair.Value);
@@ -150,7 +149,6 @@ public class LevelSelect : MonoBehaviour
             }
             else
             {
-                Debug.Log("I a popping" + startsColected);
                 foreach (KeyValuePair<int, int> keyValuePair in _levelCompleteAndStarsGainedDict)
                 {
                     StarPopper(keyValuePair.Key, keyValuePair.Value);

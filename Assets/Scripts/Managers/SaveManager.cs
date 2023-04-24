@@ -11,7 +11,6 @@ public class SaveManager : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log(Application.persistentDataPath);
         if (Instance == null)
         {
             Instance = this;

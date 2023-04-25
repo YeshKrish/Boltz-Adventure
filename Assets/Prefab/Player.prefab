@@ -103,5 +103,5 @@ MonoBehaviour:
   _collectibleLayer:
     serializedVersion: 2
     m_Bits: 1024
-  joystickSensitivity: 2
+  joystickSensitivity: 3
   maxVelocity: 7.5

@@ -967,8 +967,8 @@ MonoBehaviour:
       points:
       - {x: -438.5614, y: -323.22766, z: -93.682594}
       - {x: -443.67993, y: -326.1602, z: -48.382027}
-      - {x: -491.25293, y: -318.18134, z: 1.6083517}
-      - {x: -501.1986, y: -284.47058, z: -106.99801}
+      - {x: -476.59277, y: -329.17728, z: 1.6083691}
+      - {x: -486.53088, y: -295.47147, z: -106.99797}
       isClosed: 0
       space: 0
       controlMode: 0
@@ -2469,9 +2469,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Coinstext: {fileID: 1520647292}
   _muteAudio: {fileID: 1323142311}
-  _audioSprites:
-  - {fileID: -2047359591, guid: 4ae4e7c0ce60fed4c8a0e08fc7fae898, type: 3}
-  - {fileID: -1697515250, guid: 4ae4e7c0ce60fed4c8a0e08fc7fae898, type: 3}
   _comingSoon: {fileID: 0}
   _customizeButton: {fileID: 0}
   _logoAnimation: {fileID: 253459376}
@@ -3239,6 +3236,8 @@ MonoBehaviour:
   _audioSprites:
   - {fileID: -2047359591, guid: 4ae4e7c0ce60fed4c8a0e08fc7fae898, type: 3}
   - {fileID: -1697515250, guid: 4ae4e7c0ce60fed4c8a0e08fc7fae898, type: 3}
+  - {fileID: 1277551705, guid: 4ae4e7c0ce60fed4c8a0e08fc7fae898, type: 3}
+  - {fileID: -785651450, guid: 4ae4e7c0ce60fed4c8a0e08fc7fae898, type: 3}
 --- !u!4 &2063472981
 Transform:
   m_ObjectHideFlags: 0

@@ -41,11 +41,11 @@ public class GameManager : MonoBehaviour
         //Is music playing check
         if (MusicManager.instance.GameAudios[1].isPlaying)
         {
-            UIManager.Instance.MusicImage.sprite = AllSceneManager.instance._audioSprites[0];
+            UIManager.Instance.MusicImage.sprite = AllSceneManager.instance._audioSprites[2];
         }
         else
         {
-            UIManager.Instance.MusicImage.sprite = AllSceneManager.instance._audioSprites[1];
+            UIManager.Instance.MusicImage.sprite = AllSceneManager.instance._audioSprites[3];
         }
     }
 

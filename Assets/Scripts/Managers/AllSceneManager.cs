@@ -1,10 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class AllSceneManager : MonoBehaviour
 {
     public static AllSceneManager instance;
+    public Sprite[] _audioSprites;
+
+    private string _previousScene; 
 
     private void Awake()
     {

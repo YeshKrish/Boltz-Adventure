@@ -37,6 +37,16 @@ public class GameManager : MonoBehaviour
         }
 
         SetPlayerBall();
+
+        //Is music playing check
+        if (MusicManager.instance.GameAudios[1].isPlaying)
+        {
+            UIManager.Instance.MusicImage.sprite = AllSceneManager.instance._audioSprites[0];
+        }
+        else
+        {
+            UIManager.Instance.MusicImage.sprite = AllSceneManager.instance._audioSprites[1];
+        }
     }
 
     private void OnDisable()

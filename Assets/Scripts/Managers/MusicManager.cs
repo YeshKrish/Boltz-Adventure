@@ -1,13 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 
 public class MusicManager : MonoBehaviour
 {
     public static MusicManager instance;
     
-    public AudioSource MainMenuAudio;
+    public AudioSource[] GameAudios;
 
     [SerializeField]
     private AudioSource _buttonSound;  
@@ -15,8 +14,8 @@ public class MusicManager : MonoBehaviour
     private AudioSource _enemyDyingSound;
     [SerializeField]
     private AudioSource _coinCollectSound;
-    [SerializeField]
-    private AudioSource _gameMusic;
+
+    public bool _isGameAudioMuted = false;
 
     private void Awake()
     {
@@ -39,11 +38,14 @@ public class MusicManager : MonoBehaviour
 
     public void GameMusic()
     {
-        _gameMusic.Play();
+        if (!_isGameAudioMuted)
+        {
+            GameAudios[1].Play();
+        }
     }
     public void MainMenuMusicStop()
     {
-        MainMenuAudio.Stop();
+        GameAudios[0].Stop();
     }
 
     public void EnemyDyingSound()
@@ -57,10 +59,37 @@ public class MusicManager : MonoBehaviour
 
     public void ChangeMainMenuMusic()
     {
-        if (_gameMusic.isPlaying)
+        if (GameAudios[1].isPlaying)
         {
-            _gameMusic.Stop();
-            MainMenuAudio.Play();
+            GameAudios[1].Stop();
+            GameAudios[0].Play();
+        }
+    }
+
+    public void MuteOrUmuteGameAudio()
+    {
+        if (!_isGameAudioMuted)
+        {
+            _isGameAudioMuted = true;
+            for(int i = 0; i < GameAudios.Length; i++)
+            {
+                if (GameAudios[i].isPlaying)
+                {
+                    GameAudios[i].Pause();
+                }
+            }
+        }
+        else if (_isGameAudioMuted)
+        {
+            _isGameAudioMuted = false;
+            if(SceneManager.GetActiveScene().name == "MainMenu")
+            {
+                GameAudios[0].UnPause();
+            }
+            else
+            {
+                GameAudios[1].Play();
+            }
         }
     }
 }

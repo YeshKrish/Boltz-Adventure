@@ -13,8 +13,6 @@ public class MainMenu : MonoBehaviour
     [SerializeField]
     private Button _muteAudio;
     [SerializeField]
-    private Sprite[] _audioSprites;
-    [SerializeField]
     private GameObject _comingSoon;
     [SerializeField]
     private Button _customizeButton;
@@ -22,8 +20,12 @@ public class MainMenu : MonoBehaviour
     private Animator _logoAnimation;
     [SerializeField]
     private Animator _boardAnimation;
+    [SerializeField]
+    private GameObject _musicButton;
 
     public Image _musicImage;
+
+    private bool _isSettingsActivated = false;
 
     private void Start()
     {
@@ -31,13 +33,13 @@ public class MainMenu : MonoBehaviour
         PlayAnimation();
 
         //Is music playing check
-        if (MusicManager.instance.MainMenuAudio.isPlaying)
+        if (MusicManager.instance.GameAudios[0].isPlaying)
         {
-            _musicImage.sprite = _audioSprites[0];
+            _musicImage.sprite = AllSceneManager.instance._audioSprites[0];
         }
         else
         {
-            _musicImage.sprite = _audioSprites[1];
+            _musicImage.sprite = AllSceneManager.instance._audioSprites[1];
         }
 
         PlayerPrefs.SetInt("IsLastSceneMainMenu", 1);
@@ -60,15 +62,15 @@ public class MainMenu : MonoBehaviour
 
     public void MuteAudio()
     {
-        if (!MusicManager.instance.MainMenuAudio.isPlaying)
+        if (MusicManager.instance._isGameAudioMuted)
         {
-            _musicImage.sprite = _audioSprites[0];
-            MusicManager.instance.MainMenuAudio.Play();
+            _musicImage.sprite = AllSceneManager.instance._audioSprites[0];
+            MusicManager.instance.MuteOrUmuteGameAudio();
         }
         else
         {
-            _musicImage.sprite = _audioSprites[1];
-            MusicManager.instance.MainMenuAudio.Stop();
+            _musicImage.sprite = AllSceneManager.instance._audioSprites[1];
+            MusicManager.instance.MuteOrUmuteGameAudio();
         }
     }
 
@@ -83,6 +85,30 @@ public class MainMenu : MonoBehaviour
     {
         SceneManager.LoadScene("Customize");
         MainMenuChangedOnce();
+    }
+
+    public void PopUpSettings()
+    {
+        if (!_isSettingsActivated)
+        {
+            _isSettingsActivated = true;
+            StartCoroutine(PopUP());
+        }
+        else if(_isSettingsActivated){
+            _isSettingsActivated = false;
+            StartCoroutine(PopDown());
+        }
+    }
+
+    IEnumerator PopUP()
+    {
+        yield return new WaitForSeconds(.3f);
+        _musicButton.SetActive(true);
+    }   
+    IEnumerator PopDown()
+    {
+        yield return new WaitForSeconds(.3f);
+        _musicButton.SetActive(false);
     }
 
     public void Quit()

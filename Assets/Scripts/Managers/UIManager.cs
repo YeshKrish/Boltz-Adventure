@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
@@ -14,6 +13,10 @@ public class UIManager : MonoBehaviour
     private TMP_Text _coinText; 
     [SerializeField]
     private GameObject _pauseScreen;
+
+    public Image MusicImage;
+
+    private bool _isGamePaused = false;
 
     private void Awake()
     {
@@ -75,8 +78,18 @@ public class UIManager : MonoBehaviour
     public void PauseScreen()
     {
         MusicManager.instance.ButtonClickSound();
-        Time.timeScale = 0;
-        _pauseScreen.SetActive(true);
+        if (!_isGamePaused)
+        {
+            _isGamePaused = true;
+            Time.timeScale = 0;
+            _pauseScreen.SetActive(true);
+        }
+        else
+        {
+            Time.timeScale = 1;
+            _isGamePaused &= false;
+            _pauseScreen.SetActive(false);
+        }
     }
     public void ResumeGame()
     {
@@ -84,5 +97,17 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 1;
         _pauseScreen.SetActive(false);
     }
-
+    public void MuteAudio()
+    {
+        if (MusicManager.instance._isGameAudioMuted)
+        {
+            UIManager.Instance.MusicImage.sprite = AllSceneManager.instance._audioSprites[0];
+            MusicManager.instance.MuteOrUmuteGameAudio();
+        }
+        else
+        {
+            UIManager.Instance.MusicImage.sprite = AllSceneManager.instance._audioSprites[1];
+            MusicManager.instance.MuteOrUmuteGameAudio();
+        }
+    }
 }

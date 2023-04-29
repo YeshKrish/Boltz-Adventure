@@ -101,12 +101,12 @@ public class UIManager : MonoBehaviour
     {
         if (MusicManager.instance._isGameAudioMuted)
         {
-            UIManager.Instance.MusicImage.sprite = AllSceneManager.instance._audioSprites[0];
+            UIManager.Instance.MusicImage.sprite = AllSceneManager.instance._audioSprites[2];
             MusicManager.instance.MuteOrUmuteGameAudio();
         }
         else
         {
-            UIManager.Instance.MusicImage.sprite = AllSceneManager.instance._audioSprites[1];
+            UIManager.Instance.MusicImage.sprite = AllSceneManager.instance._audioSprites[3];
             MusicManager.instance.MuteOrUmuteGameAudio();
         }
     }

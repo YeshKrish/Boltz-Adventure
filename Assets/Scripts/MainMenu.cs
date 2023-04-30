@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using System.Threading.Tasks;
 
+
 public class MainMenu : MonoBehaviour
 {
     public TMP_Text Coinstext;
@@ -26,11 +27,13 @@ public class MainMenu : MonoBehaviour
     public Image _musicImage;
 
     private bool _isSettingsActivated = false;
+    private float _originalAlpha;
 
     private void Start()
     {
         MusicManager.instance.ChangeMainMenuMusic();
         PlayAnimation();
+        _originalAlpha = _musicButton.GetComponent<Image>().color.a;
 
         //Is music playing check
         if (MusicManager.instance.GameAudios[0].isPlaying)
@@ -92,11 +95,13 @@ public class MainMenu : MonoBehaviour
         if (!_isSettingsActivated)
         {
             _isSettingsActivated = true;
+            LeanTween.alpha(_musicImage.rectTransform, 1f, 0.1f).setEase(LeanTweenType.linear);
             StartCoroutine(PopUP());
         }
         else if(_isSettingsActivated){
             _isSettingsActivated = false;
-            StartCoroutine(PopDown());
+            _musicButton.GetComponent<Button>().interactable = false;
+            LeanTween.alpha(_musicImage.rectTransform, 0f, 0.4f).setEase(LeanTweenType.animationCurve).setOnComplete(PopDown);
         }
     }
 
@@ -105,10 +110,10 @@ public class MainMenu : MonoBehaviour
         yield return new WaitForSeconds(.3f);
         _musicButton.SetActive(true);
     }   
-    IEnumerator PopDown()
+    private void PopDown()
     {
-        yield return new WaitForSeconds(.3f);
         _musicButton.SetActive(false);
+        _musicButton.GetComponent<Button>().interactable = true;
     }
 
     public void Quit()

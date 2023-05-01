@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2935004925770532889}
   - component: {fileID: 1107828488691514579}
   - component: {fileID: 2935004925770532890}
+  - component: {fileID: 5910097023750607811}
   m_Layer: 7
   m_Name: Hazard_Saw
   m_TagString: Untagged
@@ -98,6 +99,18 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 8003897702407966919, guid: 70ac15644ba1a2741a096ba4ade2d89e, type: 3}
+--- !u!114 &5910097023750607811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1467945141454789894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea22e284fb7346244bb47119e5517c32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1960364181487061435
 GameObject:
   m_ObjectHideFlags: 0
@@ -138,7 +151,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8773404552091417951}
-  - component: {fileID: 1848221911102405110}
   - component: {fileID: 8964098633882381672}
   m_Layer: 7
   m_Name: SawBody
@@ -163,26 +175,6 @@ Transform:
   m_Father: {fileID: 3586170111292371230}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &1848221911102405110
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4282882886275808030}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 73104bceca9eaec43ac98099ac3aaf56, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &8964098633882381672
 MonoBehaviour:
   m_ObjectHideFlags: 0

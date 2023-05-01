@@ -1332,6 +1332,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0.003916025
       objectReference: {fileID: 0}
+    - target: {fileID: 7979547596967665542, guid: 8b5cecb41c000ac41a2cb5192c35db1c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 8242033774064012053, guid: 8b5cecb41c000ac41a2cb5192c35db1c, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.003916025
@@ -1621,6 +1625,10 @@ PrefabInstance:
     - target: {fileID: 4313693376750952393, guid: 362eebd3abe1cbf41bdfed8ced0f3280, type: 3}
       propertyPath: m_Name
       value: Hazard_SpikeTrap
+      objectReference: {fileID: 0}
+    - target: {fileID: 8609290207062761957, guid: 362eebd3abe1cbf41bdfed8ced0f3280, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.00171
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 362eebd3abe1cbf41bdfed8ced0f3280, type: 3}
@@ -8012,6 +8020,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hazard_SpikeTrap (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 8609290207062761957, guid: 362eebd3abe1cbf41bdfed8ced0f3280, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.00171
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 362eebd3abe1cbf41bdfed8ced0f3280, type: 3}
 --- !u!1001 &941406925
@@ -8268,6 +8280,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1192739958}
     m_Modifications:
+    - target: {fileID: 2239662273563723708, guid: 800e2f6b2d21c624981617312677da31, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 3586170111292371230, guid: 800e2f6b2d21c624981617312677da31, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -8315,6 +8331,26 @@ PrefabInstance:
     - target: {fileID: 6874676748298314712, guid: 800e2f6b2d21c624981617312677da31, type: 3}
       propertyPath: m_Name
       value: Saw
+      objectReference: {fileID: 0}
+    - target: {fileID: 8773404552091417951, guid: 800e2f6b2d21c624981617312677da31, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 8773404552091417951, guid: 800e2f6b2d21c624981617312677da31, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 8773404552091417951, guid: 800e2f6b2d21c624981617312677da31, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8773404552091417951, guid: 800e2f6b2d21c624981617312677da31, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8773404552091417951, guid: 800e2f6b2d21c624981617312677da31, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 800e2f6b2d21c624981617312677da31, type: 3}
@@ -11866,6 +11902,10 @@ PrefabInstance:
     - target: {fileID: 4313693376750952393, guid: 362eebd3abe1cbf41bdfed8ced0f3280, type: 3}
       propertyPath: m_Name
       value: Hazard_SpikeTrap (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8609290207062761957, guid: 362eebd3abe1cbf41bdfed8ced0f3280, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.00171
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 362eebd3abe1cbf41bdfed8ced0f3280, type: 3}
@@ -19572,9 +19612,41 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1786526712}
     m_Modifications:
+    - target: {fileID: 2297096670556999851, guid: 23e4803cc68e3db42bb8c22abd83b057, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2297096670556999851, guid: 23e4803cc68e3db42bb8c22abd83b057, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2297096670556999851, guid: 23e4803cc68e3db42bb8c22abd83b057, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2297096670556999851, guid: 23e4803cc68e3db42bb8c22abd83b057, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2333539192430495080, guid: 23e4803cc68e3db42bb8c22abd83b057, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.0046932315
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116307879536754059, guid: 23e4803cc68e3db42bb8c22abd83b057, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116307879536754059, guid: 23e4803cc68e3db42bb8c22abd83b057, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.0047287177
+      objectReference: {fileID: 0}
     - target: {fileID: 8167697510592372018, guid: 23e4803cc68e3db42bb8c22abd83b057, type: 3}
       propertyPath: m_Name
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 8609155029919834818, guid: 23e4803cc68e3db42bb8c22abd83b057, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.0046932315
       objectReference: {fileID: 0}
     - target: {fileID: 8796283444230555528, guid: 23e4803cc68e3db42bb8c22abd83b057, type: 3}
       propertyPath: m_RootOrder

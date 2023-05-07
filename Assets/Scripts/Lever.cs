@@ -1,16 +1,16 @@
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class Lever : MonoBehaviour
 {
     [SerializeField]
-    private GameObject[] _wayPointsBricksToActivate; 
+    private GameObject[] _wayPointsBricksToActivate;   
     [SerializeField]
-    private GameObject[] _gameObjectsToActivate;
+    private List<GameObject> _gameObjectsToActivate;
     [SerializeField]
-    private GameObject[] _gameObjectsToDeActivate;
+    private List<GameObject> _gameObjectsToDeActivate;
     [SerializeField]
     private Animator _leverOn;
 
@@ -25,15 +25,9 @@ public class Lever : MonoBehaviour
             foreach (GameObject _gameObj in _wayPointsBricksToActivate)
             {
                 _gameObj.GetComponent<WayPointFollower>().enabled = true;
-            } 
-            foreach (GameObject _gameObj in _gameObjectsToDeActivate)
-            {
-                _gameObj.SetActive(false);
             }
-            foreach (GameObject _gameObj in _gameObjectsToActivate)
-            {
-                _gameObj.SetActive(true);
-            }
+            AllSceneManager.instance.DeactivateObjects(_gameObjectsToDeActivate);
+            AllSceneManager.instance.ActivateObjects(_gameObjectsToActivate);
 
             DoorOpen?.Invoke();
         }

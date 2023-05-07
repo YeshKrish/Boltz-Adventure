@@ -42,6 +42,7 @@ GameObject:
   m_Component:
   - component: {fileID: 605262831092520111}
   - component: {fileID: 1147549479387546825}
+  - component: {fileID: 3394998544221287897}
   m_Layer: 0
   m_Name: Fish3
   m_TagString: Untagged
@@ -86,6 +87,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &3394998544221287897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 228984266127838741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f42b66e9bf6b714d8fa8267fd897a9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &627970733333119034
 GameObject:
   m_ObjectHideFlags: 0
@@ -160,6 +173,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5561598030415132211}
   - component: {fileID: 7234759604369277595}
+  - component: {fileID: 3059163891325352000}
   m_Layer: 0
   m_Name: ClownFish
   m_TagString: Untagged
@@ -243,6 +257,20 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.000018206425, y: 0.008535629, z: -0.0077467635}
     m_Extent: {x: 0.004864956, y: 0.022743354, z: 0.04104612}
   m_DirtyAABB: 0
+--- !u!64 &3059163891325352000
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2081809725124678730}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -9120943437038966720, guid: ee0e509a321bc1e4aa0b0874746dc8d8, type: 3}
 --- !u!1 &2117442579121528365
 GameObject:
   m_ObjectHideFlags: 0

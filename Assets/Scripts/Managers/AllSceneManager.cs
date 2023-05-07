@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 
@@ -18,9 +19,26 @@ public class AllSceneManager : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
+     //Activate Objects
+    public void ActivateObjects(List<GameObject> gameObjToActivate)
+    {
+        for(int i = 0; i < gameObjToActivate.Count; i++)
+        {
+            gameObjToActivate[i].SetActive(true);
+        }
+    }
+
+    //Deactivate Objects
+    public void DeactivateObjects(List<GameObject> gameObjToDeactivate)
+    {
+        for (int i = 0; i < gameObjToDeactivate.Count; i++)
+        {
+            gameObjToDeactivate[i].SetActive(false);
+        }
+    }
+
     private void OnApplicationQuit()
     {
         PlayerPrefs.SetInt("IsMainMenuChnagedAtLeastOnce", 0);
     }
-
 }

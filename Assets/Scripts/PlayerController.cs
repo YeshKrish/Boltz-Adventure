@@ -27,7 +27,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private LayerMask _bouncingLayer;    
     [SerializeField]
-    private LayerMask _collectibleLayer;
+    private LayerMask _collectibleLayer;  
+    [SerializeField]
+    private LayerMask _waterLayer;
 
     private Rigidbody _rb;
     private SphereCollider _ballSphereCollider;
@@ -180,6 +182,10 @@ public class PlayerController : MonoBehaviour
                 other.gameObject.SetActive(false);
             }
         } 
+        if(((1 << other.gameObject.layer) & _waterLayer) != 0)
+        {
+            GameManager.instance.GameOver();
+        }
     }
 
     IEnumerator Win()

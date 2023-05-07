@@ -34,6 +34,8 @@ public class PlayerController : MonoBehaviour
 
     private int _doorToBeOpenedDist = 10;
     private int _enemyDeadJumpHeight = 4;
+    private string _finalLevel;
+    private string _finalLevelName;
 
     public static event Action DoorOpen;
     public static event Action LevelCompleted;
@@ -46,6 +48,13 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        //Get FinalLevel from BuildIndex
+        _finalLevel = SceneUtility.GetScenePathByBuildIndex(5);
+        int slash = _finalLevel.LastIndexOf('/');
+        string name = _finalLevel.Substring(slash + 1);
+        int dot = name.LastIndexOf('.');
+        _finalLevelName = name.Substring(0, dot);
+
         _rb = GetComponent<Rigidbody>();
         _ballSphereCollider = GetComponent<SphereCollider>();
 
@@ -54,12 +63,12 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (Vector3.Distance(transform.position, _tower.transform.position) > _doorToBeOpenedDist && SceneManager.GetActiveScene().name == "Level5" && !GameManager.instance.isDoorOpened)
+        if (Vector3.Distance(transform.position, _tower.transform.position) > _doorToBeOpenedDist && SceneManager.GetActiveScene().name == _finalLevelName && !GameManager.instance.isDoorOpened)
         {
             UIManager.Instance.QuestTextObj.SetActive(false);
         }
 
-        if (Vector3.Distance(transform.position, _tower.transform.position) < _doorToBeOpenedDist && SceneManager.GetActiveScene().name != "Level5")
+        if (Vector3.Distance(transform.position, _tower.transform.position) < _doorToBeOpenedDist && SceneManager.GetActiveScene().name != _finalLevelName)
         {
             DoorOpen?.Invoke();
         }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public static class CharacterAnimatorParamId
@@ -10,6 +8,7 @@ public static class CharacterAnimatorParamId
 public class FallingBricks : MonoBehaviour
 {
     private Animator _animator;
+    private Rigidbody _rb;
 
     private float _currentTime;
     private bool _isPlatformBurst;
@@ -19,8 +18,8 @@ public class FallingBricks : MonoBehaviour
     private void Start()
     {
         _animator = GetComponent<Animator>();
+        _rb = GetComponent<Rigidbody>();
     }
-
 
     private void Update()
     {
@@ -52,6 +51,7 @@ public class FallingBricks : MonoBehaviour
         if(_isPlatformBurst && !_hasfallen)
         {
             _animator.Play(CharacterAnimatorParamId.BrickFalling);
+            _rb.useGravity = false;
         }
     }
 }

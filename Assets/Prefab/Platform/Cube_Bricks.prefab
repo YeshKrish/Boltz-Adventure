@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5831259846526984994}
   - component: {fileID: 8577172176324368360}
   - component: {fileID: 1829180260287750689}
+  - component: {fileID: 587124700039078930}
   m_Layer: 8
   m_Name: Cube_Bricks
   m_TagString: Untagged
@@ -99,3 +100,15 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -7553769626203537648, guid: 103ccab9d80ace245ba00eceb98b56f5, type: 3}
+--- !u!114 &587124700039078930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7784683984444864061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca608ac2203af2c4eb6d6400175dc072, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -37,6 +37,18 @@ public class AllSceneManager : MonoBehaviour
         }
     }
 
+    public GameObject FindTheActivatedObjectInList(List<GameObject> gameObj)
+    {
+        for (int i = 0; i < gameObj.Count; i++)
+        {
+            if (gameObj[i].activeSelf)
+            {
+                return gameObj[i];
+            }
+        }
+        return null;
+    }
+
     private void OnApplicationQuit()
     {
         PlayerPrefs.SetInt("IsMainMenuChnagedAtLeastOnce", 0);

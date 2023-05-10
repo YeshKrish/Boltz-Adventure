@@ -15,17 +15,12 @@ public class LevelSelect : MonoBehaviour
     private GameObject[] _locksToUnlock;
     [SerializeField]
     private GameObject[] _stars;
-    [SerializeField]
-    private List<GameObject> _arenas;
-    [SerializeField]
-    private List<GameObject> _nextAndPreviousButtons;
 
     private static LevelSelect instance;
 
     private static List<int> _previousLevelClearedCount = new List<int>();
     
     private Dictionary<int, int> _levelCompleteAndStarsGainedDict = new Dictionary<int, int>();
-
 
     private void Awake()
     {
@@ -36,15 +31,6 @@ public class LevelSelect : MonoBehaviour
         else
         {
             Destroy(this.gameObject);
-        }
-
-        for (int i = 0; i < _arenas.Count - 1; i++)
-        {
-            if (!_arenas[i].activeSelf && !_arenas[i + 1].activeSelf)
-            {
-                _arenas[i].SetActive(true);
-                //_nextAndPreviousButtons[0].GetComponent<Button>().interactable = false;
-            }
         }
     }
 
@@ -99,7 +85,7 @@ public class LevelSelect : MonoBehaviour
             //If LevelSelect screen loads from a Menu
             else
             {
-                if(levelClearedCount == 10)
+                if(levelClearedCount == 5)
                 {
                     foreach (KeyValuePair<int, int> keyValuePair in _levelCompleteAndStarsGainedDict)
                     {
@@ -149,7 +135,7 @@ public class LevelSelect : MonoBehaviour
                 LoadDictionary();
             }
 
-            if (levelClearedCount == 10)
+            if (levelClearedCount == 5)
             {
                 foreach (KeyValuePair<int, int> keyValuePair in _levelCompleteAndStarsGainedDict)
                 {
@@ -179,11 +165,6 @@ public class LevelSelect : MonoBehaviour
             _levelsToUnlock[levelClearedCount].interactable = true;
             _levelsToUnlock[levelClearedCount].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
         }
-    }
-
-    private void Update()
-    {
-
     }
 
     IEnumerator DisableLockWithAnimation(int lockNo)
@@ -244,23 +225,4 @@ public class LevelSelect : MonoBehaviour
         _levelCompleteAndStarsGainedDict = SaveManager.Instance.LoadJson();
     }
 
-    public void SwitchToNextArena()
-    {
-        GameObject activatedGameObject = AllSceneManager.instance.FindTheActivatedObjectInList(_arenas);
-        string activatedGameObjectName = activatedGameObject.name;
-        int index = activatedGameObjectName.IndexOf('-');
-        int arenaNo = int.Parse(activatedGameObjectName.Substring(0, index));
-        for (int i = 0; i < _arenas.Count -1; i++)
-        {
-            if (!_arenas[arenaNo].activeSelf)
-            {
-                _arenas[arenaNo].SetActive(true);
-                if(_arenas[arenaNo - 1].activeSelf)
-                {
-                    _arenas[arenaNo-1].SetActive(false);
-                    _nextAndPreviousButtons[1].GetComponent<Button>().interactable = false;
-                }
-            }
-        }
-    }
 }

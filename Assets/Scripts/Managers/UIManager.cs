@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System.Collections.Generic;
 
 public class UIManager : MonoBehaviour
 {
@@ -13,10 +14,20 @@ public class UIManager : MonoBehaviour
     private TMP_Text _coinText; 
     [SerializeField]
     private GameObject _pauseScreen;
+    [SerializeField]
+    private GameObject _instructionScreen;
+    [SerializeField]
+    private List<Sprite> _instructionImages;
+    public GameObject JoyStick;    
+    public GameObject JumpButton;
+    public GameObject PauseButton;
+    public GameObject Coin;
 
     public Image MusicImage;
 
     private bool _isGamePaused = false;
+    private int _presentInstruction = 0;
+
 
     private void Awake()
     {
@@ -28,7 +39,6 @@ public class UIManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-
     }
 
     private void Start()
@@ -101,13 +111,46 @@ public class UIManager : MonoBehaviour
     {
         if (MusicManager.instance._isGameAudioMuted)
         {
-            UIManager.Instance.MusicImage.sprite = AllSceneManager.instance._audioSprites[2];
+            MusicImage.sprite = AllSceneManager.instance._audioSprites[2];
             MusicManager.instance.MuteOrUmuteGameAudio();
         }
         else
         {
-            UIManager.Instance.MusicImage.sprite = AllSceneManager.instance._audioSprites[3];
+            MusicImage.sprite = AllSceneManager.instance._audioSprites[3];
             MusicManager.instance.MuteOrUmuteGameAudio();
         }
     }
+
+    public void Close()
+    {
+        if (_instructionScreen.activeSelf)
+        {
+            _instructionScreen.SetActive(false);
+            JoyStick.SetActive(true);
+            JumpButton.SetActive(true);
+            PauseButton.SetActive(true);
+            Coin.SetActive(true);
+            Time.timeScale = 1;
+        }
+    }
+
+    public void NextImage()
+    {
+        _presentInstruction = _presentInstruction + 1;
+        if(_presentInstruction == _instructionImages.Count)
+        {
+            _presentInstruction = 0;
+        }
+        _instructionScreen.GetComponent<Image>().sprite = _instructionImages[_presentInstruction];
+    }    
+    public void PreviousImage()
+    {
+        _presentInstruction = _presentInstruction - 1;
+        if(_presentInstruction < 0)
+        {
+            _presentInstruction = _instructionImages.Count - 1;
+        }
+        _instructionScreen.GetComponent<Image>().sprite = _instructionImages[_presentInstruction];
+    }
+
 }

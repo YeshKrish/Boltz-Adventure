@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -88,6 +89,15 @@ public class GameManager : MonoBehaviour
             }
         }
         PlayerPrefs.SetInt("Current Level", SceneManager.GetActiveScene().buildIndex);
+
+        if(PlayerPrefs.GetInt("Current Level") == 1)
+        {
+            Time.timeScale = 0;
+            UIManager.Instance.JoyStick.SetActive(false);
+            UIManager.Instance.JumpButton.SetActive(false);
+            UIManager.Instance.PauseButton.SetActive(false);
+            UIManager.Instance.Coin.SetActive(false);
+        }
     }
 
     public void GameOver()

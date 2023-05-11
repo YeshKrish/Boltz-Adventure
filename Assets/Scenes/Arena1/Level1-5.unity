@@ -6242,6 +6242,12 @@ MonoBehaviour:
   QuestTextObj: {fileID: 245558057}
   _coinText: {fileID: 1585761265}
   _pauseScreen: {fileID: 1318997378}
+  _instructionScreen: {fileID: 0}
+  _instructionImages: []
+  JoyStick: {fileID: 0}
+  JumpButton: {fileID: 0}
+  PauseButton: {fileID: 0}
+  Coin: {fileID: 0}
   MusicImage: {fileID: 1318997377}
 --- !u!1 &701488207
 GameObject:
@@ -11045,27 +11051,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 334236133506131048, guid: 6ccb4d626798f7f41bc9ff6c4ef235d5, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0.5
+      value: 0.76649994
       objectReference: {fileID: 0}
     - target: {fileID: 334236133506131048, guid: 6ccb4d626798f7f41bc9ff6c4ef235d5, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.5
+      value: 0.9443
       objectReference: {fileID: 0}
     - target: {fileID: 334236133506131048, guid: 6ccb4d626798f7f41bc9ff6c4ef235d5, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0.5
+      value: 0.23560418
       objectReference: {fileID: 0}
     - target: {fileID: 334236133506131048, guid: 6ccb4d626798f7f41bc9ff6c4ef235d5, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.5
+      value: 0.056
       objectReference: {fileID: 0}
     - target: {fileID: 334236133506131048, guid: 6ccb4d626798f7f41bc9ff6c4ef235d5, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1920
+      value: 910
       objectReference: {fileID: 0}
     - target: {fileID: 334236133506131048, guid: 6ccb4d626798f7f41bc9ff6c4ef235d5, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 1080
+      value: 122
       objectReference: {fileID: 0}
     - target: {fileID: 334236133506131048, guid: 6ccb4d626798f7f41bc9ff6c4ef235d5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -11097,7 +11103,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 334236133506131048, guid: 6ccb4d626798f7f41bc9ff6c4ef235d5, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 334236133506131048, guid: 6ccb4d626798f7f41bc9ff6c4ef235d5, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -11121,7 +11127,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 334236133506131063, guid: 6ccb4d626798f7f41bc9ff6c4ef235d5, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 334236133525065529, guid: 6ccb4d626798f7f41bc9ff6c4ef235d5, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target

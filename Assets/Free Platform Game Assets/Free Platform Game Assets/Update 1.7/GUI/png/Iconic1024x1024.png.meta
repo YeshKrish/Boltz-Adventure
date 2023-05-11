@@ -6,7 +6,7 @@ TextureImporter:
   serializedVersion: 12
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -105,7 +105,7 @@ TextureImporter:
     buildTarget: Android
     maxTextureSize: 1024
     resizeAlgorithm: 0
-    textureFormat: 4
+    textureFormat: 50
     textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
@@ -3484,8 +3484,8 @@ TextureImporter:
       Iconic1024x1024_16: -519582944
       Iconic1024x1024_144: 1925688910
       Iconic1024x1024_124: -1439222957
-      Iconic1024x1024_1: 815337198
       Iconic1024x1024_130: -797740347
+      Iconic1024x1024_1: 815337198
       Iconic1024x1024_17: -785651450
       Iconic1024x1024_62: -1344150410
       Iconic1024x1024_65: -217359946

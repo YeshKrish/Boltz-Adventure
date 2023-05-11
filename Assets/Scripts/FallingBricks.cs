@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Threading.Tasks;
 
 public static class CharacterAnimatorParamId
 {
@@ -14,6 +15,7 @@ public class FallingBricks : MonoBehaviour
     private bool _isPlatformBurst;
     private bool _hasfallen = false;
     private Vector3 _intialPos;
+    private float _platStartToShake = 1f;
 
     private void Start()
     {
@@ -24,7 +26,7 @@ public class FallingBricks : MonoBehaviour
     private void Update()
     {
         _currentTime += Time.deltaTime;
-        _isPlatformBurst = Mathf.FloorToInt(Time.time) % 3 == 0;
+        _isPlatformBurst = Mathf.FloorToInt(Time.time) % 1 == 0;
 
         _intialPos = transform.position;
 
@@ -38,20 +40,28 @@ public class FallingBricks : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionStay(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            BrickStartFalling();
+            Debug.Log("Vrick Fall");
+            Debug.Log(_isPlatformBurst + " " + _hasfallen + " " + (_currentTime > _platStartToShake));
+            if (_isPlatformBurst && !_hasfallen && _currentTime > _platStartToShake)
+            {
+                if(_animator != null)
+                {
+                    _animator.SetBool("canFall", true);
+                    BrickStartFalling();
+                }
+            }
         }
     }
 
-    private void BrickStartFalling()
+    async private void BrickStartFalling()
     {
-        if(_isPlatformBurst && !_hasfallen)
-        {
-            _animator.Play(CharacterAnimatorParamId.BrickFalling);
-            _rb.useGravity = false;
-        }
+        await Task.Delay(1000);
+        _rb.isKinematic = false;
+        _rb.useGravity = true;
     }
+
 }

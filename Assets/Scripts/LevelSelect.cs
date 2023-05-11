@@ -85,7 +85,7 @@ public class LevelSelect : MonoBehaviour
             //If LevelSelect screen loads from a Menu
             else
             {
-                if(levelClearedCount == 5)
+                if(levelClearedCount == 6)
                 {
                     foreach (KeyValuePair<int, int> keyValuePair in _levelCompleteAndStarsGainedDict)
                     {
@@ -135,7 +135,7 @@ public class LevelSelect : MonoBehaviour
                 LoadDictionary();
             }
 
-            if (levelClearedCount == 5)
+            if (levelClearedCount == 6)
             {
                 foreach (KeyValuePair<int, int> keyValuePair in _levelCompleteAndStarsGainedDict)
                 {

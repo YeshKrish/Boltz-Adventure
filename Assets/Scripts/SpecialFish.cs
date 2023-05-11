@@ -6,11 +6,12 @@ public class SpecialFish : MonoBehaviour
 {
     [SerializeField]
     private List<GameObject> _objectsToDeactivate;
-
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player"))
         {
+            Debug.Log("Comeon");
+            gameObject.SetActive(false);
             AllSceneManager.instance.DeactivateObjects(_objectsToDeactivate);
         }
     }

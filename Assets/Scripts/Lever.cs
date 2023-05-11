@@ -6,7 +6,7 @@ using UnityEngine.Events;
 public class Lever : MonoBehaviour
 {
     [SerializeField]
-    private GameObject[] _wayPointsBricksToActivate;   
+    private List<GameObject> _wayPointsBricksToActivate;   
     [SerializeField]
     private List<GameObject> _gameObjectsToActivate;
     [SerializeField]
@@ -22,9 +22,10 @@ public class Lever : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             _leverOn.SetBool("canLevelOn", true);
-            foreach (GameObject _gameObj in _wayPointsBricksToActivate)
+            if(PlayerPrefs.GetInt("Current Level") == 5)
             {
-                _gameObj.GetComponent<WayPointFollower>().enabled = true;
+                WayPointFolloweActivator.Instance.ActivateWayPointBasedOnCondition(_wayPointsBricksToActivate);
+
             }
             AllSceneManager.instance.DeactivateObjects(_gameObjectsToDeActivate);
             AllSceneManager.instance.ActivateObjects(_gameObjectsToActivate);

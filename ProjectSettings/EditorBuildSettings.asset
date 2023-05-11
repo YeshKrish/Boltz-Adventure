@@ -24,6 +24,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Arena1/Level1-5.unity
     guid: c9738096b1a4dfd40ab39bf9a0ef46a3
   - enabled: 1
+    path: Assets/Scenes/Arena2/Level2-1.unity
+    guid: e4b0bd076426dfa4486d4c0478669a32
+  - enabled: 1
     path: Assets/Scenes/GameOver.unity
     guid: ac6bb02d784bfaf4da6fd79ec51f97bd
   - enabled: 1

@@ -298,7 +298,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.020517735, y: 0.018751057, z: 0.013798492}
+  m_Size: {x: 0.01, y: 0.018751057, z: 0.013798492}
   m_Center: {x: -0.0043338737, y: 0.00046835004, z: 0.006830823}
 --- !u!114 &4951947937147455452
 MonoBehaviour:
@@ -312,6 +312,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc29941201dedd145b25e2df928b4de6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _wayPointsBricksToActivate: []
   _gameObjectsToActivate:
   - {fileID: 0}
   _gameObjectsToDeActivate:

@@ -17,23 +17,32 @@ public class AllSceneManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(this);
+
+        //GameOver Level index
+        PlayerPrefs.SetInt("GameOverLevel", 6);
     }
 
      //Activate Objects
     public void ActivateObjects(List<GameObject> gameObjToActivate)
     {
-        for(int i = 0; i < gameObjToActivate.Count; i++)
+        if(gameObjToActivate.Count > 0)
         {
-            gameObjToActivate[i].SetActive(true);
+            for(int i = 0; i < gameObjToActivate.Count; i++)
+            {
+                gameObjToActivate[i].SetActive(true);
+            }
         }
     }
 
     //Deactivate Objects
     public void DeactivateObjects(List<GameObject> gameObjToDeactivate)
     {
-        for (int i = 0; i < gameObjToDeactivate.Count; i++)
+        if(gameObjToDeactivate.Count > 0)
         {
-            gameObjToDeactivate[i].SetActive(false);
+            for (int i = 0; i < gameObjToDeactivate.Count; i++)
+            {
+                gameObjToDeactivate[i].SetActive(false);
+            }
         }
     }
 

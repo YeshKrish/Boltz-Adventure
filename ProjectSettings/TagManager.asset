@@ -7,6 +7,8 @@ TagManager:
   - EnemyHead
   - Spikes
   - BouncingHead
+  - FxTemporaire
+  - MovingCube
   layers:
   - Default
   - TransparentFX

@@ -44,8 +44,6 @@ public class FallingBricks : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Vrick Fall");
-            Debug.Log(_isPlatformBurst + " " + _hasfallen + " " + (_currentTime > _platStartToShake));
             if (_isPlatformBurst && !_hasfallen && _currentTime > _platStartToShake)
             {
                 if(_animator != null)
@@ -56,7 +54,6 @@ public class FallingBricks : MonoBehaviour
             }
         }
     }
-
     async private void BrickStartFalling()
     {
         await Task.Delay(1000);

@@ -41,54 +41,51 @@ public class ProjectileMoveScript : MonoBehaviour {
     private RotateToMouseScript rotateToMouse;
     private GameObject target;
     private bool _playerHit = false;
-    private float _projectileAndEndBlockDistance;
 
-	void Start () {
+    void Start () {
         startPos = transform.position;
         rb = GetComponent <Rigidbody> ();
 
-		//used to create a radius for the accuracy and have a very unique randomness
-		if (accuracy != 100) {
-			accuracy = 1 - (accuracy / 100);
+		////used to create a radius for the accuracy and have a very unique randomness
+		//if (accuracy != 100) {
+		//	accuracy = 1 - (accuracy / 100);
 
-			for (int i = 0; i < 2; i++) {
-				var val = 1 * Random.Range (-accuracy, accuracy);
-				var index = Random.Range (0, 2);
-				if (i == 0) {
-					if (index == 0)
-						offset = new Vector3 (0, -val, 0);
-					else
-						offset = new Vector3 (0, val, 0);
-				} else {
-					if (index == 0)
-						offset = new Vector3 (0, offset.y, -val);
-					else
-						offset = new Vector3 (0, offset.y, val);
-				}
-			}
-		}
-			
-		if (muzzlePrefab != null) {
-			var muzzleVFX = Instantiate (muzzlePrefab, transform.position, Quaternion.identity);
-			muzzleVFX.transform.forward = gameObject.transform.forward + offset;
-			var ps = muzzleVFX.GetComponent<ParticleSystem>();
-			if (ps != null)
-				Destroy (muzzleVFX, ps.main.duration);
-			else {
-				var psChild = muzzleVFX.transform.GetChild(0).GetComponent<ParticleSystem>();
-				Destroy (muzzleVFX, psChild.main.duration);
-			}
-		}
+		//	for (int i = 0; i < 2; i++) {
+		//		var val = 1 * Random.Range (-accuracy, accuracy);
+		//		var index = Random.Range (0, 2);
+		//		if (i == 0) {
+		//			if (index == 0)
+		//				offset = new Vector3 (0, -val, 0);
+		//			else
+		//				offset = new Vector3 (0, val, 0);
+		//		} else {
+		//			if (index == 0)
+		//				offset = new Vector3 (0, offset.y, -val);
+		//			else
+		//				offset = new Vector3 (0, offset.y, val);
+		//		}
+		//	}
+		//}
+  //      if (muzzlePrefab != null)
+  //      {
+  //          var muzzleVFX = Instantiate(muzzlePrefab, transform.position, Quaternion.identity);
+  //          muzzleVFX.transform.forward = gameObject.transform.forward + offset;
+  //          var ps = muzzleVFX.GetComponent<ParticleSystem>();
+  //          if (ps != null)
+  //              Destroy(muzzleVFX, ps.main.duration);
+  //          else
+  //          {
+  //              var psChild = muzzleVFX.transform.GetChild(0).GetComponent<ParticleSystem>();
+  //              Destroy(muzzleVFX, psChild.main.duration);
+  //          }
+  //      }
 
-        _projectileAndEndBlockDistance = Vector3.Distance(transform.position, ProjectileEnd.transform.position);
-        Debug.Log(_projectileAndEndBlockDistance + " " + ProjectileEnd.transform.position);
 	}
 
     private void Update()
     {
-        if(!_playerHit && transform.localPosition.x > (_projectileAndEndBlockDistance - 10))
+        if (!_playerHit && transform.position.x < SpecialMonsters.EndBlockPosition.x)
         {
-            Debug.Log("I am inside" + " " + transform.localPosition.x + " " + _projectileAndEndBlockDistance);
             Repos();
         }
     }
@@ -99,68 +96,68 @@ public class ProjectileMoveScript : MonoBehaviour {
         transform.position = startPos;
     }
 
-    void FixedUpdate () {
-        if (target != null)
-            rotateToMouse.RotateToMouse (gameObject, target.transform.position);
-        if (rotate)
-            transform.Rotate(0, 0, rotateAmount, Space.Self);
-        if (speed != 0 && rb != null)
-			rb.position += (transform.forward + offset) * (speed * Time.deltaTime);   
-    }
+   // void FixedUpdate () {
+   //     if (target != null)
+   //         rotateToMouse.RotateToMouse (gameObject, target.transform.position);
+   //     if (rotate)
+   //         transform.Rotate(0, 0, rotateAmount, Space.Self);
+   //     if (speed != 0 && rb != null)
+			//rb.position += (transform.forward + offset) * (speed * Time.deltaTime);   
+   // }
 
 	void OnCollisionEnter (Collision co) {
-        if (!bounce)
-        {
-            if (co.gameObject.tag != "Bullet" && !collided)
-            {
-                collided = true;
+        //if (!bounce)
+        //{
+        //    if (co.gameObject.tag != "Bullet" && !collided)
+        //    {
+        //        collided = true;
 
-                if (trails.Count > 0)
-                {
-                    for (int i = 0; i < trails.Count; i++)
-                    {
-                        trails[i].transform.parent = null;
-                        var ps = trails[i].GetComponent<ParticleSystem>();
-                        if (ps != null)
-                        {
-                            ps.Stop();
-                            Destroy(ps.gameObject, ps.main.duration + ps.main.startLifetime.constantMax);
-                        }
-                    }
-                }
+        //        if (trails.Count > 0)
+        //        {
+        //            for (int i = 0; i < trails.Count; i++)
+        //            {
+        //                trails[i].transform.parent = null;
+        //                var ps = trails[i].GetComponent<ParticleSystem>();
+        //                if (ps != null)
+        //                {
+        //                    ps.Stop();
+        //                    Destroy(ps.gameObject, ps.main.duration + ps.main.startLifetime.constantMax);
+        //                }
+        //            }
+        //        }
 
-                speed = 0;
-                GetComponent<Rigidbody>().isKinematic = true;
+        //        speed = 0;
+        //        GetComponent<Rigidbody>().isKinematic = true;
 
-                ContactPoint contact = co.contacts[0];
-                Quaternion rot = Quaternion.FromToRotation(Vector3.up, contact.normal);
-                Vector3 pos = contact.point;
+        //        ContactPoint contact = co.contacts[0];
+        //        Quaternion rot = Quaternion.FromToRotation(Vector3.up, contact.normal);
+        //        Vector3 pos = contact.point;
 
-                if (hitPrefab != null)
-                {
-                    var hitVFX = Instantiate(hitPrefab, pos, rot) as GameObject;
+        //        if (hitPrefab != null)
+        //        {
+        //            var hitVFX = Instantiate(hitPrefab, pos, rot) as GameObject;
 
-                    var ps = hitVFX.GetComponent<ParticleSystem>();
-                    if (ps == null)
-                    {
-                        var psChild = hitVFX.transform.GetChild(0).GetComponent<ParticleSystem>();
-                        Destroy(hitVFX, psChild.main.duration);
-                    }
-                    else
-                        Destroy(hitVFX, ps.main.duration);
-                }
+        //            var ps = hitVFX.GetComponent<ParticleSystem>();
+        //            if (ps == null)
+        //            {
+        //                var psChild = hitVFX.transform.GetChild(0).GetComponent<ParticleSystem>();
+        //                Destroy(hitVFX, psChild.main.duration);
+        //            }
+        //            else
+        //                Destroy(hitVFX, ps.main.duration);
+        //        }
 
-                StartCoroutine(DestroyParticle(0f));
-            }
-        }
-        else
-        {
-            rb.useGravity = true;
-            rb.drag = 0.5f;
-            ContactPoint contact = co.contacts[0];
-            rb.AddForce (Vector3.Reflect((contact.point - startPos).normalized, contact.normal) * bounceForce, ForceMode.Impulse);
-            Destroy ( this );
-        }
+        //        StartCoroutine(DestroyParticle(0f));
+        //    }
+        //}
+        //else
+        //{
+        //    rb.useGravity = true;
+        //    rb.drag = 0.5f;
+        //    ContactPoint contact = co.contacts[0];
+        //    rb.AddForce (Vector3.Reflect((contact.point - startPos).normalized, contact.normal) * bounceForce, ForceMode.Impulse);
+        //    Destroy ( this );
+        //}
         if (co.gameObject.CompareTag("Player"))
         {
             _playerHit = true;
@@ -168,31 +165,32 @@ public class ProjectileMoveScript : MonoBehaviour {
         }
 	}
 
-    public IEnumerator DestroyParticle (float waitTime) {
+ //   public IEnumerator DestroyParticle (float waitTime) {
 
-		if (transform.childCount > 0 && waitTime != 0) {
-			List<Transform> tList = new List<Transform> ();
+	//	if (transform.childCount > 0 && waitTime != 0) {
+	//		List<Transform> tList = new List<Transform> ();
 
-			foreach (Transform t in transform.GetChild(0).transform) {
-				tList.Add (t);
-			}		
+	//		foreach (Transform t in transform.GetChild(0).transform) {
+	//			tList.Add (t);
+	//		}		
 
-			while (transform.GetChild(0).localScale.x > 0) {
-				yield return new WaitForSeconds (0.01f);
-				transform.GetChild(0).localScale -= new Vector3 (0.1f, 0.1f, 0.1f);
-				for (int i = 0; i < tList.Count; i++) {
-					tList[i].localScale -= new Vector3 (0.1f, 0.1f, 0.1f);
-				}
-			}
-		}
+	//		while (transform.GetChild(0).localScale.x > 0) {
+	//			yield return new WaitForSeconds (0.01f);
+	//			transform.GetChild(0).localScale -= new Vector3 (0.1f, 0.1f, 0.1f);
+	//			for (int i = 0; i < tList.Count; i++) {
+	//				tList[i].localScale -= new Vector3 (0.1f, 0.1f, 0.1f);
+	//			}
+	//		}
+	//	}
 		
-		yield return new WaitForSeconds (waitTime);
-		Destroy (gameObject);
-	}
+	//	yield return new WaitForSeconds (waitTime);
+	//	Destroy (gameObject);
+	//}
 
-    public void SetTarget (GameObject trg, RotateToMouseScript rotateTo)
-    {
-        target = trg;
-        rotateToMouse = rotateTo;
-    }
+ //   public void SetTarget (GameObject trg, RotateToMouseScript rotateTo)
+ //   {
+ //       target = trg;
+ //       rotateToMouse = rotateTo;
+ //   }
+
 }

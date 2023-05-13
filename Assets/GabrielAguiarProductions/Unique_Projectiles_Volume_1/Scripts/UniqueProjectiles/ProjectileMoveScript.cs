@@ -14,7 +14,7 @@
 #pragma warning disable 0219 // variable assigned but not used.
 #pragma warning disable 0414 // private field assigned but not used.
 
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
@@ -41,6 +41,8 @@ public class ProjectileMoveScript : MonoBehaviour {
     private RotateToMouseScript rotateToMouse;
     private GameObject target;
     private bool _playerHit = false;
+    private bool _hasIncremented = false;
+    private int _bulletsSpawned = 0;
 
     void Start () {
         startPos = transform.position;
@@ -84,16 +86,57 @@ public class ProjectileMoveScript : MonoBehaviour {
 
     private void Update()
     {
-        if (!_playerHit && transform.position.x < SpecialMonsters.EndBlockPosition.x)
+        Debug.Log("is dead" + SpecialMonsters._isAlienDead);
+        if (!_playerHit && transform.position.x < SpecialMonsters.EndBlockPosition.x && !_hasIncremented && !SpecialMonsters._isAlienDead)
         {
+            _hasIncremented = true;
             Repos();
         }
+        
+
     }
 
     async private void Repos()
     {
-        await Task.Delay(200);
-        transform.position = startPos;
+        _bulletsSpawned++;
+        if (_bulletsSpawned > 0 && _bulletsSpawned <= 3)
+        {
+            await Task.Delay(600);
+            if (!SpecialMonsters._isAlienDead)
+            {
+                transform.position = startPos;
+                _hasIncremented = false;
+            }
+            else if (SpecialMonsters._isAlienDead)
+            {
+                Destroy(transform.gameObject);
+            }
+        }
+        if (_bulletsSpawned > 3 && _bulletsSpawned <= 5)
+        {
+            await Task.Delay(4000);
+            if (!SpecialMonsters._isAlienDead)
+            {
+                transform.position = startPos;
+                _hasIncremented = false;
+            }
+            else if (SpecialMonsters._isAlienDead)
+            {
+                Destroy(transform.gameObject);
+            }
+        }
+        if(_bulletsSpawned > 5)
+        {
+            if (!SpecialMonsters._isAlienDead)
+            {
+                transform.position = startPos;
+                _hasIncremented = false;
+            }
+            else if (SpecialMonsters._isAlienDead)
+            {
+                Destroy(transform.gameObject);
+            }
+        }
     }
 
    // void FixedUpdate () {

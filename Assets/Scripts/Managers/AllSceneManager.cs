@@ -15,6 +15,10 @@ public class AllSceneManager : MonoBehaviour
         {
             instance = this;
         }
+        else
+        {
+            Destroy(this);
+        }
 
         DontDestroyOnLoad(this);
 

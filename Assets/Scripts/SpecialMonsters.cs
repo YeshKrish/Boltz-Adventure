@@ -17,7 +17,9 @@ public class SpecialMonsters : MonoBehaviour
     [SerializeField]
     private float _bulletSpeed = 5f;
     [SerializeField]
-    private GameObject _projectileEnd;
+    private List<GameObject> _objectsToDestroy;
+    public static bool _isAlienDead;
+    public GameObject ProjectileEnd;
     public static Vector3 EndBlockPosition;
 
 
@@ -26,16 +28,15 @@ public class SpecialMonsters : MonoBehaviour
     private int _maxHitFromPlayer = 3;
     private int _hit = 0;
     private Vector3 offset;
+    private GameObject firedBullets;
 
     private void OnEnable()
     {
         ShootTrigger.StartShooting += FireBullets;
-
     }
     private void Start()
     {
-        EndBlockPosition = _projectileEnd.transform.position;
-        FireBullets();
+        EndBlockPosition = ProjectileEnd.transform.position;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -54,26 +55,30 @@ public class SpecialMonsters : MonoBehaviour
     {
         GameObject _burstEffectWaste = (GameObject) Instantiate(_burstEffect, transform.position, Quaternion.Euler(0f, 90f, 0f));
         Destroy(_burstEffectWaste, 1f);
+        AllSceneManager.instance.DeactivateObjects(_objectsToDestroy);
         DestroyAlien();
     }
     
     async private void DestroyAlien()
     {
         await Task.Delay(200);
+        _isAlienDead = true;
         Destroy(gameObject);
     }
 
     private void FireBullets()
     {
-        GameObject firedBullets = (GameObject)Instantiate(_shootEffect, _bulletPlace.transform.position, Quaternion.Euler(0f, -90f, 0f));
+        firedBullets = (GameObject)Instantiate(_shootEffect, _bulletPlace.transform.position, Quaternion.Euler(0f, -90f, 0f));
         Vector3 startPos = firedBullets.transform.position;
         Rigidbody bulletRigid = firedBullets.GetComponent<Rigidbody>();
         bulletRigid.AddForce(new Vector3(-1f, 0f, 0f) * _bulletSpeed, ForceMode.VelocityChange);
         if (firedBullets.transform.position.x > startPos.x + 5)
         {
-            Destroy(firedBullets, 2f);
+            Destroy(firedBullets, 1f);
         }
     }
+
+
     private void OnDisable()
     {
         ShootTrigger.StartShooting -= FireBullets;

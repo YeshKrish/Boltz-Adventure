@@ -8,18 +8,18 @@ public class ShootTrigger : MonoBehaviour
 
     public static event Action StartShooting;
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            _shootEffect.SetActive(true);
+            //_shootEffect.SetActive(true);
             StartShooting?.Invoke();
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        _shootEffect.SetActive(false);
+        //_shootEffect.SetActive(false);
     }
 
 }

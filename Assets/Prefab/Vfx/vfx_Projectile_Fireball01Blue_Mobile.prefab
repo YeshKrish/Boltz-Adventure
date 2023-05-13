@@ -19658,10 +19658,11 @@ MonoBehaviour:
   speed: 20
   accuracy: 95
   fireRate: 1
-  muzzlePrefab: {fileID: 1232470965182556, guid: 1f406fcf732effc49b73c758ff73d067, type: 3}
-  hitPrefab: {fileID: 1433295770268946, guid: 9d05e7a1295f4724483c5493e333ad73, type: 3}
+  muzzlePrefab: {fileID: 0}
+  hitPrefab: {fileID: 0}
   trails:
   - {fileID: 3781270473491547981}
+  ProjectileEnd: {fileID: 0}
 --- !u!199 &3943036319078843149
 ParticleSystemRenderer:
   serializedVersion: 6

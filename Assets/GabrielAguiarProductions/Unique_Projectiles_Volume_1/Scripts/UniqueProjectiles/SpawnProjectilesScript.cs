@@ -112,7 +112,7 @@ public class SpawnProjectilesScript : MonoBehaviour {
             {
                 if (target != null)
                 {                    
-                    vfx.GetComponent<ProjectileMoveScript>().SetTarget(target, rotateToMouse);
+                    //vfx.GetComponent<ProjectileMoveScript>().SetTarget(target, rotateToMouse);
                     rotateToMouse.RotateToMouse(vfx, target.transform.position);                    
                 }
                 else

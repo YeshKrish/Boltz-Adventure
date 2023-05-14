@@ -18,6 +18,8 @@ public class SpecialMonsters : MonoBehaviour
     private float _bulletSpeed = 5f;
     [SerializeField]
     private List<GameObject> _objectsToDestroy;
+    [SerializeField]
+    private List<GameObject> _movingCube;
     public static bool _isAlienDead;
     public GameObject ProjectileEnd;
     public static Vector3 EndBlockPosition;
@@ -56,6 +58,7 @@ public class SpecialMonsters : MonoBehaviour
         GameObject _burstEffectWaste = (GameObject) Instantiate(_burstEffect, transform.position, Quaternion.Euler(0f, 90f, 0f));
         Destroy(_burstEffectWaste, 1f);
         AllSceneManager.instance.DeactivateObjects(_objectsToDestroy);
+        AllSceneManager.instance.ActivateWayPointBasedOnCondition(_movingCube);
         DestroyAlien();
     }
     

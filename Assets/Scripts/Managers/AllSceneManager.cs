@@ -54,4 +54,13 @@ public class AllSceneManager : MonoBehaviour
     {
         PlayerPrefs.SetInt("IsMainMenuChnagedAtLeastOnce", 0);
     }
+
+    public void ActivateWayPointBasedOnCondition(List<GameObject> wayPoinObjectToActivate)
+    {
+        foreach (GameObject _gameObj in wayPoinObjectToActivate)
+        {
+            Debug.Log(_gameObj.name);
+            _gameObj.GetComponent<WayPointFollower>().enabled = true;
+        }
+    }
 }

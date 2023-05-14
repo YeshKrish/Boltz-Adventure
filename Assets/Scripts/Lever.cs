@@ -24,7 +24,7 @@ public class Lever : MonoBehaviour
             _leverOn.SetBool("canLevelOn", true);
             if(PlayerPrefs.GetInt("Current Level") == 5)
             {
-                WayPointFolloweActivator.Instance.ActivateWayPointBasedOnCondition(_wayPointsBricksToActivate);
+                AllSceneManager.instance.ActivateWayPointBasedOnCondition(_wayPointsBricksToActivate);
 
             }
             AllSceneManager.instance.DeactivateObjects(_gameObjectsToDeActivate);

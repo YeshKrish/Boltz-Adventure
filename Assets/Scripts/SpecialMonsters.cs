@@ -23,6 +23,7 @@ public class SpecialMonsters : MonoBehaviour
     public static bool _isAlienDead;
     public GameObject ProjectileEnd;
     public static Vector3 EndBlockPosition;
+    public static Animator Animator;
 
 
     [Tooltip("From 0% to 100%")]
@@ -32,6 +33,7 @@ public class SpecialMonsters : MonoBehaviour
     private Vector3 offset;
     private GameObject firedBullets;
 
+
     private void OnEnable()
     {
         ShootTrigger.StartShooting += FireBullets;
@@ -39,6 +41,7 @@ public class SpecialMonsters : MonoBehaviour
     private void Start()
     {
         EndBlockPosition = ProjectileEnd.transform.position;
+        Animator = transform.parent.GetComponent<Animator>();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -71,6 +74,7 @@ public class SpecialMonsters : MonoBehaviour
 
     private void FireBullets()
     {
+        Animator.SetBool("isShoot", true);
         firedBullets = (GameObject)Instantiate(_shootEffect, _bulletPlace.transform.position, Quaternion.Euler(0f, -90f, 0f));
         Vector3 startPos = firedBullets.transform.position;
         Rigidbody bulletRigid = firedBullets.GetComponent<Rigidbody>();

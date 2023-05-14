@@ -43,49 +43,56 @@ public class ProjectileMoveScript : MonoBehaviour {
     private bool _playerHit = false;
     private bool _hasIncremented = false;
     private int _bulletsSpawned = 0;
-
     void Start () {
         startPos = transform.position;
         rb = GetComponent <Rigidbody> ();
+        _bulletsSpawned = 0;
+        ////used to create a radius for the accuracy and have a very unique randomness
+        //if (accuracy != 100) {
+        //	accuracy = 1 - (accuracy / 100);
 
-		////used to create a radius for the accuracy and have a very unique randomness
-		//if (accuracy != 100) {
-		//	accuracy = 1 - (accuracy / 100);
+        //	for (int i = 0; i < 2; i++) {
+        //		var val = 1 * Random.Range (-accuracy, accuracy);
+        //		var index = Random.Range (0, 2);
+        //		if (i == 0) {
+        //			if (index == 0)
+        //				offset = new Vector3 (0, -val, 0);
+        //			else
+        //				offset = new Vector3 (0, val, 0);
+        //		} else {
+        //			if (index == 0)
+        //				offset = new Vector3 (0, offset.y, -val);
+        //			else
+        //				offset = new Vector3 (0, offset.y, val);
+        //		}
+        //	}
+        //}
+        //      if (muzzlePrefab != null)
+        //      {
+        //          var muzzleVFX = Instantiate(muzzlePrefab, transform.position, Quaternion.identity);
+        //          muzzleVFX.transform.forward = gameObject.transform.forward + offset;
+        //          var ps = muzzleVFX.GetComponent<ParticleSystem>();
+        //          if (ps != null)
+        //              Destroy(muzzleVFX, ps.main.duration);
+        //          else
+        //          {
+        //              var psChild = muzzleVFX.transform.GetChild(0).GetComponent<ParticleSystem>();
+        //              Destroy(muzzleVFX, psChild.main.duration);
+        //          }
+        //      }
 
-		//	for (int i = 0; i < 2; i++) {
-		//		var val = 1 * Random.Range (-accuracy, accuracy);
-		//		var index = Random.Range (0, 2);
-		//		if (i == 0) {
-		//			if (index == 0)
-		//				offset = new Vector3 (0, -val, 0);
-		//			else
-		//				offset = new Vector3 (0, val, 0);
-		//		} else {
-		//			if (index == 0)
-		//				offset = new Vector3 (0, offset.y, -val);
-		//			else
-		//				offset = new Vector3 (0, offset.y, val);
-		//		}
-		//	}
-		//}
-  //      if (muzzlePrefab != null)
-  //      {
-  //          var muzzleVFX = Instantiate(muzzlePrefab, transform.position, Quaternion.identity);
-  //          muzzleVFX.transform.forward = gameObject.transform.forward + offset;
-  //          var ps = muzzleVFX.GetComponent<ParticleSystem>();
-  //          if (ps != null)
-  //              Destroy(muzzleVFX, ps.main.duration);
-  //          else
-  //          {
-  //              var psChild = muzzleVFX.transform.GetChild(0).GetComponent<ParticleSystem>();
-  //              Destroy(muzzleVFX, psChild.main.duration);
-  //          }
-  //      }
-
-	}
+    }
 
     private void Update()
     {
+        if (_hasIncremented)
+        {
+            SpecialMonsters.Animator.SetBool("isShoot", false);
+        }
+        else
+        {
+            SpecialMonsters.Animator.SetBool("isShoot", true);
+        }
         Debug.Log("is dead" + SpecialMonsters._isAlienDead);
         if (!_playerHit && transform.position.x < SpecialMonsters.EndBlockPosition.x && !_hasIncremented && !SpecialMonsters._isAlienDead)
         {
@@ -129,6 +136,7 @@ public class ProjectileMoveScript : MonoBehaviour {
         {
             if (!SpecialMonsters._isAlienDead)
             {
+                _bulletsSpawned = 0;
                 transform.position = startPos;
                 _hasIncremented = false;
             }

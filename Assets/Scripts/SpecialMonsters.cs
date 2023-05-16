@@ -26,25 +26,19 @@ public class SpecialMonsters : MonoBehaviour
     public Animator Animator;
 
 
-    [Tooltip("From 0% to 100%")]
-    public float accuracy;
     private int _maxHitFromPlayer = 3;
     private int _hit = 0;
-    private Vector3 offset;
     private GameObject firedBullets;
-    private Vector3 _startPos;
-    private bool _isBulletDestroyed = false;
+    public static Vector3 _startPos;
     private int _maxBulltsToBeSpawned = 5;
     public List<GameObject> _bulletsList;
-
-    private float _bulletSpawnedTime;
-    private float _bulletDestroyedTime;
+    private bool _canShootAnimationPlay = false;
     private Vector3 _bulletInitalVelocity;
     private Rigidbody _bulletRigidBody;
 
     private int _noOfBulletsSpawned = 0;
-    private bool attackType1 = false;
-    private bool attackType2 = false;
+    private float _attack1Delay = 1800f; // Delay time for the first attack type
+    private float _attack2Delay = 800f; // Delay time for the second attack type
 
     private void OnEnable()
     {
@@ -68,14 +62,17 @@ public class SpecialMonsters : MonoBehaviour
 
     private void Update()
     {
-        if (!_isBulletDestroyed)
+        Debug.Log(_canShootAnimationPlay);
+
+        if (_canShootAnimationPlay)
         {
-            if (firedBullets.transform.position.x < _startPos.x - 15)
-            {
-                firedBullets.SetActive(false);
-                _isBulletDestroyed = true;
-            }
+            Animator.SetBool("isShoot", true);
         }
+        else
+        {
+            Animator.SetBool("isShoot", false);
+        }
+
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -92,20 +89,46 @@ public class SpecialMonsters : MonoBehaviour
 
     async void SpawnBulletsOnAInterval()
     {
-        FireBullets();
         while (true)
         {
-            if(_noOfBulletsSpawned > 0 && _noOfBulletsSpawned <= 3)
+            Debug.Log(_noOfBulletsSpawned);
+            bool bulletsActive = CheckIfBulletsActive();
+            _canShootAnimationPlay = bulletsActive; // Update the _canShootAnimationPlay flag
+
+            float delayTime;
+
+            if (_noOfBulletsSpawned >= 0 && _noOfBulletsSpawned <= 3)
             {
-                await Task.Delay(1800);
-                FireBullets();
+                delayTime = _attack1Delay; // First attack type
             }
-            if(_noOfBulletsSpawned > 3 && _noOfBulletsSpawned <= 6)
+            else if (_noOfBulletsSpawned > 3 && _noOfBulletsSpawned <= 6)
             {
-                await Task.Delay(1200);
-                FireBullets();
+                delayTime = _attack2Delay; // Second attack type
+            }
+            else
+            {
+                _noOfBulletsSpawned = 0;
+                await Task.Delay(3000); // 5-second delay before starting attack 1 again
+                continue;// Reset bullet count to 0
+            }
+
+            await Task.Delay((int)delayTime);
+            _canShootAnimationPlay = true;
+            FireBullets();
+        }
+    }
+
+    private bool CheckIfBulletsActive()
+    {
+        foreach (GameObject bullet in _bulletsList)
+        {
+            if (bullet.activeSelf)
+            {
+                return true;
             }
         }
+
+        return false;
     }
 
     private void Dead()
@@ -127,13 +150,8 @@ public class SpecialMonsters : MonoBehaviour
     private void FireBullets()
     {
         _noOfBulletsSpawned++;
-        if(_noOfBulletsSpawned == 7)
-        {
-            _noOfBulletsSpawned = 0;
-        }
-        _isBulletDestroyed= false;
         firedBullets =  RetriveBullets();
-        Animator.SetBool("isShoot", true);
+        //Animator.SetBool("isShoot", true);
         firedBullets.transform.position = _bulletPlace.transform.position;
         firedBullets.transform.rotation = Quaternion.Euler(0f, -90f, 0f);
         //firedBullets = (GameObject)Instantiate(_bullets, _bulletPlace.transform.position, Quaternion.Euler(0f, -90f, 0f));

@@ -7,7 +7,7 @@ public class SpecialMonsters : MonoBehaviour
     [SerializeField]
     private GameObject _burstEffect;
     [SerializeField]
-    private GameObject _shootEffect; 
+    private GameObject _bullets; 
     [SerializeField]
     private GameObject _player;    
     [SerializeField]
@@ -23,7 +23,7 @@ public class SpecialMonsters : MonoBehaviour
     public static bool _isAlienDead;
     public GameObject ProjectileEnd;
     public static Vector3 EndBlockPosition;
-    public static Animator Animator;
+    public Animator Animator;
 
 
     [Tooltip("From 0% to 100%")]
@@ -32,7 +32,19 @@ public class SpecialMonsters : MonoBehaviour
     private int _hit = 0;
     private Vector3 offset;
     private GameObject firedBullets;
+    private Vector3 _startPos;
+    private bool _isBulletDestroyed = false;
+    private int _maxBulltsToBeSpawned = 5;
+    public List<GameObject> _bulletsList;
 
+    private float _bulletSpawnedTime;
+    private float _bulletDestroyedTime;
+    private Vector3 _bulletInitalVelocity;
+    private Rigidbody _bulletRigidBody;
+
+    private int _noOfBulletsSpawned = 0;
+    private bool attackType1 = false;
+    private bool attackType2 = false;
 
     private void OnEnable()
     {
@@ -40,8 +52,30 @@ public class SpecialMonsters : MonoBehaviour
     }
     private void Start()
     {
+        _bulletRigidBody = _bullets.GetComponent<Rigidbody>();
+        _bulletInitalVelocity = _bulletRigidBody.velocity;
+        _bulletsList = new List<GameObject>();
+        for (int i = 0; i < _maxBulltsToBeSpawned; i++)
+        {
+            GameObject bullet = Instantiate(_bullets);
+            bullet.SetActive(false);
+            _bulletsList.Add(bullet);
+        }
+
+        SpawnBulletsOnAInterval();
         EndBlockPosition = ProjectileEnd.transform.position;
-        Animator = transform.parent.GetComponent<Animator>();
+    }
+
+    private void Update()
+    {
+        if (!_isBulletDestroyed)
+        {
+            if (firedBullets.transform.position.x < _startPos.x - 15)
+            {
+                firedBullets.SetActive(false);
+                _isBulletDestroyed = true;
+            }
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -52,6 +86,24 @@ public class SpecialMonsters : MonoBehaviour
             if(_hit == _maxHitFromPlayer)
             {
                 Dead();
+            }
+        }
+    }
+
+    async void SpawnBulletsOnAInterval()
+    {
+        FireBullets();
+        while (true)
+        {
+            if(_noOfBulletsSpawned > 0 && _noOfBulletsSpawned <= 3)
+            {
+                await Task.Delay(1800);
+                FireBullets();
+            }
+            if(_noOfBulletsSpawned > 3 && _noOfBulletsSpawned <= 6)
+            {
+                await Task.Delay(1200);
+                FireBullets();
             }
         }
     }
@@ -74,17 +126,37 @@ public class SpecialMonsters : MonoBehaviour
 
     private void FireBullets()
     {
-        Animator.SetBool("isShoot", true);
-        firedBullets = (GameObject)Instantiate(_shootEffect, _bulletPlace.transform.position, Quaternion.Euler(0f, -90f, 0f));
-        Vector3 startPos = firedBullets.transform.position;
-        Rigidbody bulletRigid = firedBullets.GetComponent<Rigidbody>();
-        bulletRigid.AddForce(new Vector3(-1f, 0f, 0f) * _bulletSpeed, ForceMode.VelocityChange);
-        if (firedBullets.transform.position.x > startPos.x + 5)
+        _noOfBulletsSpawned++;
+        if(_noOfBulletsSpawned == 7)
         {
-            Destroy(firedBullets, 1f);
+            _noOfBulletsSpawned = 0;
         }
+        _isBulletDestroyed= false;
+        firedBullets =  RetriveBullets();
+        Animator.SetBool("isShoot", true);
+        firedBullets.transform.position = _bulletPlace.transform.position;
+        firedBullets.transform.rotation = Quaternion.Euler(0f, -90f, 0f);
+        //firedBullets = (GameObject)Instantiate(_bullets, _bulletPlace.transform.position, Quaternion.Euler(0f, -90f, 0f));
+        _startPos = _bulletPlace.transform.position;
+        Rigidbody bulletRigid = firedBullets.GetComponent<Rigidbody>();
+        bulletRigid.velocity = _bulletInitalVelocity;
+        bulletRigid.AddForce(new Vector3(-1f, 0f, 0f) * _bulletSpeed, ForceMode.VelocityChange);
+        Debug.Log(firedBullets.transform.position.x + " " + (_startPos.x - 5));
+
     }
 
+    private GameObject RetriveBullets()
+    {
+        foreach (GameObject bullet in _bulletsList)
+        {
+            if (bullet.activeSelf == false)
+            {
+                bullet.SetActive(true);
+                return bullet;
+            }
+        }
+        return null;
+    }
 
     private void OnDisable()
     {

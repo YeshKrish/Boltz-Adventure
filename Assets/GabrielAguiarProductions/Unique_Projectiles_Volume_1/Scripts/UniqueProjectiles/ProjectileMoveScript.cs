@@ -94,6 +94,10 @@ public class ProjectileMoveScript : MonoBehaviour {
 
     private void Update()
     {
+        if (transform.position.x < SpecialMonsters._startPos.x - 15)
+        {
+            gameObject.SetActive(false);
+        }
         //if (_hasIncremented)
         //{
         //    SpecialMonsters.Animator.SetBool("isShoot", false);
@@ -103,7 +107,7 @@ public class ProjectileMoveScript : MonoBehaviour {
         //    SpecialMonsters.Animator.SetBool("isShoot", true);
         //}
         //Debug.Log("is dead" + SpecialMonsters._isAlienDead);
-        
+
 
     }
 

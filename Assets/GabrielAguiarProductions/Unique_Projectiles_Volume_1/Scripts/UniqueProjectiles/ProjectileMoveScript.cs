@@ -43,6 +43,15 @@ public class ProjectileMoveScript : MonoBehaviour {
     private bool _playerHit = false;
     private bool _hasIncremented = false;
     private int _bulletsSpawned = 0;
+
+    public static float startTime;
+    public static float activeTime;
+
+    private void OnEnable()
+    {
+        startTime = Time.time;
+    }
+
     void Start () {
         startPos = transform.position;
         rb = GetComponent <Rigidbody> ();
@@ -85,66 +94,17 @@ public class ProjectileMoveScript : MonoBehaviour {
 
     private void Update()
     {
-        if (_hasIncremented)
-        {
-            SpecialMonsters.Animator.SetBool("isShoot", false);
-        }
-        else
-        {
-            SpecialMonsters.Animator.SetBool("isShoot", true);
-        }
-        Debug.Log("is dead" + SpecialMonsters._isAlienDead);
-        if (!_playerHit && transform.position.x < SpecialMonsters.EndBlockPosition.x && !_hasIncremented && !SpecialMonsters._isAlienDead)
-        {
-            _hasIncremented = true;
-            Repos();
-        }
+        //if (_hasIncremented)
+        //{
+        //    SpecialMonsters.Animator.SetBool("isShoot", false);
+        //}
+        //else
+        //{
+        //    SpecialMonsters.Animator.SetBool("isShoot", true);
+        //}
+        //Debug.Log("is dead" + SpecialMonsters._isAlienDead);
         
 
-    }
-
-    async private void Repos()
-    {
-        _bulletsSpawned++;
-        if (_bulletsSpawned > 0 && _bulletsSpawned <= 3)
-        {
-            await Task.Delay(600);
-            if (!SpecialMonsters._isAlienDead)
-            {
-                transform.position = startPos;
-                _hasIncremented = false;
-            }
-            else if (SpecialMonsters._isAlienDead)
-            {
-                Destroy(transform.gameObject);
-            }
-        }
-        if (_bulletsSpawned > 3 && _bulletsSpawned <= 5)
-        {
-            await Task.Delay(4000);
-            if (!SpecialMonsters._isAlienDead)
-            {
-                transform.position = startPos;
-                _hasIncremented = false;
-            }
-            else if (SpecialMonsters._isAlienDead)
-            {
-                Destroy(transform.gameObject);
-            }
-        }
-        if(_bulletsSpawned > 5)
-        {
-            if (!SpecialMonsters._isAlienDead)
-            {
-                _bulletsSpawned = 0;
-                transform.position = startPos;
-                _hasIncremented = false;
-            }
-            else if (SpecialMonsters._isAlienDead)
-            {
-                Destroy(transform.gameObject);
-            }
-        }
     }
 
    // void FixedUpdate () {
@@ -216,32 +176,36 @@ public class ProjectileMoveScript : MonoBehaviour {
         }
 	}
 
- //   public IEnumerator DestroyParticle (float waitTime) {
+    //   public IEnumerator DestroyParticle (float waitTime) {
 
-	//	if (transform.childCount > 0 && waitTime != 0) {
-	//		List<Transform> tList = new List<Transform> ();
+    //	if (transform.childCount > 0 && waitTime != 0) {
+    //		List<Transform> tList = new List<Transform> ();
 
-	//		foreach (Transform t in transform.GetChild(0).transform) {
-	//			tList.Add (t);
-	//		}		
+    //		foreach (Transform t in transform.GetChild(0).transform) {
+    //			tList.Add (t);
+    //		}		
 
-	//		while (transform.GetChild(0).localScale.x > 0) {
-	//			yield return new WaitForSeconds (0.01f);
-	//			transform.GetChild(0).localScale -= new Vector3 (0.1f, 0.1f, 0.1f);
-	//			for (int i = 0; i < tList.Count; i++) {
-	//				tList[i].localScale -= new Vector3 (0.1f, 0.1f, 0.1f);
-	//			}
-	//		}
-	//	}
-		
-	//	yield return new WaitForSeconds (waitTime);
-	//	Destroy (gameObject);
-	//}
+    //		while (transform.GetChild(0).localScale.x > 0) {
+    //			yield return new WaitForSeconds (0.01f);
+    //			transform.GetChild(0).localScale -= new Vector3 (0.1f, 0.1f, 0.1f);
+    //			for (int i = 0; i < tList.Count; i++) {
+    //				tList[i].localScale -= new Vector3 (0.1f, 0.1f, 0.1f);
+    //			}
+    //		}
+    //	}
 
- //   public void SetTarget (GameObject trg, RotateToMouseScript rotateTo)
- //   {
- //       target = trg;
- //       rotateToMouse = rotateTo;
- //   }
+    //	yield return new WaitForSeconds (waitTime);
+    //	Destroy (gameObject);
+    //}
 
+    //   public void SetTarget (GameObject trg, RotateToMouseScript rotateTo)
+    //   {
+    //       target = trg;
+    //       rotateToMouse = rotateTo;
+    //   }
+
+    private void OnDisable()
+    {
+        activeTime += Time.time - startTime;
+    }
 }

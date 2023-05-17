@@ -7510,6 +7510,11 @@ MonoBehaviour:
   _doorOpenAnimator: {fileID: 967497941}
   _coinBag: {fileID: 1515941979}
   _ballPool: {fileID: 11400000, guid: 27da63295c75b984d9b0367db30cce3f, type: 2}
+  _playerController: {fileID: 0}
+  _specialMonsters: {fileID: 0}
+  _shootTrigger: {fileID: 0}
+  _lever: {fileID: 0}
+  _specialFish: {fileID: 0}
   isDoorOpened: 0
 --- !u!4 &869181316
 Transform:
@@ -11127,7 +11132,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 334236133506131063, guid: 6ccb4d626798f7f41bc9ff6c4ef235d5, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 334236133525065529, guid: 6ccb4d626798f7f41bc9ff6c4ef235d5, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target

@@ -25,7 +25,6 @@ public class SpecialMonsters : MonoBehaviour
     public static Vector3 EndBlockPosition;
     public Animator Animator;
 
-
     private int _maxHitFromPlayer = 3;
     private int _hit = 0;
     private GameObject firedBullets;
@@ -129,7 +128,7 @@ public class SpecialMonsters : MonoBehaviour
     async void ShootBullet()
     {
         await Task.Delay(100);
-        if (!GameManager.instance.IsPlayerDead)
+        if (!GameManager.instance.IsPlayerDead && !_isAlienDead)
         {
             FireBullets();
         }
@@ -213,6 +212,7 @@ public class SpecialMonsters : MonoBehaviour
     private void OnDisable()
     {
         ProjectileMoveScript.DeactivateAllActiveBullets -= DeactivateBullets;
+        _isAlienDead = false;
         //ShootTrigger.StartShooting -= SpawnBulletsOnAInterval;
     }
 }

@@ -1,11 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using TMPro;
-using System.Runtime.InteropServices;
-using System.IO;
+using UnityEngine.UI;
 
 public class LevelSelect : MonoBehaviour
 {
@@ -15,12 +12,16 @@ public class LevelSelect : MonoBehaviour
     private GameObject[] _locksToUnlock;
     [SerializeField]
     private GameObject[] _stars;
+    [SerializeField]
+    private List<GameObject> _arena;
 
     private static LevelSelect instance;
 
     private static List<int> _previousLevelClearedCount = new List<int>();
     
     private Dictionary<int, int> _levelCompleteAndStarsGainedDict = new Dictionary<int, int>();
+
+    private int _presentArena = 0;
 
     private void Awake()
     {
@@ -225,4 +226,26 @@ public class LevelSelect : MonoBehaviour
         _levelCompleteAndStarsGainedDict = SaveManager.Instance.LoadJson();
     }
 
+    public void NextArena()
+    {
+        _presentArena = _presentArena + 1;
+        int previousArena = _presentArena - 1;
+        if (_presentArena == _arena.Count)
+        {
+            _presentArena = 0;
+        }
+        _arena[_presentArena].SetActive(true);
+        _arena[previousArena].SetActive(false);
+    }
+    public void PreviousArena()
+    {
+        _presentArena = _presentArena - 1;
+        int previousArena = _presentArena + 1;
+        if (_presentArena < 0)
+        {
+            _presentArena = _arena.Count - 1;
+        }
+        _arena[_presentArena].SetActive(true);
+        _arena[previousArena].SetActive(false);
+    }
 }

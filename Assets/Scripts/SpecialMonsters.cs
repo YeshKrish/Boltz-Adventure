@@ -36,13 +36,14 @@ public class SpecialMonsters : MonoBehaviour
     private Rigidbody _bulletRigidBody;
 
     private int _noOfBulletsSpawned = 0;
-    private float _attack1Delay = 1800f; // Delay time for the first attack type
-    private float _attack2Delay = 800f; // Delay time for the second attack type
+    private float _attack1Delay = 2800f; // Delay time for the first attack type
+    private float _attack2Delay = 1200f; // Delay time for the second attack type
+    private float _delayBetweenAttack1AndAttack2 = 3000f; // Delay time for the second attack type
 
     private void OnEnable()
     {
         ProjectileMoveScript.DeactivateAllActiveBullets += DeactivateBullets;
-        //ShootTrigger.StartShooting += SpawnBulletsOnAInterval;
+        ShootTrigger.StartShooting += SpawnBulletsOnAInterval;
     }
     private void Start()
     {
@@ -56,7 +57,7 @@ public class SpecialMonsters : MonoBehaviour
             _bulletsList.Add(bullet);
         }
 
-        SpawnBulletsOnAInterval();
+        //SpawnBulletsOnAInterval();
         EndBlockPosition = ProjectileEnd.transform.position;
     }
 
@@ -97,6 +98,9 @@ public class SpecialMonsters : MonoBehaviour
 
     async void SpawnBulletsOnAInterval()
     {
+        int called = 0;
+        called++;
+        Debug.Log(called + "called");
         while (true && !GameManager.instance.IsPlayerDead)
         {
             Debug.Log(_noOfBulletsSpawned);
@@ -105,9 +109,13 @@ public class SpecialMonsters : MonoBehaviour
 
             float delayTime;
 
-            if (_noOfBulletsSpawned >= 0 && _noOfBulletsSpawned <= 3)
+            if (_noOfBulletsSpawned >= 0 && _noOfBulletsSpawned < 3)
             {
                 delayTime = _attack1Delay; // First attack type
+            }
+            else if(_noOfBulletsSpawned == 3)
+            {
+                delayTime = _delayBetweenAttack1AndAttack2;
             }
             else if (_noOfBulletsSpawned > 3 && _noOfBulletsSpawned <= 6)
             {
@@ -153,12 +161,14 @@ public class SpecialMonsters : MonoBehaviour
         Destroy(_burstEffectWaste, 1f);
         AllSceneManager.instance.DeactivateObjects(_objectsToDestroy);
         AllSceneManager.instance.ActivateWayPointBasedOnCondition(_movingCube);
+        this.gameObject.SetActive(false);
         DestroyAlien();
     }
     
     async private void DestroyAlien()
     {
         await Task.Delay(200);
+        
         _isAlienDead = true;
         Destroy(gameObject);
     }
@@ -189,7 +199,7 @@ public class SpecialMonsters : MonoBehaviour
     {
         foreach (GameObject bullet in _bulletsList)
         {
-            if (bullet.activeSelf == false)
+            if (bullet.activeSelf == false && !_isAlienDead)
             {
                 bullet.SetActive(true);
                 return bullet;
@@ -213,6 +223,6 @@ public class SpecialMonsters : MonoBehaviour
     {
         ProjectileMoveScript.DeactivateAllActiveBullets -= DeactivateBullets;
         _isAlienDead = false;
-        //ShootTrigger.StartShooting -= SpawnBulletsOnAInterval;
+        ShootTrigger.StartShooting -= SpawnBulletsOnAInterval;
     }
 }

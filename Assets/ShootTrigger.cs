@@ -20,7 +20,7 @@ public class ShootTrigger : MonoBehaviour
             if (_canBulletsSpawn)
             {
                 StartShooting?.Invoke();
-                StartBulletSpawning();
+                //StartBulletSpawning();
             }
 
         }

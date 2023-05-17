@@ -14015,6 +14015,11 @@ MonoBehaviour:
   _doorOpenAnimator: {fileID: 967497941}
   _coinBag: {fileID: 1391934525}
   _ballPool: {fileID: 11400000, guid: 27da63295c75b984d9b0367db30cce3f, type: 2}
+  _playerController: {fileID: 950545635}
+  _specialMonsters: {fileID: 5568754682781760854}
+  _shootTrigger: {fileID: 1481661594}
+  _lever: {fileID: 1347572530}
+  _specialFish: {fileID: 1137474603}
   isDoorOpened: 0
 --- !u!4 &869181316
 Transform:
@@ -20656,6 +20661,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3586170111292371230, guid: 800e2f6b2d21c624981617312677da31, type: 3}
   m_PrefabInstance: {fileID: 82921794}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1347572530 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4951947937147455452, guid: 4b2aa3226bff1254d91fcbcc4bbd5ebb, type: 3}
+  m_PrefabInstance: {fileID: 192030596}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc29941201dedd145b25e2df928b4de6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1353225542
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32465,7 +32481,6 @@ MonoBehaviour:
   - {fileID: 96887233}
   ProjectileEnd: {fileID: 1554848704}
   Animator: {fileID: 2130943079}
-  accuracy: 0
   _bulletsList: []
 --- !u!1001 &6657006064712383078
 PrefabInstance:

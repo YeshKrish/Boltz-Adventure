@@ -47,6 +47,8 @@ public class ProjectileMoveScript : MonoBehaviour {
     public static float startTime;
     public static float activeTime;
 
+    public static event Action DeactivateAllActiveBullets;
+
     private void OnEnable()
     {
         startTime = Time.time;
@@ -176,6 +178,7 @@ public class ProjectileMoveScript : MonoBehaviour {
         if (co.gameObject.CompareTag("Player"))
         {
             _playerHit = true;
+            DeactivateAllActiveBullets?.Invoke();
             GameManager.instance.GameOver();
         }
 	}

@@ -42,7 +42,8 @@ public class SpecialMonsters : MonoBehaviour
 
     private void OnEnable()
     {
-        ShootTrigger.StartShooting += FireBullets;
+        ProjectileMoveScript.DeactivateAllActiveBullets += DeactivateBullets;
+        //ShootTrigger.StartShooting += SpawnBulletsOnAInterval;
     }
     private void Start()
     {
@@ -79,21 +80,29 @@ public class SpecialMonsters : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            Animator.SetBool("isHitReceived", true);
             _hit++;
             if(_hit == _maxHitFromPlayer)
             {
                 Dead();
             }
         }
+    }    
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            Animator.SetBool("isHitReceived", false);
+        }
     }
 
     async void SpawnBulletsOnAInterval()
     {
-        while (true)
+        while (true && !GameManager.instance.IsPlayerDead)
         {
             Debug.Log(_noOfBulletsSpawned);
-            bool bulletsActive = CheckIfBulletsActive();
-            _canShootAnimationPlay = bulletsActive; // Update the _canShootAnimationPlay flag
+            //bool bulletsActive = CheckIfBulletsActive();
+            //_canShootAnimationPlay = bulletsActive; // Update the _canShootAnimationPlay flag
 
             float delayTime;
 
@@ -114,22 +123,30 @@ public class SpecialMonsters : MonoBehaviour
 
             await Task.Delay((int)delayTime);
             _canShootAnimationPlay = true;
+            ShootBullet();
+        }
+    }
+    async void ShootBullet()
+    {
+        await Task.Delay(100);
+        if (!GameManager.instance.IsPlayerDead)
+        {
             FireBullets();
         }
     }
 
-    private bool CheckIfBulletsActive()
-    {
-        foreach (GameObject bullet in _bulletsList)
-        {
-            if (bullet.activeSelf)
-            {
-                return true;
-            }
-        }
+    //private bool CheckIfBulletsActive()
+    //{
+    //    foreach (GameObject bullet in _bulletsList)
+    //    {
+    //        if (bullet.activeSelf)
+    //        {
+    //            return true;
+    //        }
+    //    }
 
-        return false;
-    }
+    //    return false;
+    //}
 
     private void Dead()
     {
@@ -149,6 +166,7 @@ public class SpecialMonsters : MonoBehaviour
 
     private void FireBullets()
     {
+        StopShootAnimation();
         _noOfBulletsSpawned++;
         firedBullets =  RetriveBullets();
         //Animator.SetBool("isShoot", true);
@@ -163,6 +181,11 @@ public class SpecialMonsters : MonoBehaviour
 
     }
 
+    async void StopShootAnimation()
+    {
+        await Task.Delay(200);
+        _canShootAnimationPlay = false;
+    }
     private GameObject RetriveBullets()
     {
         foreach (GameObject bullet in _bulletsList)
@@ -176,8 +199,20 @@ public class SpecialMonsters : MonoBehaviour
         return null;
     }
 
+    private void DeactivateBullets()
+    {
+        foreach (GameObject bullet in _bulletsList)
+        {
+            if(bullet.activeSelf == true)
+            {
+                bullet.SetActive(false);
+            }
+        }
+    }
+
     private void OnDisable()
     {
-        ShootTrigger.StartShooting -= FireBullets;
+        ProjectileMoveScript.DeactivateAllActiveBullets -= DeactivateBullets;
+        //ShootTrigger.StartShooting -= SpawnBulletsOnAInterval;
     }
 }

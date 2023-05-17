@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,6 +14,28 @@ public class GameManager : MonoBehaviour
     private GameObject _coinBag;
     [SerializeField]
     private ChooseBall _ballPool;
+
+    [Header("Scripts to be deactivated")]
+    [SerializeField]
+    PlayerController _playerController;
+    [SerializeField]
+    SpecialMonsters _specialMonsters;
+    //[SerializeField]
+    //ProjectileMoveScript _projectileMoveScript;
+    //[SerializeField]
+    //EnemyController _enemyController;
+    [SerializeField]
+    ShootTrigger _shootTrigger;
+    [SerializeField]
+    Lever _lever;
+    //[SerializeField]
+    //SawRotate _rotate;
+    [SerializeField]
+    SpecialFish _specialFish;
+    //[SerializeField]
+    //FallingBricks _fallingBricks;
+
+    private List<object> _scriptsToBeDeactivated;  
 
     private bool isPlayerDead = false;
     public bool isDoorOpened = false;
@@ -64,7 +88,15 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        _scriptsToBeDeactivated = new List<object>();
         _coinCount = _coinBag.transform.childCount;
+
+        //Scripts To Be deactivated
+        _scriptsToBeDeactivated.Add(_playerController);
+        _scriptsToBeDeactivated.Add(_specialMonsters);
+        _scriptsToBeDeactivated.Add(_specialFish);
+        _scriptsToBeDeactivated.Add(_shootTrigger);
+        _scriptsToBeDeactivated.Add(_lever);
 
         isDoorOpened = false;
         PlayerPrefs.SetInt("IsLastSceneMainMenu", 0);
@@ -101,6 +133,15 @@ public class GameManager : MonoBehaviour
     {
         Item.quatity = 0;
         isPlayerDead = true;
+        Destroy(_player.gameObject);
+        DeactivateScripts();
+        GameOverPopupScreen();
+        
+    }
+
+    async void GameOverPopupScreen()
+    {
+        await Task.Delay(1000);
         SceneManager.LoadScene("GameOver");
     }
 
@@ -183,5 +224,17 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-  
+
+    public void DeactivateScripts()
+    {
+        foreach (object scriptObject in _scriptsToBeDeactivated)
+        {
+            MonoBehaviour scripts = scriptObject as MonoBehaviour;
+            if(scripts != null)
+            {
+                scripts.enabled = false;
+            }
+        }
+    }
+
 }

@@ -14,6 +14,8 @@ public class LevelSelect : MonoBehaviour
     private GameObject[] _stars;
     [SerializeField]
     private List<GameObject> _arena;
+    [SerializeField]
+    private List<Button> _nextAndPreviousArenaButtons;
 
     private static LevelSelect instance;
 
@@ -37,6 +39,7 @@ public class LevelSelect : MonoBehaviour
 
     private void Start()
     {
+        _nextAndPreviousArenaButtons[0].interactable = false;
         LoadDictionary();
 
         DisableAll();
@@ -228,6 +231,9 @@ public class LevelSelect : MonoBehaviour
 
     public void NextArena()
     {
+        _nextAndPreviousArenaButtons[0].interactable = true;
+        _nextAndPreviousArenaButtons[1].interactable = false;
+
         _presentArena = _presentArena + 1;
         int previousArena = _presentArena - 1;
         if (_presentArena == _arena.Count)
@@ -239,6 +245,9 @@ public class LevelSelect : MonoBehaviour
     }
     public void PreviousArena()
     {
+        _nextAndPreviousArenaButtons[0].interactable = false;
+        _nextAndPreviousArenaButtons[1].interactable = true;
+
         _presentArena = _presentArena - 1;
         int previousArena = _presentArena + 1;
         if (_presentArena < 0)

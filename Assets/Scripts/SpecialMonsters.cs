@@ -159,6 +159,7 @@ public class SpecialMonsters : MonoBehaviour
     {
         GameObject _burstEffectWaste = (GameObject) Instantiate(_burstEffect, transform.position, Quaternion.Euler(0f, 90f, 0f));
         Destroy(_burstEffectWaste, 1f);
+        MusicManager.instance.MosterDead();
         AllSceneManager.instance.DeactivateObjects(_objectsToDestroy);
         AllSceneManager.instance.ActivateWayPointBasedOnCondition(_movingCube);
         this.gameObject.SetActive(false);

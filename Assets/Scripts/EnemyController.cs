@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour
@@ -7,11 +6,23 @@ public class EnemyController : MonoBehaviour
     [SerializeField]
     private Animator _animator;
 
-    private void Update()
+    private void OnEnable()
     {
-        if (GameManager.instance.IsPlayerDead)
-        {
-            _animator.SetBool("isPlayerDead", true);
-        }
+        PlayerController.KilledByEnemy += EnemyDance;
+    }
+
+    private void Start()
+    {
+        _animator.SetBool("isPlayerDead", false);
+    }
+
+    private void EnemyDance()
+    {
+        _animator.SetBool("isPlayerDead", true);
+    }
+
+    private void OnDisable()
+    {
+        PlayerController.KilledByEnemy -= EnemyDance;
     }
 }

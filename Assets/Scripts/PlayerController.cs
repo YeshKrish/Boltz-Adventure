@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour
     public static event Action DoorOpen;
     public static event Action LevelCompleted;
     public static event Action Bounce;
+    public static event Action KilledByEnemy;
 
     private Vector3 _ballVelocity;
     private Vector3 _initialVelocity;
@@ -123,6 +124,7 @@ public class PlayerController : MonoBehaviour
     {
         if((( 1 << collision.gameObject.layer) & _enemyLayer) != 0)
         {
+            KilledByEnemy?.Invoke();
             GameManager.instance.GameOver();
         }
         if (collision.gameObject.CompareTag("Spikes"))

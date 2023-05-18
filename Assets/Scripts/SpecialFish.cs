@@ -10,6 +10,7 @@ public class SpecialFish : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            MusicManager.instance.FishDyingSound();
             Debug.Log("Comeon");
             gameObject.SetActive(false);
             AllSceneManager.instance.DeactivateObjects(_objectsToDeactivate);

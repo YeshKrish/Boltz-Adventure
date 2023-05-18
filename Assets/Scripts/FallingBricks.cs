@@ -57,6 +57,7 @@ public class FallingBricks : MonoBehaviour
     async private void BrickStartFalling()
     {
         await Task.Delay(1000);
+        _hasfallen = true;
         _rb.isKinematic = false;
         _rb.useGravity = true;
     }

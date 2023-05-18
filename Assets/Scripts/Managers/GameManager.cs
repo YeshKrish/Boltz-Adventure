@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
     private List<object> _scriptsToBeDeactivated;  
 
     private bool isPlayerDead = false;
+    private bool _isPlayerKilledByEnemy = false;
     public bool isDoorOpened = false;
 
     private int _coinCount;
@@ -70,24 +71,27 @@ public class GameManager : MonoBehaviour
             UIManager.Instance.MusicImage.sprite = AllSceneManager.instance._audioSprites[3];
         }
     }
+    private void OnEnable()
+    {
+        PlayerController.KilledByEnemy += EnemyDead;
+        PlayerController.DoorOpen += OpenDoor;
+        Lever.DoorOpen += OpenDoor;
+        PlayerController.LevelCompleted += NextLevel;
+    }
 
     private void OnDisable()
     {
+        PlayerController.KilledByEnemy -= EnemyDead;
         PlayerController.DoorOpen -= OpenDoor;
         Lever.DoorOpen -= OpenDoor;
         PlayerController.LevelCompleted -= NextLevel;
     }
 
 
-    private void OnEnable()
-    {
-        PlayerController.DoorOpen += OpenDoor;
-        Lever.DoorOpen += OpenDoor;
-        PlayerController.LevelCompleted += NextLevel;
-    }
 
     private void Start()
     {
+        _isPlayerKilledByEnemy = false;
         _scriptsToBeDeactivated = new List<object>();
         _coinCount = _coinBag.transform.childCount;
 
@@ -135,7 +139,14 @@ public class GameManager : MonoBehaviour
         isPlayerDead = true;
         Destroy(_player.gameObject);
         DeactivateScripts();
-        GameOverPopupScreen();
+        if (!_isPlayerKilledByEnemy)
+        {
+            SceneManager.LoadScene("GameOver");
+        }
+        else
+        {
+            GameOverPopupScreen();
+        }
         
     }
 
@@ -223,6 +234,12 @@ public class GameManager : MonoBehaviour
                 Instantiate(_ballPool.BallPool[i].gameObject, _player.position, Quaternion.Euler(_ballPool.BallPool[i].gameObject.transform.localRotation.eulerAngles.x, _ballPool.BallPool[i].gameObject.transform.localRotation.eulerAngles.y, _ballPool.BallPool[i].gameObject.transform.localRotation.eulerAngles.z), _player);
             }
         }
+    }
+
+    //W
+    private void EnemyDead()
+    {
+        _isPlayerKilledByEnemy = true;
     }
 
     public void DeactivateScripts()

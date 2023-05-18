@@ -14,6 +14,10 @@ public class MusicManager : MonoBehaviour
     private AudioSource _enemyDyingSound;
     [SerializeField]
     private AudioSource _coinCollectSound;
+    [SerializeField]
+    private AudioSource _fishHitSound;
+    [SerializeField]
+    private AudioSource _monsterDeadSound;
 
     public bool _isGameAudioMuted = false;
 
@@ -91,5 +95,15 @@ public class MusicManager : MonoBehaviour
                 GameAudios[1].Play();
             }
         }
+    }
+
+    public void FishDyingSound()
+    {
+        _fishHitSound.Play();
+    }
+
+    public void MosterDead()
+    {
+        _monsterDeadSound.Play();
     }
 }

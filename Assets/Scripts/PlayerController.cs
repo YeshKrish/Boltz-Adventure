@@ -107,6 +107,7 @@ public class PlayerController : MonoBehaviour
     {
         if (IsGrounded())
         {
+            MusicManager.instance.JumpSound();
             _rb.AddForce(new Vector3(0f, Math.Abs(transform.position.y), 0f).normalized * _jumpHeight, ForceMode.Impulse);
         }
     }

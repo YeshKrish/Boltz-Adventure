@@ -165,6 +165,7 @@ public class PlayerController : MonoBehaviour
         } 
         if (other.gameObject.CompareTag("BouncingHead"))
         {
+            MusicManager.instance.SpringSound();
             if (_ballVelocity.y < 0f)
             {
                 _ballVelocity.y = 0f;

@@ -19,7 +19,9 @@ public class MusicManager : MonoBehaviour
     [SerializeField]
     private AudioSource _monsterDeadSound;    
     [SerializeField]
-    private AudioSource _jumpSound;
+    private AudioSource _jumpSound;    
+    [SerializeField]
+    private AudioSource _springSound;
 
     public bool _isGameAudioMuted = false;
 
@@ -112,5 +114,9 @@ public class MusicManager : MonoBehaviour
     public void JumpSound()
     {
         _jumpSound.Play();
+    }   
+    public void SpringSound()
+    {
+        _springSound.Play();
     }
 }

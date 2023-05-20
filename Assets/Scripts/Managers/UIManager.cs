@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance;
 
     public GameObject QuestTextObj;
+    public GameObject FishTextObj;
 
     [SerializeField]
     private TMP_Text _coinText; 

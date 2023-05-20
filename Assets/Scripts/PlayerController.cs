@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private GameObject _tower;
     [SerializeField]
+    private GameObject _fish;
+    [SerializeField]
     private float speed;
     [SerializeField]
     private int _jumpHeight = 6;
@@ -35,8 +37,13 @@ public class PlayerController : MonoBehaviour
 
     private int _doorToBeOpenedDist = 10;
     private int _enemyDeadJumpHeight = 4;
-    private string _finalLevel;
-    private string _finalLevelName;
+    private int _fishImageToBeSpawnedDistance = 8;
+
+    //Special Levels
+    private string _fifthLevel;
+    private string _sixthLevel;
+    private string _fifthLevelName;
+    private string _sixthLevelName;
 
     public static event Action DoorOpen;
     public static event Action LevelCompleted;
@@ -51,11 +58,10 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         //Get FinalLevel from BuildIndex
-        _finalLevel = SceneUtility.GetScenePathByBuildIndex(5);
-        int slash = _finalLevel.LastIndexOf('/');
-        string name = _finalLevel.Substring(slash + 1);
-        int dot = name.LastIndexOf('.');
-        _finalLevelName = name.Substring(0, dot);
+        _fifthLevel = SceneUtility.GetScenePathByBuildIndex(5);
+        _sixthLevel = SceneUtility.GetScenePathByBuildIndex(6);
+        _fifthLevelName = GetLevelName(_fifthLevel);
+        _sixthLevelName = GetLevelName(_sixthLevel);
 
         _rb = GetComponent<Rigidbody>();
         _ballSphereCollider = GetComponent<SphereCollider>();
@@ -65,12 +71,28 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (Vector3.Distance(transform.position, _tower.transform.position) > _doorToBeOpenedDist && SceneManager.GetActiveScene().name == _finalLevelName && !GameManager.instance.isDoorOpened)
+        if (Vector3.Distance(transform.position, _tower.transform.position) > _doorToBeOpenedDist && SceneManager.GetActiveScene().name == _fifthLevelName && !GameManager.instance.isDoorOpened)
         {
             UIManager.Instance.QuestTextObj.SetActive(false);
         }
+        if(SceneManager.GetActiveScene().name == _sixthLevelName)
+        {
+            if (Vector3.Distance(transform.position, _fish.transform.position) < _fishImageToBeSpawnedDistance && !SpecialFish._isFishDead)
+            {
+                UIManager.Instance.FishTextObj.SetActive(true);
+            }
+            else if (Vector3.Distance(transform.position, _fish.transform.position) > _fishImageToBeSpawnedDistance)
+            {
+                UIManager.Instance.FishTextObj.SetActive(false);
+            }
 
-        if (Vector3.Distance(transform.position, _tower.transform.position) < _doorToBeOpenedDist && SceneManager.GetActiveScene().name != _finalLevelName)
+            if (SpecialFish._isFishDead)
+            {
+                UIManager.Instance.FishTextObj.SetActive(false);
+            }
+        }
+
+        if (Vector3.Distance(transform.position, _tower.transform.position) < _doorToBeOpenedDist && SceneManager.GetActiveScene().name != _fifthLevelName)
         {
             DoorOpen?.Invoke();
         }
@@ -207,5 +229,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private string GetLevelName(string level)
+    {
+        int slash = level.LastIndexOf('/');
+        string name = level.Substring(slash + 1);
+        int dot = name.LastIndexOf('.');
+        string levelName = name.Substring(0, dot);
+        return levelName;
+    }
 }
 

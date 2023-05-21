@@ -7,21 +7,38 @@ public class CameraManager : MonoBehaviour
     private GameObject _mainCamera;
     [SerializeField]
     private GameObject _fightCamera;
+    [SerializeField]
+    private GameObject _level6Camera;
 
-    private void Awake()
+    private float _maxXdistance = 116.1f;
+
+    private void Start()
     {
-        if (!_mainCamera.activeSelf)
+
+        if (!_level6Camera.activeSelf)
         {
-            _mainCamera.SetActive(true);
+            _level6Camera.SetActive(true);
+            _mainCamera.SetActive(false);
             _fightCamera.SetActive(false);
+            UIManager.Instance.HideUI();
         }
     }
-
     private void OnEnable()
     {
         PlayerController.ActivateFightCamera += ActivateCameraFight;
         PlayerController.DeActivateFightCamera += DeActivateCameraFight;
     }
+
+    private void Update()
+    {
+        if(_level6Camera.transform.position.x == _maxXdistance && _level6Camera.activeSelf)
+        {
+            _level6Camera.SetActive(false);
+            _mainCamera.SetActive(true);
+            UIManager.Instance.ActivateUI();
+        }
+    }
+
 
     private void ActivateCameraFight()
     {

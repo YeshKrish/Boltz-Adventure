@@ -10,7 +10,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private GameObject _tower;
     [SerializeField]
-    private GameObject _fish;
+    private GameObject _fish;    
+    [SerializeField]
+    private GameObject _alien;
     [SerializeField]
     private float speed;
     [SerializeField]
@@ -38,6 +40,7 @@ public class PlayerController : MonoBehaviour
     private int _doorToBeOpenedDist = 10;
     private int _enemyDeadJumpHeight = 4;
     private int _fishImageToBeSpawnedDistance = 8;
+    private int _distanceBetweenAlienAndPlayer = 12;
 
     //Special Levels
     private string _fifthLevel;
@@ -49,6 +52,8 @@ public class PlayerController : MonoBehaviour
     public static event Action LevelCompleted;
     public static event Action Bounce;
     public static event Action KilledByEnemy;
+    public static event Action ActivateFightCamera;
+    public static event Action DeActivateFightCamera;
 
     private Vector3 _ballVelocity;
     private Vector3 _initialVelocity;
@@ -71,12 +76,25 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        bool dist = Vector3.Distance(transform.position, _alien.transform.position) < _distanceBetweenAlienAndPlayer;
         if (Vector3.Distance(transform.position, _tower.transform.position) > _doorToBeOpenedDist && SceneManager.GetActiveScene().name == _fifthLevelName && !GameManager.instance.isDoorOpened)
         {
             UIManager.Instance.QuestTextObj.SetActive(false);
         }
         if(SceneManager.GetActiveScene().name == _sixthLevelName)
         {
+            Debug.Log(SpecialMonsters._isAlienDead + " " + ShootTrigger._isPlayerInShootingArea + " " + dist); 
+            //SecondCameraTrigger
+            if(!SpecialMonsters._isAlienDead && ShootTrigger._isPlayerInShootingArea)
+            {
+                Debug.Log("I am inside Dist");
+                ActivateFightCamera?.Invoke();
+            }
+            else if (SpecialMonsters._isAlienDead)
+            {
+                DeActivateFightCamera?.Invoke();
+            }
+
             if (Vector3.Distance(transform.position, _fish.transform.position) < _fishImageToBeSpawnedDistance && !SpecialFish._isFishDead)
             {
                 UIManager.Instance.FishTextObj.SetActive(true);

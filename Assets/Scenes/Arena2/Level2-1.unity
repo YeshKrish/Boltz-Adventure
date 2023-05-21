@@ -13668,7 +13668,6 @@ GameObject:
   m_Component:
   - component: {fileID: 805785321}
   - component: {fileID: 805785320}
-  - component: {fileID: 805785319}
   m_Layer: 0
   m_Name: EnemyFightCamera
   m_TagString: Untagged
@@ -13676,14 +13675,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!81 &805785319
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 805785318}
-  m_Enabled: 1
 --- !u!20 &805785320
 Camera:
   m_ObjectHideFlags: 0

@@ -8,12 +8,15 @@ public class ShootTrigger : MonoBehaviour
     private GameObject _shootEffect;
 
     private bool _canBulletsSpawn = false;
+    public static bool _isPlayerInShootingArea = false;
 
     public static event Action StartShooting;
 
     private void OnTriggerEnter(Collider other)
     {
         _canBulletsSpawn = true;
+        _isPlayerInShootingArea = true;
+        Debug.Log("is" + _isPlayerInShootingArea);
         if (other.gameObject.CompareTag("Player"))
         {
             //_shootEffect.SetActive(true);
@@ -38,6 +41,7 @@ public class ShootTrigger : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         _canBulletsSpawn = false;
+        _isPlayerInShootingArea = false;
         //_shootEffect.SetActive(false);
     }
 

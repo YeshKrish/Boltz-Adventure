@@ -154,4 +154,20 @@ public class UIManager : MonoBehaviour
         _instructionScreen.GetComponent<Image>().sprite = _instructionImages[_presentInstruction];
     }
 
+    public void HideUI()
+    {
+        Debug.Log("Hide");
+        JoyStick.SetActive(false);
+        JumpButton.SetActive(false);
+        PauseButton.SetActive(false);
+        Coin.SetActive(false);
+    }
+    public void ActivateUI()
+    {
+        Debug.Log("Active");
+        JoyStick.SetActive(true);
+        JumpButton.SetActive(true);
+        PauseButton.SetActive(true);
+        Coin.SetActive(true);
+    }
 }

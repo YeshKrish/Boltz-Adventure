@@ -8,6 +8,15 @@ public class CameraManager : MonoBehaviour
     [SerializeField]
     private GameObject _fightCamera;
 
+    private void Awake()
+    {
+        if (!_mainCamera.activeSelf)
+        {
+            _mainCamera.SetActive(true);
+            _fightCamera.SetActive(false);
+        }
+    }
+
     private void OnEnable()
     {
         PlayerController.ActivateFightCamera += ActivateCameraFight;

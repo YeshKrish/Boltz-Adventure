@@ -12,6 +12,12 @@ public class ShootTrigger : MonoBehaviour
 
     public static event Action StartShooting;
 
+    private void Start()
+    {
+        _canBulletsSpawn = false;
+        _isPlayerInShootingArea = false;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         _canBulletsSpawn = true;

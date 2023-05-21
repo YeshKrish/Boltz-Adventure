@@ -47,6 +47,7 @@ public class SpecialMonsters : MonoBehaviour
     }
     private void Start()
     {
+        _isAlienDead = false;
         _bulletRigidBody = _bullets.GetComponent<Rigidbody>();
         _bulletInitalVelocity = _bulletRigidBody.velocity;
         _bulletsList = new List<GameObject>();

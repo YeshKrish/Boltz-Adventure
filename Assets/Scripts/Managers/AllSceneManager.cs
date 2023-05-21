@@ -23,7 +23,7 @@ public class AllSceneManager : MonoBehaviour
         DontDestroyOnLoad(this);
 
         //GameOver Level index
-        PlayerPrefs.SetInt("GameOverLevel", 6);
+        PlayerPrefs.SetInt("GameOverLevel", 7);
     }
 
      //Activate Objects

@@ -58,7 +58,6 @@ public class SpecialMonsters : MonoBehaviour
             _bulletsList.Add(bullet);
         }
 
-        //SpawnBulletsOnAInterval();
         EndBlockPosition = ProjectileEnd.transform.position;
     }
 
@@ -104,10 +103,6 @@ public class SpecialMonsters : MonoBehaviour
         Debug.Log(called + "called");
         while (true && !GameManager.instance.IsPlayerDead)
         {
-            Debug.Log(_noOfBulletsSpawned);
-            //bool bulletsActive = CheckIfBulletsActive();
-            //_canShootAnimationPlay = bulletsActive; // Update the _canShootAnimationPlay flag
-
             float delayTime;
 
             if (_noOfBulletsSpawned >= 0 && _noOfBulletsSpawned < 3)
@@ -143,19 +138,6 @@ public class SpecialMonsters : MonoBehaviour
         }
     }
 
-    //private bool CheckIfBulletsActive()
-    //{
-    //    foreach (GameObject bullet in _bulletsList)
-    //    {
-    //        if (bullet.activeSelf)
-    //        {
-    //            return true;
-    //        }
-    //    }
-
-    //    return false;
-    //}
-
     private void Dead()
     {
         GameObject _burstEffectWaste = (GameObject) Instantiate(_burstEffect, transform.position, Quaternion.Euler(0f, 90f, 0f));
@@ -180,10 +162,8 @@ public class SpecialMonsters : MonoBehaviour
         StopShootAnimation();
         _noOfBulletsSpawned++;
         firedBullets =  RetriveBullets();
-        //Animator.SetBool("isShoot", true);
         firedBullets.transform.position = _bulletPlace.transform.position;
         firedBullets.transform.rotation = Quaternion.Euler(0f, -90f, 0f);
-        //firedBullets = (GameObject)Instantiate(_bullets, _bulletPlace.transform.position, Quaternion.Euler(0f, -90f, 0f));
         _startPos = _bulletPlace.transform.position;
         Rigidbody bulletRigid = firedBullets.GetComponent<Rigidbody>();
         bulletRigid.velocity = _bulletInitalVelocity;

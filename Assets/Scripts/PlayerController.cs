@@ -76,18 +76,15 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        bool dist = Vector3.Distance(transform.position, _alien.transform.position) < _distanceBetweenAlienAndPlayer;
         if (Vector3.Distance(transform.position, _tower.transform.position) > _doorToBeOpenedDist && SceneManager.GetActiveScene().name == _fifthLevelName && !GameManager.instance.isDoorOpened)
         {
             UIManager.Instance.QuestTextObj.SetActive(false);
         }
         if(SceneManager.GetActiveScene().name == _sixthLevelName)
         {
-            Debug.Log(SpecialMonsters._isAlienDead + " " + ShootTrigger._isPlayerInShootingArea + " " + dist); 
             //SecondCameraTrigger
             if(!SpecialMonsters._isAlienDead && ShootTrigger._isPlayerInShootingArea)
             {
-                Debug.Log("I am inside Dist");
                 ActivateFightCamera?.Invoke();
             }
             else if (SpecialMonsters._isAlienDead)

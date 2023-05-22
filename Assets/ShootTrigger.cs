@@ -25,22 +25,11 @@ public class ShootTrigger : MonoBehaviour
         Debug.Log("is" + _isPlayerInShootingArea);
         if (other.gameObject.CompareTag("Player"))
         {
-            //_shootEffect.SetActive(true);
             if (_canBulletsSpawn)
             {
                 StartShooting?.Invoke();
-                //StartBulletSpawning();
             }
 
-        }
-    }
-
-    async void StartBulletSpawning()
-    {
-        while (true)
-        {
-            await Task.Delay(3000);
-            StartShooting?.Invoke();
         }
     }
 
@@ -48,7 +37,6 @@ public class ShootTrigger : MonoBehaviour
     {
         _canBulletsSpawn = false;
         _isPlayerInShootingArea = false;
-        //_shootEffect.SetActive(false);
     }
 
 }

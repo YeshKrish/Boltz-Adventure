@@ -709,6 +709,7 @@ MonoBehaviour:
   _ownDisappearingAnimation: {fileID: 1742039794}
   _owl: {fileID: 543921824}
   _OwlTextPrompt: {fileID: 913906399}
+  LevelSelectSO: {fileID: 11400000, guid: 7bd070d1c8bdec84982dcc02b092e042, type: 2}
 --- !u!4 &681847330
 Transform:
   m_ObjectHideFlags: 0

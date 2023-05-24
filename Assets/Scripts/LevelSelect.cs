@@ -21,6 +21,8 @@ public class LevelSelect : MonoBehaviour
     private Animator _ownDisappearingAnimation;
     [SerializeField]
     private GameObject _owl;
+    [SerializeField]
+    private GameObject _OwlTextPrompt;
 
     private bool _isArenaCompleted = false;
     private bool _isOwlDisappered = false;
@@ -318,4 +320,18 @@ public class LevelSelect : MonoBehaviour
         }
     }
 
+    public void ActivateOwlPrompt()
+    {
+        if (!_OwlTextPrompt.activeSelf)
+        {
+            _OwlTextPrompt.SetActive(true);
+            DeActivateOwlPromptAfterSecs();
+        }
+    }
+
+    async void DeActivateOwlPromptAfterSecs()
+    {
+        await Task.Delay(2500);
+        _OwlTextPrompt.SetActive(false);
+    }
 }

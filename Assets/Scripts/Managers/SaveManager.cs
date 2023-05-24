@@ -68,6 +68,26 @@ public class SaveManager : MonoBehaviour
         File.AppendAllText(readFromFilePath, content);
 
     }
+
+    public int GetTotalStars(Dictionary<int, int> dict, int currentLevelCompleted)
+    {
+        int totalStars = 0;
+
+        // Calculate the starting level to consider
+        int startLevel = currentLevelCompleted - 4;
+        startLevel = Mathf.Max(startLevel, 1); // Ensure startLevel is not less than 1
+
+        // Iterate over the levels from startLevel to currentLevelCompleted
+        for (int level = startLevel; level <= currentLevelCompleted; level++)
+        {
+            if (dict.ContainsKey(level))
+            {
+                totalStars += dict[level]; // Add the stars for the level to the total
+            }
+        }
+
+        return totalStars;
+    }
 }
 
 

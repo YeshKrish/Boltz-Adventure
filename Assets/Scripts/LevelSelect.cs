@@ -24,14 +24,12 @@ public class LevelSelect : MonoBehaviour
     [SerializeField]
     private GameObject _OwlTextPrompt;
 
-    private bool _isArenaCompleted = false;
-    private bool _isOwlDisappered = false;
+    private bool _allStarsCollected = false;
 
     //Animation
     private string _isNewArenaUnlockedHash;
 
     private static LevelSelect instance;
-    private List<int> _levelsCompleted;
 
     private static List<int> _previousLevelClearedCount = new List<int>();
 
@@ -40,7 +38,7 @@ public class LevelSelect : MonoBehaviour
     private int _presentArena = 0;
 
     //total Arena stars
-    private int _totalArenaStars = 80;
+    private int _totalArenaStars = 15;
     private int totalStars = 0;
 
     public LevelSelectScriptableObject LevelSelectSO;
@@ -116,9 +114,8 @@ public class LevelSelect : MonoBehaviour
                 {
                     _arena[0].SetActive(false);
                     _arena[1].SetActive(true);
-                    if (totalStars >= _totalArenaStars)
+                    if (_allStarsCollected)
                     {
-                        _isOwlDisappered = true;
                         LevelSelectSO.IsOwlDisappereadOnce = true;
                         _arena[0].SetActive(false);
                         _arena[1].SetActive(true);
@@ -154,7 +151,7 @@ public class LevelSelect : MonoBehaviour
                         //Checking if new arena level can be unlocked and conditions are met
                         if(i % 5 == 0 && i > 0)
                         {
-                            if (totalStars >= _totalArenaStars && LevelSelectSO.IsOwlDisappereadOnce)
+                            if (_allStarsCollected && LevelSelectSO.IsOwlDisappereadOnce)
                             {
                                 _levelsToUnlock[i].interactable = true;
                                 _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
@@ -223,7 +220,7 @@ public class LevelSelect : MonoBehaviour
                     //Checking if new arena level can be unlocked and conditions are met
                     if (i % 5 == 0 && i > 0)
                     {
-                        if (totalStars >= _totalArenaStars && LevelSelectSO.IsOwlDisappereadOnce)
+                        if (_allStarsCollected && LevelSelectSO.IsOwlDisappereadOnce)
                         {
                             _levelsToUnlock[i].interactable = true;
                             _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
@@ -352,11 +349,10 @@ public class LevelSelect : MonoBehaviour
             Dictionary<int, int> loadedData = SaveManager.Instance.LoadJson(); // Assuming you have already loaded the data
             totalStars = SaveManager.Instance.GetTotalStars(loadedData, levelCompleted);
             Debug.Log("Total Stars for Current and Previous Four Levels: " + totalStars);
-            _isArenaCompleted = true;
-            _levelsCompleted = new List<int>();
-            for (int i = 0; i < levelCompleted; i++)
+            if(totalStars == _totalArenaStars)
             {
-                _levelsCompleted.Add(i);
+                _isArenaCompleted = true;
+                _allStarsCollected = true;
             }
         }
     }

@@ -43,6 +43,7 @@ public class LevelSelect : MonoBehaviour
     private int _totalArenaStars = 80;
     private int totalStars = 0;
 
+    public LevelSelectScriptableObject LevelSelectSO;
 
     private void Awake()
     {
@@ -115,9 +116,10 @@ public class LevelSelect : MonoBehaviour
                 {
                     _arena[0].SetActive(false);
                     _arena[1].SetActive(true);
-                    if (totalStars == _totalArenaStars)
+                    if (totalStars >= _totalArenaStars)
                     {
                         _isOwlDisappered = true;
+                        LevelSelectSO.IsOwlDisappereadOnce = true;
                         _arena[0].SetActive(false);
                         _arena[1].SetActive(true);
                         ArenaCompletionAnimationAndUnlockLogic(levelClearedCount);
@@ -141,14 +143,34 @@ public class LevelSelect : MonoBehaviour
                 }
                 else
                 {
+                    Debug.Log("1");
                     foreach (KeyValuePair<int, int> keyValuePair in _levelCompleteAndStarsGainedDict)
                     {
                         StarPopper(keyValuePair.Key, keyValuePair.Value);
                     }
                     for (int i = 0; i < levelClearedCount + 1; i++)
                     {
-                        _levelsToUnlock[i].interactable = true;
-                        _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+
+                        //Checking if new arena level can be unlocked and conditions are met
+                        if(i % 5 == 0 && i > 0)
+                        {
+                            if (totalStars >= _totalArenaStars && LevelSelectSO.IsOwlDisappereadOnce)
+                            {
+                                _levelsToUnlock[i].interactable = true;
+                                _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+                            }
+                            else
+                            {
+                                _levelsToUnlock[i].interactable = false;
+                                _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
+                            }
+                        }
+                        //For the previous levels of the before arena
+                        else
+                        {
+                            _levelsToUnlock[i].interactable = true;
+                            _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+                        }
                     }
                 }
             }
@@ -191,14 +213,33 @@ public class LevelSelect : MonoBehaviour
             }
             else
             {
+                Debug.Log("2");
                 foreach (KeyValuePair<int, int> keyValuePair in _levelCompleteAndStarsGainedDict)
                 {
                     StarPopper(keyValuePair.Key, keyValuePair.Value);
                 }
                 for (int i = 0; i < levelClearedCount + 1; i++)
                 {
-                    _levelsToUnlock[i].interactable = true;
-                    _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+                    //Checking if new arena level can be unlocked and conditions are met
+                    if (i % 5 == 0 && i > 0)
+                    {
+                        if (totalStars >= _totalArenaStars && LevelSelectSO.IsOwlDisappereadOnce)
+                        {
+                            _levelsToUnlock[i].interactable = true;
+                            _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+                        }
+                        else
+                        {
+                            _levelsToUnlock[i].interactable = false;
+                            _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
+                        }
+                    }
+                    //For the previous levels of the before arena
+                    else
+                    {
+                        _levelsToUnlock[i].interactable = true;
+                        _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+                    }
                 }
             }
         }

@@ -61,12 +61,41 @@ public class SaveManager : MonoBehaviour
         }
     }
 
-    public void OverrideJson(int key, int star)
+    public void OverrideJson(int key, int starsCollected)
     {
         string readFromFilePath = Application.persistentDataPath + "/levelAndStar.txt";
-        string content = key + "\t" + star + "\n"; // add a newline character to separate from previous content
-        File.AppendAllText(readFromFilePath, content);
+        string[] lines = File.ReadAllLines(readFromFilePath);
+        bool foundKey = false;
 
+        for (int i = 0; i < lines.Length; i++)
+        {
+            string[] parts = lines[i].Split('\t');
+            if (parts.Length == 2 && int.TryParse(parts[0], out int existingKey))
+            {
+                if (existingKey == key)
+                {
+                    foundKey = true;
+                    if (int.TryParse(parts[1], out int existingStars))
+                    {
+                        if (starsCollected > existingStars)
+                        {
+                            lines[i] = key + "\t" + starsCollected.ToString();
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (!foundKey)
+        {
+            string content = key + "\t" + starsCollected.ToString();
+            File.AppendAllText(readFromFilePath, content + "\n");
+        }
+        else
+        {
+            File.WriteAllLines(readFromFilePath, lines);
+        }
     }
 
     public int GetTotalStars(Dictionary<int, int> dict, int currentLevelCompleted)
@@ -74,8 +103,8 @@ public class SaveManager : MonoBehaviour
         int totalStars = 0;
 
         // Calculate the starting level to consider
-        int startLevel = currentLevelCompleted - 4;
-        startLevel = Mathf.Max(startLevel, 1); // Ensure startLevel is not less than 1
+        int startLevel = currentLevelCompleted - 5;
+        startLevel = Mathf.Max(startLevel, 0); // Ensure startLevel is not less than 1
 
         // Iterate over the levels from startLevel to currentLevelCompleted
         for (int level = startLevel; level <= currentLevelCompleted; level++)

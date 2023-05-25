@@ -23,11 +23,10 @@ public class LevelSelect : MonoBehaviour
     private GameObject _owl;
     [SerializeField]
     private GameObject _OwlTextPrompt;
+    [SerializeField]
+    private AnimationClip _owlMoveAnim;
 
     private bool _allStarsCollected = false;
-
-    //Animation
-    private string _isNewArenaUnlockedHash;
 
     private static LevelSelect instance;
 
@@ -57,7 +56,6 @@ public class LevelSelect : MonoBehaviour
 
     private void Start()
     {
-        _isNewArenaUnlockedHash = "_isNewArenaUnlocked";
         _nextAndPreviousArenaButtons[0].interactable = false;
         LoadDictionary();
 
@@ -66,7 +64,6 @@ public class LevelSelect : MonoBehaviour
             PlayerPrefs.SetInt("LevelClearedCount", 0);
 
         int levelClearedCount = PlayerPrefs.GetInt("LevelClearedCount");
-        FindIfArenaCompleted(levelClearedCount);
 
         //Checking if it is a new level, if nw adding the levelCleareddCount to previouseLevelCount list
         if (levelClearedCount > 0 && !_previousLevelClearedCount.Contains(levelClearedCount))
@@ -96,7 +93,6 @@ public class LevelSelect : MonoBehaviour
 
                 for (int i = 0; i < levelClearedCount; i++)
                 {
-                    Debug.Log("I" + i);
                     foreach (KeyValuePair<int, int> keyValuePair in _levelCompleteAndStarsGainedDict)
                     {
                         StarPopper(keyValuePair.Key, keyValuePair.Value);
@@ -196,6 +192,14 @@ public class LevelSelect : MonoBehaviour
                 LoadDictionary();
             }
 
+            if (_allStarsCollected && !LevelSelectSO.IsOwlDisappereadOnce)
+            {
+                LevelSelectSO.IsOwlDisappereadOnce = true;
+                _arena[0].SetActive(false);
+                _arena[1].SetActive(true);
+                ArenaCompletionAnimationAndUnlockLogic(levelClearedCount);
+            }
+
             if (levelClearedCount == 6)
             {
                 foreach (KeyValuePair<int, int> keyValuePair in _levelCompleteAndStarsGainedDict)
@@ -215,28 +219,10 @@ public class LevelSelect : MonoBehaviour
                 {
                     StarPopper(keyValuePair.Key, keyValuePair.Value);
                 }
-                for (int i = 0; i < levelClearedCount + 1; i++)
+                for (int i = 0; i < levelClearedCount; i++)
                 {
-                    //Checking if new arena level can be unlocked and conditions are met
-                    if (i % 5 == 0 && i > 0)
-                    {
-                        if (_allStarsCollected && LevelSelectSO.IsOwlDisappereadOnce)
-                        {
-                            _levelsToUnlock[i].interactable = true;
-                            _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
-                        }
-                        else
-                        {
-                            _levelsToUnlock[i].interactable = false;
-                            _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
-                        }
-                    }
-                    //For the previous levels of the before arena
-                    else
-                    {
-                        _levelsToUnlock[i].interactable = true;
-                        _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
-                    }
+                    _levelsToUnlock[i].interactable = true;
+                    _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
                 }
             }
         }
@@ -245,12 +231,37 @@ public class LevelSelect : MonoBehaviour
             _levelsToUnlock[levelClearedCount].interactable = true;
             _levelsToUnlock[levelClearedCount].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
         }
+        
+    }
+
+    private void Update()
+    {
+        int levelClearedCount = PlayerPrefs.GetInt("LevelClearedCount");
+        if (!LevelSelectSO.IsOwlDisappereadOnce)
+        {
+            FindIfArenaCompleted(levelClearedCount);
+        }
+        if (_allStarsCollected && !LevelSelectSO.IsOwlDisappereadOnce)
+        {
+            LevelSelectSO.IsOwlDisappereadOnce = true;
+            Destroy(_OwlTextPrompt);
+            DisableOwl();
+            _arena[0].SetActive(false);
+            _arena[1].SetActive(true);
+            ArenaCompletionAnimationAndUnlockLogic(levelClearedCount);
+        }
+    }
+
+    async void DisableOwl()
+    {
+        await Task.Delay(4000);
+        _owl.SetActive(false);
     }
 
     async void ArenaCompletionAnimationAndUnlockLogic(int levelClearedCount)
     {
         await Task.Delay(300);
-        _ownDisappearingAnimation.SetBool(_isNewArenaUnlockedHash, true);
+        _ownDisappearingAnimation.SetBool("isNewArenaUnlocked", true);
         _levelsToUnlock[levelClearedCount].transform.GetChild(0).GetChild(1).gameObject.GetComponent<Animator>().enabled = true;
         StartCoroutine(DisableLockWithAnimation(levelClearedCount));
     }
@@ -351,7 +362,6 @@ public class LevelSelect : MonoBehaviour
             Debug.Log("Total Stars for Current and Previous Four Levels: " + totalStars);
             if(totalStars == _totalArenaStars)
             {
-                _isArenaCompleted = true;
                 _allStarsCollected = true;
             }
         }

@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 288ed2314b5dd1646946950ba96a43a6, type: 3}
   m_Name: LevelSelect
   m_EditorClassIdentifier: 
-  _isOwlDisappereadOnce: 0
+  IsOwlDisappereadOnce: 0

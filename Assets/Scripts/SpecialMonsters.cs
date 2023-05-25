@@ -20,6 +20,9 @@ public class SpecialMonsters : MonoBehaviour
     private List<GameObject> _objectsToDestroy;
     [SerializeField]
     private List<GameObject> _movingCube;
+    [SerializeField]
+    private List<GameObject> _enemyHealth;
+
     public static bool _isAlienDead;
     public GameObject ProjectileEnd;
     public static Vector3 EndBlockPosition;
@@ -78,8 +81,10 @@ public class SpecialMonsters : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        Debug.Log("Hit" + _enemyHealth[_hit].name);
         if (collision.gameObject.CompareTag("Player"))
         {
+            _enemyHealth[_hit].SetActive(false);
             Animator.SetBool("isHitReceived", true);
             _hit++;
             if(_hit == _maxHitFromPlayer)

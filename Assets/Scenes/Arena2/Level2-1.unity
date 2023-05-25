@@ -1334,6 +1334,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7704016327258256922, guid: a1520a6b20589374e92d38b1e2f8faa3, type: 3}
   m_PrefabInstance: {fileID: 546400665}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &60891343 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1114959469297260091, guid: e1c6b670c3b28ca44a2f490971cd328f, type: 3}
+  m_PrefabInstance: {fileID: 5568754682781760852}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &69705042
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15796,6 +15801,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1514736172352322265, guid: 66eee9fce4427274e9f5914796ab8566, type: 3}
   m_PrefabInstance: {fileID: 928322400}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &940416112 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2530432104057828634, guid: e1c6b670c3b28ca44a2f490971cd328f, type: 3}
+  m_PrefabInstance: {fileID: 5568754682781760852}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &948373316 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 95932730365962563, guid: d61e348fc89ac554ebc17476d764308d, type: 3}
@@ -27569,6 +27579,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 95932730365962563, guid: d61e348fc89ac554ebc17476d764308d, type: 3}
   m_PrefabInstance: {fileID: 721612113}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1707762096 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7938872578524811076, guid: e1c6b670c3b28ca44a2f490971cd328f, type: 3}
+  m_PrefabInstance: {fileID: 5568754682781760852}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1713160833
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34416,6 +34431,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2530432104057828634, guid: e1c6b670c3b28ca44a2f490971cd328f, type: 3}
+      propertyPath: m_Name
+      value: Health3
+      objectReference: {fileID: 0}
     - target: {fileID: 3375295540960217083, guid: e1c6b670c3b28ca44a2f490971cd328f, type: 3}
       propertyPath: m_Convex
       value: 0
@@ -34483,6 +34502,10 @@ PrefabInstance:
     - target: {fileID: 7830224127658208502, guid: e1c6b670c3b28ca44a2f490971cd328f, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7938872578524811076, guid: e1c6b670c3b28ca44a2f490971cd328f, type: 3}
+      propertyPath: m_Name
+      value: Health2
       objectReference: {fileID: 0}
     - target: {fileID: 8034536682983042846, guid: e1c6b670c3b28ca44a2f490971cd328f, type: 3}
       propertyPath: playOnAwake
@@ -34582,6 +34605,10 @@ MonoBehaviour:
   - {fileID: 720326397}
   _movingCube:
   - {fileID: 96887233}
+  _enemyHealth:
+  - {fileID: 60891343}
+  - {fileID: 1707762096}
+  - {fileID: 940416112}
   ProjectileEnd: {fileID: 1554848704}
   Animator: {fileID: 2130943079}
   _bulletsList: []

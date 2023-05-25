@@ -52,6 +52,11 @@ public class LevelSelect : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+
+        if (LevelSelectSO.IsOwlDisappereadOnce)
+        {
+            _owl.SetActive(false);
+        }
     }
 
     private void Start()
@@ -122,6 +127,12 @@ public class LevelSelect : MonoBehaviour
             //If LevelSelect screen loads from a Menu
             else
             {
+
+                if (_allStarsCollected && LevelSelectSO.IsOwlDisappereadOnce)
+                {
+                    ArenaCompletionAnimationAndUnlockLogic(levelClearedCount);
+                }
+
                 if (levelClearedCount == 6)
                 {
                     foreach (KeyValuePair<int, int> keyValuePair in _levelCompleteAndStarsGainedDict)
@@ -142,28 +153,9 @@ public class LevelSelect : MonoBehaviour
                         StarPopper(keyValuePair.Key, keyValuePair.Value);
                     }
                     for (int i = 0; i < levelClearedCount + 1; i++)
-                    {
-
-                        //Checking if new arena level can be unlocked and conditions are met
-                        if(i % 5 == 0 && i > 0)
-                        {
-                            if (_allStarsCollected && LevelSelectSO.IsOwlDisappereadOnce)
-                            {
-                                _levelsToUnlock[i].interactable = true;
-                                _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
-                            }
-                            else
-                            {
-                                _levelsToUnlock[i].interactable = false;
-                                _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
-                            }
-                        }
-                        //For the previous levels of the before arena
-                        else
-                        {
-                            _levelsToUnlock[i].interactable = true;
-                            _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
-                        }
+                    {    
+                        _levelsToUnlock[i].interactable = true;
+                        _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);                      
                     }
                 }
             }

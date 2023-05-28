@@ -61,7 +61,19 @@ public class LevelSelect : MonoBehaviour
 
     private void Start()
     {
-        _nextAndPreviousArenaButtons[0].interactable = false;
+        if (_arena[0].activeSelf)
+        {
+            _presentArena = 0;
+            _nextAndPreviousArenaButtons[0].interactable = false;
+            _nextAndPreviousArenaButtons[1].interactable = true;
+        }
+        else if (_arena[1].activeSelf)
+        {
+            _presentArena = 1;
+            _nextAndPreviousArenaButtons[0].interactable = true;
+            _nextAndPreviousArenaButtons[1].interactable = false;
+        }
+        
         LoadDictionary();
 
         DisableAll();

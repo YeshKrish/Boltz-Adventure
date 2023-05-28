@@ -34177,6 +34177,10 @@ PrefabInstance:
       propertyPath: m_Convex
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4241707396919101570, guid: e1c6b670c3b28ca44a2f490971cd328f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4722403750415001778, guid: e1c6b670c3b28ca44a2f490971cd328f, type: 3}
       propertyPath: m_Name
       value: Alien_Tall
@@ -34308,6 +34312,18 @@ PrefabInstance:
     - target: {fileID: 8070438003036724000, guid: e1c6b670c3b28ca44a2f490971cd328f, type: 3}
       propertyPath: playOnAwake
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8688150230047593787, guid: e1c6b670c3b28ca44a2f490971cd328f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8719213196428363252, guid: e1c6b670c3b28ca44a2f490971cd328f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8811363169551938933, guid: e1c6b670c3b28ca44a2f490971cd328f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e1c6b670c3b28ca44a2f490971cd328f, type: 3}

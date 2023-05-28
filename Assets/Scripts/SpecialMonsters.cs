@@ -82,7 +82,7 @@ public class SpecialMonsters : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         Debug.Log("Hit" + _enemyHealth[_hit].name);
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player") && !Invulnerable._isPlayerInInVulnerableArea)
         {
             _enemyHealth[_hit].SetActive(false);
             Animator.SetBool("isHitReceived", true);

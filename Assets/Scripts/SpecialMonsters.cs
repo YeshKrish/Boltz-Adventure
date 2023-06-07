@@ -22,6 +22,8 @@ public class SpecialMonsters : MonoBehaviour
     private List<GameObject> _movingCube;
     [SerializeField]
     private List<GameObject> _enemyHealth;
+    [SerializeField]
+    private List<GameObject> _boundry = new List<GameObject>();
 
     public static bool _isAlienDead;
     public GameObject ProjectileEnd;
@@ -147,6 +149,10 @@ public class SpecialMonsters : MonoBehaviour
     {
         GameObject _burstEffectWaste = (GameObject) Instantiate(_burstEffect, transform.position, Quaternion.Euler(0f, 90f, 0f));
         Destroy(_burstEffectWaste, 1f);
+        for (int i = 0; i < _boundry.Count; i++)
+        {
+            _boundry[i].GetComponent<BoxCollider>().isTrigger = true;
+        }
         MusicManager.instance.MosterDead();
         AllSceneManager.instance.DeactivateObjects(_objectsToDestroy);
         AllSceneManager.instance.ActivateWayPointBasedOnCondition(_movingCube);

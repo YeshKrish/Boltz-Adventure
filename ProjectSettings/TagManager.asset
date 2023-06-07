@@ -9,6 +9,7 @@ TagManager:
   - BouncingHead
   - FxTemporaire
   - MovingCube
+  - BulletEnd
   layers:
   - Default
   - TransparentFX

@@ -223,8 +223,9 @@ public class LevelSelect : MonoBehaviour
                 {
                     StarPopper(keyValuePair.Key, keyValuePair.Value);
                 }
-                for (int i = 0; i < levelClearedCount; i++)
+                for (int i = 0; i <= levelClearedCount; i++)
                 {
+                    Debug.Log("i" + i);
                     _levelsToUnlock[i].interactable = true;
                     _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
                 }

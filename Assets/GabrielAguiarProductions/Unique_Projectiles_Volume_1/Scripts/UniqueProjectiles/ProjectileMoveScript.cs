@@ -70,6 +70,10 @@ public class ProjectileMoveScript : MonoBehaviour {
             DeactivateAllActiveBullets?.Invoke();
             GameManager.instance.GameOver();
         }
+        if (co.gameObject.CompareTag("BulletEnd"))
+        {
+            gameObject.SetActive(false);
+        }
 	}
     private void OnDisable()
     {

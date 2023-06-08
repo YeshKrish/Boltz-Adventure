@@ -61,19 +61,7 @@ public class LevelSelect : MonoBehaviour
 
     private void Start()
     {
-        if (_arena[0].activeSelf)
-        {
-            _presentArena = 0;
-            _nextAndPreviousArenaButtons[0].interactable = false;
-            _nextAndPreviousArenaButtons[1].interactable = true;
-        }
-        else if (_arena[1].activeSelf)
-        {
-            _presentArena = 1;
-            _nextAndPreviousArenaButtons[0].interactable = true;
-            _nextAndPreviousArenaButtons[1].interactable = false;
-        }
-        
+        Debug.Log("total" + totalStars);
         LoadDictionary();
 
         DisableAll();
@@ -130,8 +118,9 @@ public class LevelSelect : MonoBehaviour
                     if (_allStarsCollected)
                     {
                         LevelSelectSO.IsOwlDisappereadOnce = true;
-                        _arena[0].SetActive(false);
-                        _arena[1].SetActive(true);
+                        _presentArena = 1;
+                        _nextAndPreviousArenaButtons[0].interactable = true;
+                        _nextAndPreviousArenaButtons[1].interactable = false;
                         ArenaCompletionAnimationAndUnlockLogic(levelClearedCount);
                     }
                 }
@@ -140,10 +129,10 @@ public class LevelSelect : MonoBehaviour
             else
             {
 
-                if (_allStarsCollected && LevelSelectSO.IsOwlDisappereadOnce)
-                {
-                    ArenaCompletionAnimationAndUnlockLogic(levelClearedCount);
-                }
+                //if (_allStarsCollected && LevelSelectSO.IsOwlDisappereadOnce)
+                //{
+                //    ArenaCompletionAnimationAndUnlockLogic(levelClearedCount);
+                //}
 
                 if (levelClearedCount == 6)
                 {
@@ -159,15 +148,31 @@ public class LevelSelect : MonoBehaviour
                 }
                 else
                 {
+                    FindIfArenaCompleted(levelClearedCount);
                     Debug.Log("1");
                     foreach (KeyValuePair<int, int> keyValuePair in _levelCompleteAndStarsGainedDict)
                     {
                         StarPopper(keyValuePair.Key, keyValuePair.Value);
                     }
-                    for (int i = 0; i < levelClearedCount + 1; i++)
-                    {    
-                        _levelsToUnlock[i].interactable = true;
-                        _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);                      
+                    if (_allStarsCollected)
+                    {
+                        Debug.Log("All");
+                        for (int i = 0; i <= levelClearedCount; i++)
+                        {
+                            Debug.Log("i" + i);
+                            _levelsToUnlock[i].interactable = true;
+                            _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("NotAll");
+                        for (int i = 0; i < levelClearedCount; i++)
+                        {
+                            Debug.Log("i" + i);
+                            _levelsToUnlock[i].interactable = true;
+                            _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+                        }
                     }
                 }
             }
@@ -196,11 +201,15 @@ public class LevelSelect : MonoBehaviour
                 LoadDictionary();
             }
 
-            if (_allStarsCollected && !LevelSelectSO.IsOwlDisappereadOnce)
+            //Stars has to be collected and owl should not have been disappered and it should not be from menu
+            if (_allStarsCollected && !LevelSelectSO.IsOwlDisappereadOnce && PlayerPrefs.GetInt("IsLastSceneMainMenu") == 0)
             {
                 LevelSelectSO.IsOwlDisappereadOnce = true;
                 _arena[0].SetActive(false);
                 _arena[1].SetActive(true);
+                _presentArena = 1;
+                _nextAndPreviousArenaButtons[0].interactable = true;
+                _nextAndPreviousArenaButtons[1].interactable = false;
                 ArenaCompletionAnimationAndUnlockLogic(levelClearedCount);
             }
 
@@ -218,16 +227,31 @@ public class LevelSelect : MonoBehaviour
             }
             else
             {
+                FindIfArenaCompleted(levelClearedCount);
                 Debug.Log("2");
                 foreach (KeyValuePair<int, int> keyValuePair in _levelCompleteAndStarsGainedDict)
                 {
                     StarPopper(keyValuePair.Key, keyValuePair.Value);
                 }
-                for (int i = 0; i <= levelClearedCount; i++)
+                if(_allStarsCollected)
                 {
-                    Debug.Log("i" + i);
-                    _levelsToUnlock[i].interactable = true;
-                    _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+                    Debug.Log("All");
+                    for (int i = 0; i <= levelClearedCount; i++)
+                    {
+                        Debug.Log("i" + i);
+                        _levelsToUnlock[i].interactable = true;
+                        _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+                    }
+                }
+                else
+                {
+                    Debug.Log("NotAll");
+                    for (int i = 0; i < levelClearedCount; i++)
+                    {
+                        Debug.Log("i" + i);
+                        _levelsToUnlock[i].interactable = true;
+                        _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+                    }
                 }
             }
         }
@@ -237,16 +261,33 @@ public class LevelSelect : MonoBehaviour
             _levelsToUnlock[levelClearedCount].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
         }
         
+        if (_arena[0].activeSelf)
+        {
+            Debug.Log("Areana1");
+            _presentArena = 0;
+            _nextAndPreviousArenaButtons[0].interactable = false;
+            _nextAndPreviousArenaButtons[1].interactable = true;
+        }
+        else if (_arena[1].activeSelf)
+        {
+            Debug.Log("Areana2");
+            _presentArena = 1;
+            _nextAndPreviousArenaButtons[0].interactable = true;
+            _nextAndPreviousArenaButtons[1].interactable = false;
+        }
     }
 
     private void Update()
     {
         int levelClearedCount = PlayerPrefs.GetInt("LevelClearedCount");
-        if (!LevelSelectSO.IsOwlDisappereadOnce)
+
+        FindIfArenaCompleted(levelClearedCount);
+
+        if (_allStarsCollected && PlayerPrefs.GetInt("IsLastSceneMainMenu") == 1)
         {
-            FindIfArenaCompleted(levelClearedCount);
+            _owl.SetActive(false);
         }
-        if (_allStarsCollected && !LevelSelectSO.IsOwlDisappereadOnce)
+        if (_allStarsCollected && !LevelSelectSO.IsOwlDisappereadOnce && PlayerPrefs.GetInt("IsLastSceneMainMenu") == 0)
         {
             LevelSelectSO.IsOwlDisappereadOnce = true;
             Destroy(_OwlTextPrompt);
@@ -265,6 +306,9 @@ public class LevelSelect : MonoBehaviour
 
     async void ArenaCompletionAnimationAndUnlockLogic(int levelClearedCount)
     {
+        _presentArena = 1;
+        _nextAndPreviousArenaButtons[0].interactable = true;
+        _nextAndPreviousArenaButtons[1].interactable = false;
         await Task.Delay(300);
         _ownDisappearingAnimation.SetBool("isNewArenaUnlocked", true);
         _levelsToUnlock[levelClearedCount].transform.GetChild(0).GetChild(1).gameObject.GetComponent<Animator>().enabled = true;
@@ -360,15 +404,11 @@ public class LevelSelect : MonoBehaviour
     }
     private void FindIfArenaCompleted(int levelCompleted)
     {
-        if (levelCompleted % 5 == 0)
+        Dictionary<int, int> loadedData = SaveManager.Instance.LoadJson(); // Assuming you have already loaded the data
+        totalStars = SaveManager.Instance.GetTotalStars(loadedData, levelCompleted);
+        if(totalStars == _totalArenaStars)
         {
-            Dictionary<int, int> loadedData = SaveManager.Instance.LoadJson(); // Assuming you have already loaded the data
-            totalStars = SaveManager.Instance.GetTotalStars(loadedData, levelCompleted);
-            Debug.Log("Total Stars for Current and Previous Four Levels: " + totalStars);
-            if(totalStars == _totalArenaStars)
-            {
-                _allStarsCollected = true;
-            }
+            _allStarsCollected = true;
         }
     }
 

@@ -117,6 +117,23 @@ public class SaveManager : MonoBehaviour
 
         return totalStars;
     }
+
+    public void IsOwlTriggeredSO(bool isTriggered)
+    {
+        string readFromFilePath = Application.persistentDataPath + "/isOwlTriggered.txt";
+        string content = isTriggered.ToString();
+        File.AppendAllText(readFromFilePath, content);
+    }
+
+    public bool GetIsOwlTriggeredOnce()
+    {
+        string readFromFilePath = Application.persistentDataPath + "/isOwlTriggered.txt";
+        bool val =  bool.Parse(File.ReadAllText(readFromFilePath));
+        Debug.Log("Val" + val);
+        return val;
+    }
+
 }
+
 
 

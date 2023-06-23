@@ -296,12 +296,17 @@ public class LevelSelect : MonoBehaviour
             _arena[1].SetActive(true);
             ArenaCompletionAnimationAndUnlockLogic(levelClearedCount);
         }
+
     }
 
     async void DisableOwl()
     {
         await Task.Delay(4000);
         _owl.SetActive(false);
+        if (LevelSelectSO.IsOwlDisappereadOnce)
+        {
+            SaveManager.Instance.IsOwlTriggeredSO(true);
+        }
     }
 
     async void ArenaCompletionAnimationAndUnlockLogic(int levelClearedCount)

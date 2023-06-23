@@ -14171,6 +14171,7 @@ GameObject:
   m_Component:
   - component: {fileID: 805785321}
   - component: {fileID: 805785320}
+  - component: {fileID: 805785322}
   m_Layer: 0
   m_Name: EnemyFightCamera
   m_TagString: Untagged
@@ -14236,6 +14237,14 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 32
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!81 &805785322
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 805785318}
+  m_Enabled: 1
 --- !u!1001 &807487049
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14671,6 +14680,7 @@ GameObject:
   - component: {fileID: 841987432}
   - component: {fileID: 841987431}
   - component: {fileID: 841987430}
+  - component: {fileID: 841987433}
   m_Layer: 0
   m_Name: Recording camera
   m_TagString: Untagged
@@ -14756,6 +14766,14 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 34
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!81 &841987433
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 841987429}
+  m_Enabled: 1
 --- !u!1001 &844472494
 PrefabInstance:
   m_ObjectHideFlags: 0

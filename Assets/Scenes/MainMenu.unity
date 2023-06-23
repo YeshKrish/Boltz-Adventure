@@ -3630,6 +3630,7 @@ MonoBehaviour:
   - {fileID: -1697515250, guid: 4ae4e7c0ce60fed4c8a0e08fc7fae898, type: 3}
   - {fileID: 1277551705, guid: 4ae4e7c0ce60fed4c8a0e08fc7fae898, type: 3}
   - {fileID: -785651450, guid: 4ae4e7c0ce60fed4c8a0e08fc7fae898, type: 3}
+  _owlSO: {fileID: 11400000, guid: 7bd070d1c8bdec84982dcc02b092e042, type: 2}
 --- !u!4 &2063472981
 Transform:
   m_ObjectHideFlags: 0

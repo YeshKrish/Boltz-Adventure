@@ -7,6 +7,9 @@ public class AllSceneManager : MonoBehaviour
     public static AllSceneManager instance;
     public Sprite[] _audioSprites;
 
+    [SerializeField]
+    private LevelSelectScriptableObject _owlSO;
+
     private string _previousScene; 
 
     private void Awake()
@@ -26,7 +29,18 @@ public class AllSceneManager : MonoBehaviour
         PlayerPrefs.SetInt("GameOverLevel", 7);
     }
 
-     //Activate Objects
+    private void Start()
+    {
+        bool owlTriggered = SaveManager.Instance.GetIsOwlTriggeredOnce();
+        Debug.Log("Owwl" + owlTriggered);
+        if (owlTriggered)
+        {
+            Debug.Log("Hiii");
+            _owlSO.IsOwlDisappereadOnce = owlTriggered;
+        }
+    }
+
+    //Activate Objects
     public void ActivateObjects(List<GameObject> gameObjToActivate)
     {
         if(gameObjToActivate.Count > 0)

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "501898315446",
+    "project_id": "boltz-adventure",
+    "storage_bucket": "boltz-adventure.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:501898315446:android:a71684aea189cfbda24817",
+        "android_client_info": {
+          "package_name": "com.whYKnotStudios.BoltzAdventure"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "501898315446-0kcuk06esdtpir634j3tvqabc9hhqfit.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFeoBcPszpDrkqDPTYS__BzEY0HFStFmQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "501898315446-0kcuk06esdtpir634j3tvqabc9hhqfit.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

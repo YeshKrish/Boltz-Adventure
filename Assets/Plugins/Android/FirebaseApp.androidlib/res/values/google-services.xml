@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:keep="@string/gcm_defaultSenderId,@string/google_storage_bucket,@string/project_id,@string/google_api_key,@string/google_crash_reporting_api_key,@string/google_app_id,@string/default_web_client_id">
+  <string name="gcm_defaultSenderId" translatable="false">501898315446</string>
+  <string name="google_storage_bucket" translatable="false">boltz-adventure.appspot.com</string>
+  <string name="project_id" translatable="false">boltz-adventure</string>
+  <string name="google_api_key" translatable="false">AIzaSyDFeoBcPszpDrkqDPTYS__BzEY0HFStFmQ</string>
+  <string name="google_crash_reporting_api_key" translatable="false">AIzaSyDFeoBcPszpDrkqDPTYS__BzEY0HFStFmQ</string>
+  <string name="google_app_id" translatable="false">1:501898315446:android:a71684aea189cfbda24817</string>
+  <string name="default_web_client_id" translatable="false">501898315446-0kcuk06esdtpir634j3tvqabc9hhqfit.apps.googleusercontent.com</string>
+</resources>

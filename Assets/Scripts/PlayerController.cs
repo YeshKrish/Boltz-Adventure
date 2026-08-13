@@ -60,7 +60,7 @@ public class PlayerController : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
         _ballSphereCollider = GetComponent<SphereCollider>();
 
-        _initialVelocity = _rb.velocity;
+        _initialVelocity = _rb.linearVelocity;
     }
 
     private void Update()
@@ -86,7 +86,7 @@ public class PlayerController : MonoBehaviour
 
         OnFalling();
 
-        _ballVelocity = _rb.velocity;
+        _ballVelocity = _rb.linearVelocity;
     }
 
     private void FixedUpdate()
@@ -96,10 +96,10 @@ public class PlayerController : MonoBehaviour
 
         _rb.AddForce(direction * speed * Time.fixedDeltaTime, ForceMode.VelocityChange);
         // Limit the velocity of the ball
-        if (Mathf.Abs(_rb.velocity.x) > maxVelocity)
+        if (Mathf.Abs(_rb.linearVelocity.x) > maxVelocity)
         {
-            float sign = Mathf.Sign(_rb.velocity.x);
-            _rb.velocity = new Vector2(sign * maxVelocity, _rb.velocity.y);
+            float sign = Mathf.Sign(_rb.linearVelocity.x);
+            _rb.linearVelocity = new Vector2(sign * maxVelocity, _rb.linearVelocity.y);
         }
     }
 
@@ -166,9 +166,9 @@ public class PlayerController : MonoBehaviour
             if (_ballVelocity.y < 0f)
             {
                 _ballVelocity.y = 0f;
-                _rb.velocity = _ballVelocity;
+                _rb.linearVelocity = _ballVelocity;
             }
-            else { _rb.velocity = _ballVelocity; }
+            else { _rb.linearVelocity = _ballVelocity; }
             Bounce?.Invoke();
             //_rb.AddForce(new Vector3(0f, Math.Abs(transform.position.y), 0f).normalized * _bounceHeight, ForceMode.Impulse);
         }

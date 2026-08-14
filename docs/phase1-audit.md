@@ -16,8 +16,25 @@ Four plan assumptions were wrong on this base. These matter before Phase 2 runs.
 |---|---|---|
 | `com.unity.cinemachine` has **zero** scene references — remove it | **Used in all 6 gameplay scenes** (CinemachineBrain + VirtualCamera + FramingTransposer + Pipeline) | **Do not remove.** Cinemachine drives the gameplay camera |
 | Standardize on DOTween; migrate 3 LeanTween sites | DOTween's **only** call site is in `DotWeenPath.cs`, which is **dead code**. LeanTween is the only *live* tweener | Decision needs revisiting — see §3 |
-| `main` is v1.0.3 / build 13 / May 2023 | `origin/main` is **v1.1.2 with Firebase**, forked *before* release/launch's 158 commits | Resetting main is a force-push, not a fast-forward |
+| `main` is v1.0.3 / build 13 / May 2023 | `origin/main` is **v1.1.2 with Firebase**, forked *before* release/launch's 158 commits | Resetting main is a force-push, not a fast-forward. **DECIDED: deferred** — see below |
 | Phase 7: fix `CameraFollow` frame-rate-dependent Lerp | `CameraFollow.cs` is **dead code** — superseded by Cinemachine | Delete it; don't fix it |
+
+### Branch state after Phase 0
+
+`origin/main` was **deliberately left untouched** — it still points at the v1.1.2 Firebase tip.
+All revival work happens on `develop` (pushed to origin). `main` is reset to the release commit
+only at Phase 10, when v1.2.0 is ready to merge and tag. Until then `main` is stale; that is a
+known, accepted state, not an oversight.
+
+Local `main` sits at the revival base (`bf53ac27`) and therefore reports "ahead 158, behind 3"
+against `origin/main`. Leave it; do not reconcile it mid-project.
+
+`origin/Version1.0.3` also still exists remotely. It is fully preserved by the
+`archive/version-1.0.3` tag on origin and can be removed at any time with
+`git push origin --delete Version1.0.3`.
+
+Tags on origin: `archive/version-1.0.3`, `archive/release-launch`,
+`archive/feature-post-processing`, `v1.0.3-main`, `v1.1.1-playstore`.
 
 ## 0b. Phase 2 hazard — do not delete this pack
 
@@ -97,11 +114,16 @@ That is the entire tween surface: two UI alpha fades and one constant spin. DOTw
 currently **unused**. The approved decision ("standardize on DOTween, delete LeanTween") was
 made believing DOTween had a live call site and LeanTween had three.
 
-Both remain viable; this is a judgement call for the user, not a correctness issue:
-- **Keep DOTween** (user's stated preference) — port 3 sites, delete LeanTween (6.8 MB), keep
-  DOTween (835 KB) as the library for future polish work.
-- **Drop both** — replace with a `CanvasGroup` fade coroutine and `transform.Rotate()` in
-  `Update`. ~20 lines, saves 7.6 MB, and removes the tween-cancellation bug class entirely.
+**DECIDED: keep DOTween.** Port the 3 LeanTween sites to DOTween, then delete `Assets/LeanTween/`
+(6.8 MB, 34 scripts). DOTween (835 KB) stays as the library for future polish work. Keep
+PathCreator — `Follower.cs` samples `path.GetPointAtDistance`, which `DOPath` cannot replace.
+
+The port is a **fix as well as a swap**. Every migrated tween gets `DOTween.Kill` in `OnDisable`,
+`.SetLink(gameObject)` as a second net, and `.SetUpdate(true)` on anything drawn while
+`Time.timeScale == 0`. `SawRotate.cs:9` is the one that is currently broken.
+
+`DotWeenPath.cs` is dead code and is deleted rather than ported — but it is the reference for
+how `DOPath` was configured here, so read it before deleting.
 
 ---
 

@@ -1,2 +1,85 @@
-# Auto detect text files and perform LF normalization
+# Default: let git decide, normalising to LF in the repository.
 * text=auto
+
+# ---------------------------------------------------------------------------
+# Unity YAML
+#
+# Marked -text so git performs NO line-ending normalisation on them. Unity
+# rewrites these files wholesale and is sensitive to the exact bytes; letting
+# git renormalise is what produced spurious "modified" entries on files nobody
+# touched. -text also keeps them eligible for UnityYAMLMerge.
+#
+# To enable the smart merge driver, run once per clone:
+#   git config merge.unityyamlmerge.name "Unity SmartMerge"
+#   git config merge.unityyamlmerge.driver '"C:/Program Files/Unity/Hub/Editor/6000.3.9f1/Editor/Data/Tools/UnityYAMLMerge.exe" merge -p %O %A %B %A'
+# ---------------------------------------------------------------------------
+*.unity           -text merge=unityyamlmerge
+*.prefab          -text merge=unityyamlmerge
+*.asset           -text merge=unityyamlmerge
+*.mat             -text merge=unityyamlmerge
+*.controller      -text merge=unityyamlmerge
+*.anim            -text merge=unityyamlmerge
+*.overrideController -text merge=unityyamlmerge
+*.physicMaterial  -text merge=unityyamlmerge
+*.physicsMaterial2D -text merge=unityyamlmerge
+*.meta            -text
+*.lighting        -text
+
+# ---------------------------------------------------------------------------
+# Source
+# ---------------------------------------------------------------------------
+*.cs              text eol=lf diff=csharp
+*.shader          text eol=lf
+*.shadergraph     text eol=lf
+*.hlsl            text eol=lf
+*.cginc           text eol=lf
+*.json            text eol=lf
+*.xml             text eol=lf
+*.md              text eol=lf
+*.txt             text eol=lf
+*.asmdef          text eol=lf
+*.asmref          text eol=lf
+
+# Gradle / Android build files must keep LF
+*.gradle          text eol=lf
+*.properties      text eol=lf
+*.pro             text eol=lf
+
+# ---------------------------------------------------------------------------
+# Binary — never diff, never normalise
+# ---------------------------------------------------------------------------
+*.psd             binary
+*.ai              binary
+*.tif             binary
+*.tiff            binary
+*.png             binary
+*.jpg             binary
+*.jpeg            binary
+*.tga             binary
+*.exr             binary
+*.hdr             binary
+*.gif             binary
+*.ico             binary
+
+*.ttf             binary
+*.otf             binary
+*.fbx             binary
+*.blend           binary
+*.obj             binary
+
+*.mp3             binary
+*.ogg             binary
+*.wav             binary
+*.aif             binary
+*.mp4             binary
+*.mov             binary
+
+*.dll             binary
+*.so              binary
+*.a               binary
+*.aar             binary
+*.jar             binary
+*.bundle          binary
+*.unitypackage    binary
+*.keystore        binary
+*.cubemap         binary

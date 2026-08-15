@@ -207,3 +207,31 @@ Line numbers re-derived on this base.
 - No `Screen.safeArea` handling anywhere, while the manifest advertises `android.notch_support`. *(Major)*
 - All singletons lack `else { Destroy(gameObject); return; }` and an `OnDestroy` null-out.
   `SaveManager.Awake` assigns `Instance` but never destroys a duplicate. *(Major)*
+
+## 8. Package inventory after the Unity 6 upgrade
+
+Section 6's `.velocity` migration was applied automatically by Unity's API updater
+during the upgrade — all 10 first-party and 5 third-party sites, with the three
+`ParticleSystem.velocityOverLifetime` false positives correctly untouched.
+
+**Removed** (each: zero hits across scenes/prefabs/`.asset`/C#, zero dependents in
+`packages-lock.json`):
+`2d.sprite`, `2d.tilemap`, `ai.navigation`, `ide.vscode`, `multiplayer.center`,
+`visualscripting`, `modules.unityanalytics`.
+
+**Kept, and why it differs from the approved plan:**
+
+| Package | Version | Reason |
+|---|---|---|
+| `cinemachine` | 2.10.5 | The plan said "zero scene references — confirmed" and scheduled removal. **Wrong.** `CinemachineBrain`, `CinemachineVirtualCamera` and `CinemachineFramingTransposer` appear in all 6 gameplay scenes. The upgrader stayed on 2.x; **do not accept a 3.x bump** — it renames `CinemachineVirtualCamera` and breaks every scene at compile time. |
+| `recorder` | 5.1.4 | Unreferenced, but kept by the user's decision for capturing portfolio and store-listing footage. |
+| `timeline` | 1.8.10 | Unused directly — no `.playable` assets, no `PlayableDirector`. Retained only because `recorder` depends on it. If Recorder is ever dropped, this goes too. |
+
+**Still open (Phase 1b):** `com.unity.render-pipelines.universal` is not installed yet.
+`Assets/UniversalRenderPipelineGlobalSettings.asset` and `Assets/DefaultVolumeProfile.asset`
+were emitted by the upgrader and are inert until it is (their `m_Script` is null).
+`GraphicsSettings.m_CustomRenderPipeline` is still `{fileID: 0}`, so the project renders
+Built-in — activation is Phase 3, which also relocates those two assets into `Assets/Settings/`.
+
+Install URP through the package manager rather than hand-editing `manifest.json`, so the
+version resolves against the editor instead of being pinned by guess.

@@ -51,7 +51,7 @@ public class ExplodingProjectileExplosion1 : MonoBehaviour
         }
         if (LookRotation)
         { 
-            transform.rotation = Quaternion.LookRotation(thisRigidbody.velocity);
+            transform.rotation = Quaternion.LookRotation(thisRigidbody.linearVelocity);
         }
     }
 
@@ -86,7 +86,7 @@ public class ExplodingProjectileExplosion1 : MonoBehaviour
 
                 thisCollider.enabled = false;
                 particleKillGroup.SetActive(false);
-                thisRigidbody.velocity = Vector3.zero;
+                thisRigidbody.linearVelocity = Vector3.zero;
 
                 Destroy(gameObject, 5);
 

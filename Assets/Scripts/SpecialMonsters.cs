@@ -54,7 +54,7 @@ public class SpecialMonsters : MonoBehaviour
     {
         _isAlienDead = false;
         _bulletRigidBody = _bullets.GetComponent<Rigidbody>();
-        _bulletInitalVelocity = _bulletRigidBody.velocity;
+        _bulletInitalVelocity = _bulletRigidBody.linearVelocity;
         _bulletsList = new List<GameObject>();
         for (int i = 0; i < _maxBulltsToBeSpawned; i++)
         {
@@ -177,7 +177,7 @@ public class SpecialMonsters : MonoBehaviour
         firedBullets.transform.rotation = Quaternion.Euler(0f, -90f, 0f);
         _startPos = _bulletPlace.transform.position;
         Rigidbody bulletRigid = firedBullets.GetComponent<Rigidbody>();
-        bulletRigid.velocity = _bulletInitalVelocity;
+        bulletRigid.linearVelocity = _bulletInitalVelocity;
         bulletRigid.AddForce(new Vector3(-1f, 0f, 0f) * _bulletSpeed, ForceMode.VelocityChange);
         Debug.Log(firedBullets.transform.position.x + " " + (_startPos.x - 5));
 

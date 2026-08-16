@@ -291,3 +291,58 @@ The graph predates Shader Graph 17 and cannot be upgraded. Seven materials refer
 returns zero hits, and none of the 7 materials is referenced outside `EffectCore/` itself.
 The whole subtree is dead weight. Deleting it in Phase 2 removes the error; do that before
 the Phase 3 material conversion so the converter never has to touch it.
+
+## 11. `GetIsOwlTriggeredOnce` throws on MainMenu startup — Critical, live
+
+Found by the Phase 1 play-mode gate. Entering play mode on MainMenu throws immediately:
+
+```
+FormatException: String was not recognized as a valid Boolean.
+  SaveManager.GetIsOwlTriggeredOnce ()  at SaveManager.cs:131
+  AllSceneManager.Start ()              at AllSceneManager.cs:34
+```
+
+```csharp
+// SaveManager.cs:121-134
+public void IsOwlTriggeredSO(bool isTriggered) {
+    string readFromFilePath = Application.persistentDataPath + "/isOwlTriggered.txt";
+    File.AppendAllText(readFromFilePath, isTriggered.ToString());   // APPEND
+}
+public bool GetIsOwlTriggeredOnce() {
+    string readFromFilePath = Application.persistentDataPath + "/isOwlTriggered.txt";
+    bool val = bool.Parse(File.ReadAllText(readFromFilePath));      // no guards
+    ...
+}
+```
+
+`bool.Parse` is called on raw file text with no `File.Exists` check, no `TryParse`, and no
+try/catch — and the writer **appends**. So the read succeeds only in one narrow case:
+
+| File state | How it arises | Result |
+|---|---|---|
+| missing | fresh install, owl never triggered | `FileNotFoundException` |
+| empty | the state on this machine (0 bytes, dated 2023) | `FormatException` ← observed |
+| `True` | `IsOwlTriggeredSO` called exactly once | works |
+| `TrueTrue` | called twice — `LevelSelect.cs:308` can fire repeatedly | `FormatException` |
+
+So it throws for effectively every player. Because it throws from `Start()`, the rest of
+`AllSceneManager.Start()` never runs and `_owlSO.IsOwlDisappereadOnce` is never restored —
+**the owl reappears every launch** for anyone past the trigger.
+
+This is the same append-instead-of-overwrite defect the plan flagged on
+`SaveManager.OverrideJson`; this is a second instance, and unlike that one it is already
+crashing. Phase 5 subsumes it: the flag becomes `SaveData.isOwlDisappearedOnce`, written
+through the atomic `File.Replace` path, and `Load()` never throws. Until Phase 5 lands,
+expect this exception on every MainMenu entry — it is pre-existing, not an upgrade
+regression.
+
+### Minor, same pass
+
+`Alien_Tall` animator: `AnyState -> MonsterArmature_Bite_Front` has no Exit Time and no
+condition, so Unity ignores the transition — the Level 6 boss's bite animation never plays.
+Pre-existing content bug, relevant to Phase 8's Arena 2 verification. *(Minor)*
+
+`AllSceneManager.cs:23-26` — the duplicate-singleton branch calls `Destroy(this)`, which
+destroys only the component and leaves the GameObject, and `DontDestroyOnLoad(this)` then
+runs unconditionally on that same just-destroyed duplicate. Same singleton class of bug as
+section 7. *(Major)*

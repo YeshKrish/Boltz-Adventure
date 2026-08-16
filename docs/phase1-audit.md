@@ -256,21 +256,32 @@ Selection is then written *onto those assets*:
 
 Three consequences:
 
-1. **It mutates project assets from play mode.** In the editor, a subsequent save persists
-   the selection into the `.prefab` files and into version control. `poke bola` is committed
-   as active; that is the last ball someone selected, not a design decision.
+1. **It mutates project assets from the editor.** Unity's in-memory copy of a prefab can
+   diverge from disk and a later save writes the runtime flag back into the `.prefab` file
+   and into version control. Observed twice in Phase 2: `FootBall.prefab` was flipped to
+   active by an editor save, reverted on disk, and flipped back again — because the fix
+   had been applied to the file while Unity still held the dirty object. Correcting it has
+   to go through the AssetDatabase (`SetActive` + `SetDirty` + `SaveAssets`), not a text
+   edit, or Unity simply overwrites it.
 2. **The selection is not actually a selection.** `GameManager` instantiates every active
-   ball, so any state with two active prefabs spawns two stacked balls on the player. This
-   nearly shipped in this phase.
+   ball, so any state with two active prefabs spawns two stacked balls on the player.
 3. **It behaves differently in a build**, where prefab assets are read-only — the flag lives
    only in memory and resets each launch, so editor and device disagree.
+
+**Committed baseline: all six ball roots are `m_IsActive: 0`.** No ball is active on disk;
+`BallManager.Start` activates one at runtime from `PlayerPrefs["PreviousBall"]`. That is the
+clean state and any diff showing a ball root becoming `1` is editor state leaking in, not a
+design change.
 
 This is the same violation the plan flagged as "`ChooseBall` stores selected ball on the
 asset itself", but the mechanism is worse than described. Phase 5 moves it to
 `SaveData.selectedBallId`; `GameManager` then instantiates exactly one ball, looked up by id.
 
-**Guard until then:** exactly one ball prefab may have root `m_IsActive: 1`. Check with
-`grep -m1 m_IsActive Assets/Prefab/Balls/*.prefab` before committing any prefab change.
+**Guard until then:** run `tools/ballcheck.py`, or otherwise match each prefab's root
+GameObject *by name* before reading `m_IsActive`. Do **not** use
+`grep -m1 m_IsActive Assets/Prefab/Balls/*.prefab` — these prefabs have child GameObjects
+serialized ahead of the root, so `-m1` reports a child's flag and silently gives the wrong
+answer. That mistake is what produced the earlier claim that `poke bola` was committed active.
 
 ## 10. Phase 2 target — `EffectCore` ShaderGraphVersion subtree fails to import
 

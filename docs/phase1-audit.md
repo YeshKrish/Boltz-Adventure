@@ -235,3 +235,59 @@ Built-in — activation is Phase 3, which also relocates those two assets into `
 
 Install URP through the package manager rather than hand-editing `manifest.json`, so the
 version resolves against the editor instead of being pinned by guess.
+
+**Done.** URP 17.3.0 is installed and *not* activated —
+`GraphicsSettings.m_CustomRenderPipeline` is `{fileID: 0}` and all 6 quality levels have
+null pipeline overrides, so the project still renders Built-in.
+
+## 9. Ball selection is stored as the active flag on prefab *assets* — Critical
+
+Found when Unity 6 re-serialized `FootBall.prefab` and flipped its root
+`m_IsActive` from 0 to 1.
+
+`ChooseBall.cs:9` exposes `public GameObject[] BallPool` on a ScriptableObject
+(`Assets/Scripts/ScriptableObjects/BallPool.asset`) holding the six ball **prefab assets**.
+Selection is then written *onto those assets*:
+
+- `BallManager.cs:36,42` — `_ballPool.BallPool[i].SetActive(true/false)`
+- `BallManager.cs:27` — `_ballPool.PreviousBall.SetActive(true)`
+- `GameManager.cs:230-234` — loops the pool and `Instantiate`s **every** ball whose
+  `activeSelf` is true
+
+Three consequences:
+
+1. **It mutates project assets from play mode.** In the editor, a subsequent save persists
+   the selection into the `.prefab` files and into version control. `poke bola` is committed
+   as active; that is the last ball someone selected, not a design decision.
+2. **The selection is not actually a selection.** `GameManager` instantiates every active
+   ball, so any state with two active prefabs spawns two stacked balls on the player. This
+   nearly shipped in this phase.
+3. **It behaves differently in a build**, where prefab assets are read-only — the flag lives
+   only in memory and resets each launch, so editor and device disagree.
+
+This is the same violation the plan flagged as "`ChooseBall` stores selected ball on the
+asset itself", but the mechanism is worse than described. Phase 5 moves it to
+`SaveData.selectedBallId`; `GameManager` then instantiates exactly one ball, looked up by id.
+
+**Guard until then:** exactly one ball prefab may have root `m_IsActive: 1`. Check with
+`grep -m1 m_IsActive Assets/Prefab/Balls/*.prefab` before committing any prefab change.
+
+## 10. Phase 2 target — `EffectCore` ShaderGraphVersion subtree fails to import
+
+Installing URP surfaced a hard import error:
+
+```
+Asset import failed, "Assets/EffectCore/packs/StylizedExplosionPack1/shader/
+alphaBlend_glow_shadergraph.ShaderGraph" > InvalidOperationException:
+Failed to add object of type `UniversalMetadata`
+```
+
+The graph predates Shader Graph 17 and cannot be upgraded. Seven materials reference it
+(`empty_glow`, `decal_explode_glow`, `fire_glow`, `flarespark_glow`, `MeltingFire_glow`,
+`circle_glow`, `cartoonSmoke_glow`).
+
+**Not worth repairing.** A GUID scan of the 28 assets under
+`EffectCore/packs/StylizedExplosionPack1/prefabs/ShaderGraphVersion/` against all 11 scenes
+returns zero hits, and none of the 7 materials is referenced outside `EffectCore/` itself.
+The whole subtree is dead weight. Deleting it in Phase 2 removes the error; do that before
+the Phase 3 material conversion so the converter never has to touch it.

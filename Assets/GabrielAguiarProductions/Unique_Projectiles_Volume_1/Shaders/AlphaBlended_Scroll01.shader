@@ -34,7 +34,6 @@ Shader "GAP/AlphaBlendedDistortionScroll" {
         Pass {
             Name "FORWARD"
             Tags {
-                "LightMode"="ForwardBase"
             }
             Blend SrcAlpha OneMinusSrcAlpha
             Cull Off

@@ -15,7 +15,6 @@ Shader "EffectCore/alphaBlend_glow" {
         Pass {
             Name "FORWARD"
             Tags {
-                "LightMode"="ForwardBase"
             }
             Blend SrcAlpha OneMinusSrcAlpha
             ZWrite Off

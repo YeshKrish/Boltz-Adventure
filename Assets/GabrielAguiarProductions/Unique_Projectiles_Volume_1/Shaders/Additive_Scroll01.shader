@@ -34,7 +34,6 @@ Shader "GAP/AdditiveDistortionScroll" {
         Pass {
             Name "FORWARD"
             Tags {
-                "LightMode"="ForwardBase"
             }
             Blend One One
             Cull Off

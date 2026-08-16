@@ -303,6 +303,40 @@ returns zero hits, and none of the 7 materials is referenced outside `EffectCore
 The whole subtree is dead weight. Deleting it in Phase 2 removes the error; do that before
 the Phase 3 material conversion so the converter never has to touch it.
 
+**Done in Phase 2b.** 66 files removed, import error cleared.
+
+## 12. Phase 2 outcome and carry-forward for Phase 3
+
+Cleanup removed ~1,000 files. All 11 scenes open with zero errors and zero warnings apart
+from the `Alien_Tall` animator transition above.
+
+**Kept deliberately, against a first reading of "unreferenced":**
+
+| Kept | Why |
+|---|---|
+| `Platformer Game Kit/**/*.blend` (65 MB) | These are the editable sources for the game's entire art identity — Crab, Bee, Bouncer, Cannon, Hazard_Saw, SpikeTrap, Tower, platforms, rocks, trees, Coin are all live FBX from this kit. Deleting the sources means any future model tweak starts from scratch. |
+| `Free Game Menu Music Pack` (294 MB, 21 WAVs) | Licensed tracks; only one ships today, but new arenas need music and re-sourcing licensed audio is worse than carrying it. |
+| `CustomBall/organic-ball/orgballex.fbx` | Unreachable *because* its prefab is unwired — see below. |
+| GabrielAguiar textures/prefabs, JMO Cartoon FX, EffectCore mobile/legacy prefabs | Effect libraries for future bosses and hazards. |
+
+**Two finished ball skins are not wired up.** `BallPool.asset` is live and feeds 4 ball skins,
+but `Assets/Prefab/Balls/orgballex.prefab` and `WaterMelon.prefab` are **not in the pool** —
+which is why their meshes scan as unreachable. Adding them to `BallPool` is a minutes-long job
+and gets two extra skins for free. Worth doing alongside Phase 5, when ball selection moves to
+`SaveData.selectedBallId`.
+
+**`*.unitypackage` is gitignored** (`.gitignore:61`). The three GabrielAguiar installers
+(112 MB) are local-only and were never in the repo, so deleting them would be irreversible for
+zero repo benefit — they were left in place. Of these,
+`UniqueProjectilesVol1_2020.3_URP_v1.7.unitypackage` is worth keeping on disk for **Phase 3**:
+importing it yields ready-made URP materials for that pack instead of hand-converting them.
+
+**Deleted vector/archive sources** (~254 MB): 50 `.eps`/`.ai` files Unity cannot read, and
+duplicate `.zip`/`.obj` copies of models that already exist as FBX. Note that deleting the
+`.eps`/`.ai` files stranded 28 folder `.meta` files, which made Unity recreate all 28 empty
+folders on the next refresh — when deleting a folder's entire contents outside Unity, remove
+the folder's `.meta` too.
+
 ## 11. `GetIsOwlTriggeredOnce` throws on MainMenu startup — Critical, live
 
 Found by the Phase 1 play-mode gate. Entering play mode on MainMenu throws immediately:

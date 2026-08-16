@@ -1,11 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class SawRotate : MonoBehaviour
 {
-    void Start()
+    [SerializeField]
+    [Tooltip("Seconds for one full revolution. Lower is faster.")]
+    private float _secondsPerRevolution = 0.9f;
+
+    private Tween _spin;
+
+    private void OnEnable()
     {
-        LeanTween.rotateAroundLocal(gameObject, Vector3.up, 360f, 0.9f).setRepeat(-1);
+        _spin = transform
+            .DOLocalRotate(new Vector3(0f, 360f, 0f), _secondsPerRevolution, RotateMode.FastBeyond360)
+            .SetEase(Ease.Linear)
+            .SetLoops(-1, LoopType.Restart)
+            .SetLink(gameObject);
+    }
+
+    private void OnDisable()
+    {
+        _spin?.Kill();
+        _spin = null;
     }
 }

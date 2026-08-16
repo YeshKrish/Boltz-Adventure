@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -28,6 +29,7 @@ public class MainMenu : MonoBehaviour
 
     private bool _isSettingsActivated = false;
     private float _originalAlpha;
+    private Tween _musicImageFade;
 
     private void Start()
     {
@@ -63,6 +65,12 @@ public class MainMenu : MonoBehaviour
 
     }
 
+    private void OnDisable()
+    {
+        _musicImageFade?.Kill();
+        _musicImageFade = null;
+    }
+
     public void MuteAudio()
     {
         if (MusicManager.instance._isGameAudioMuted)
@@ -95,13 +103,20 @@ public class MainMenu : MonoBehaviour
         if (!_isSettingsActivated)
         {
             _isSettingsActivated = true;
-            LeanTween.alpha(_musicImage.rectTransform, 1f, 0.1f).setEase(LeanTweenType.linear);
+            _musicImageFade?.Kill();
+            _musicImageFade = _musicImage.DOFade(1f, 0.1f)
+                .SetEase(Ease.Linear)
+                .SetLink(gameObject);
             StartCoroutine(PopUP());
         }
         else if(_isSettingsActivated){
             _isSettingsActivated = false;
             _musicButton.GetComponent<Button>().interactable = false;
-            LeanTween.alpha(_musicImage.rectTransform, 0f, 0.4f).setEase(LeanTweenType.animationCurve).setOnComplete(PopDown);
+            _musicImageFade?.Kill();
+            _musicImageFade = _musicImage.DOFade(0f, 0.4f)
+                .SetEase(Ease.Linear)
+                .SetLink(gameObject)
+                .OnComplete(PopDown);
         }
     }
 

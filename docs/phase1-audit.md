@@ -2,7 +2,7 @@
 
 All prior findings were verified against the `Version1.0.3` branch, which turned out to be
 content-stripped and ~35% smaller. This document replaces them. Line numbers below are valid
-as of commit `bbae890`+ on `develop`.
+as of commit `1fc79b04`+ on `develop`.
 
 Severity per `unity-standards`: **Critical** / **Major** / **Minor** / **Observation**.
 
@@ -414,7 +414,7 @@ single-SubShader, single-Pass, pure unlit vert/frag shader containing **zero** B
 lighting macros (`LIGHTING_COORDS`, `UNITY_LIGHTING`, `SHADOW_COORDS`, `LIGHT_ATTENUATION`,
 `_LightColor0`, `AutoLight`). They never consumed the tag; it was inherited boilerplate.
 Deleting the one line is a zero-behaviour-change fix and leaves them valid under Built-in too.
-*(commit `36479dd1`)*
+*(commit `7f2bf5f7`)*
 
 **(b) Two shaders were surface shaders, which URP cannot run at all.**
 `GAP/ParticlesAdditiveMobile_Scroll` and `GAP/ParticlesABMobile_Scroll`. Here the
@@ -427,7 +427,7 @@ there is nothing to edit out — the `#pragma surface` path itself has no URP eq
 referenced by `Scenes/Arena2/Level2-1.unity` and nothing else. **The boss was firing invisible
 projectiles.** Relevant to Phase 8's Arena 2 verification.
 
-Both were ported by hand to explicit vertex/fragment passes *(commit `8a3ea1df`)*. The port is
+Both were ported by hand to explicit vertex/fragment passes *(commit `50f83dcd`)*. The port is
 behaviour-preserving rather than a reinterpretation: both declared a custom lighting model
 returning `half4(0,0,0,s.Alpha)` — zero light contribution — and emitted all visible colour
 through `o.Emission`. They were unlit shaders wearing a surface-shader costume. The fragment

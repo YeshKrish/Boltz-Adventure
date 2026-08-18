@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Boltz.Save;
 
 public class LevelSelect : MonoBehaviour
 {
@@ -40,8 +41,6 @@ public class LevelSelect : MonoBehaviour
     private int _totalArenaStars = 15;
     private int totalStars = 0;
 
-    public LevelSelectScriptableObject LevelSelectSO;
-
     private void Awake()
     {
         if (instance == null)
@@ -53,7 +52,7 @@ public class LevelSelect : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        if (LevelSelectSO.IsOwlDisappereadOnce)
+        if (SaveService.IsOwlDisappearedOnce)
         {
             _owl.SetActive(false);
         }
@@ -65,35 +64,22 @@ public class LevelSelect : MonoBehaviour
         LoadDictionary();
 
         DisableAll();
-        if (!PlayerPrefs.HasKey("LevelClearedCount"))
-            PlayerPrefs.SetInt("LevelClearedCount", 0);
 
-        int levelClearedCount = PlayerPrefs.GetInt("LevelClearedCount");
+        int levelClearedCount = SaveService.ClearedCount;
 
         //Checking if it is a new level, if nw adding the levelCleareddCount to previouseLevelCount list
         if (levelClearedCount > 0 && !_previousLevelClearedCount.Contains(levelClearedCount))
         {
             //If LevelSelect screen loads from a Level
-            if (PlayerPrefs.GetInt("IsLastSceneMainMenu") == 0)
+            if (!GameSession.CameFromMainMenu)
             {
-                int startsColected = 0;
                 //No of stars to be poped up
-                if (PlayerPrefs.GetString("CoinsCollected") == "CollectedAll")
+                int startsColected = GameSession.LastRunStars;
+                if (startsColected > 0)
                 {
-                    startsColected = 3;
-                    StarPopper(levelClearedCount - 1, 3);
+                    StarPopper(levelClearedCount - 1, startsColected);
                 }
-                if (PlayerPrefs.GetString("CoinsCollected") == "Collected Half")
-                {
-                    startsColected = 2;
-                    StarPopper(levelClearedCount - 1, 2);
-                }
-                if (PlayerPrefs.GetString("CoinsCollected") == "Collected Quater")
-                {
-                    startsColected = 1;
-                    StarPopper(levelClearedCount - 1, 1);
-                }
-                SaveManager.Instance.SaveJson(startsColected, levelClearedCount - 1);
+
                 LoadDictionary();
 
                 for (int i = 0; i < levelClearedCount; i++)
@@ -117,7 +103,7 @@ public class LevelSelect : MonoBehaviour
                     _arena[1].SetActive(true);
                     if (_allStarsCollected)
                     {
-                        LevelSelectSO.IsOwlDisappereadOnce = true;
+                        SaveService.IsOwlDisappearedOnce = true;
                         _presentArena = 1;
                         _nextAndPreviousArenaButtons[0].interactable = true;
                         _nextAndPreviousArenaButtons[1].interactable = false;
@@ -129,7 +115,7 @@ public class LevelSelect : MonoBehaviour
             else
             {
 
-                //if (_allStarsCollected && LevelSelectSO.IsOwlDisappereadOnce)
+                //if (_allStarsCollected && SaveService.IsOwlDisappearedOnce)
                 //{
                 //    ArenaCompletionAnimationAndUnlockLogic(levelClearedCount);
                 //}
@@ -180,31 +166,16 @@ public class LevelSelect : MonoBehaviour
         }
         else if (levelClearedCount > 0 && _previousLevelClearedCount.Contains(levelClearedCount))
         {
-            int startsColected = 0;
-            int currentLevel = PlayerPrefs.GetInt("Current Level");
-
-            if (PlayerPrefs.GetString("CoinsCollected") == "CollectedAll")
+            int startsColected = GameSession.LastRunStars;
+            if (startsColected > 0 && !GameSession.CameFromMainMenu)
             {
-                startsColected = 3;
-            }
-            if (PlayerPrefs.GetString("CoinsCollected") == "Collected Half")
-            {
-                startsColected = 2;
-            }
-            if (PlayerPrefs.GetString("CoinsCollected") == "Collected Quater")
-            {
-                startsColected = 1;
-            }
-            if (startsColected > 0 && PlayerPrefs.GetInt("IsLastSceneMainMenu") == 0)
-            {
-                SaveManager.Instance.OverrideJson(currentLevel - 1, startsColected);
                 LoadDictionary();
             }
 
             //Stars has to be collected and owl should not have been disappered and it should not be from menu
-            if (_allStarsCollected && !LevelSelectSO.IsOwlDisappereadOnce && PlayerPrefs.GetInt("IsLastSceneMainMenu") == 0)
+            if (_allStarsCollected && !SaveService.IsOwlDisappearedOnce && !GameSession.CameFromMainMenu)
             {
-                LevelSelectSO.IsOwlDisappereadOnce = true;
+                SaveService.IsOwlDisappearedOnce = true;
                 _arena[0].SetActive(false);
                 _arena[1].SetActive(true);
                 _presentArena = 1;
@@ -279,17 +250,17 @@ public class LevelSelect : MonoBehaviour
 
     private void Update()
     {
-        int levelClearedCount = PlayerPrefs.GetInt("LevelClearedCount");
+        int levelClearedCount = SaveService.ClearedCount;
 
         FindIfArenaCompleted(levelClearedCount);
 
-        if (_allStarsCollected && PlayerPrefs.GetInt("IsLastSceneMainMenu") == 1)
+        if (_allStarsCollected && GameSession.CameFromMainMenu)
         {
             _owl.SetActive(false);
         }
-        if (_allStarsCollected && !LevelSelectSO.IsOwlDisappereadOnce && PlayerPrefs.GetInt("IsLastSceneMainMenu") == 0)
+        if (_allStarsCollected && !SaveService.IsOwlDisappearedOnce && !GameSession.CameFromMainMenu)
         {
-            LevelSelectSO.IsOwlDisappereadOnce = true;
+            SaveService.IsOwlDisappearedOnce = true;
             Destroy(_OwlTextPrompt);
             DisableOwl();
             _arena[0].SetActive(false);
@@ -303,9 +274,9 @@ public class LevelSelect : MonoBehaviour
     {
         await Task.Delay(4000);
         _owl.SetActive(false);
-        if (LevelSelectSO.IsOwlDisappereadOnce)
+        if (SaveService.IsOwlDisappearedOnce)
         {
-            SaveManager.Instance.IsOwlTriggeredSO(true);
+            SaveService.Flush();
         }
     }
 
@@ -376,7 +347,18 @@ public class LevelSelect : MonoBehaviour
 
     private void LoadDictionary()
     {
-        _levelCompleteAndStarsGainedDict = SaveManager.Instance.LoadJson();
+        _levelCompleteAndStarsGainedDict.Clear();
+
+        for (int ordinal = 0; ordinal < _levelsToUnlock.Length; ordinal++)
+        {
+            var levelId = LevelId.ForOrdinal(ordinal);
+            if (string.IsNullOrEmpty(levelId))
+                continue;
+
+            int stars = SaveService.GetStars(levelId);
+            if (stars > 0)
+                _levelCompleteAndStarsGainedDict[ordinal] = stars;
+        }
     }
 
     public void NextArena()
@@ -407,11 +389,26 @@ public class LevelSelect : MonoBehaviour
         _arena[_presentArena].SetActive(true);
         _arena[previousArena].SetActive(false);
     }
+    /// <summary>
+    /// Sums the stars for the arena the player is currently looking at, which is the window of five
+    /// levels ending at <paramref name="levelCompleted"/>.
+    ///
+    /// This used to re-read the save file from disk on every call, and Update calls it every frame.
+    /// On a fresh install the read returned null and the sum threw, so the level select screen
+    /// logged an error and raised an exception once per frame until the first level was finished.
+    /// </summary>
     private void FindIfArenaCompleted(int levelCompleted)
     {
-        Dictionary<int, int> loadedData = SaveManager.Instance.LoadJson(); // Assuming you have already loaded the data
-        totalStars = SaveManager.Instance.GetTotalStars(loadedData, levelCompleted);
-        if(totalStars == _totalArenaStars)
+        int startLevel = Mathf.Max(levelCompleted - 5, 0);
+
+        totalStars = 0;
+        for (int level = startLevel; level <= levelCompleted; level++)
+        {
+            if (_levelCompleteAndStarsGainedDict.TryGetValue(level, out int stars))
+                totalStars += stars;
+        }
+
+        if (totalStars == _totalArenaStars)
         {
             _allStarsCollected = true;
         }

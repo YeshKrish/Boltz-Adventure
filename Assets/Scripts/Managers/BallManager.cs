@@ -1,82 +1,66 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Boltz.Save;
 
+/// <summary>
+/// Owns which ball skin the player has chosen.
+///
+/// Selection used to be stored as the active flag on the ball prefab assets themselves, which meant
+/// the editor wrote runtime state into project files, two skins could be active at once, and a build
+/// behaved differently from the editor because prefab assets are read only there. The choice is a
+/// single index in the save profile now, and this class exists to keep that index inside the bounds
+/// of the pool.
+/// </summary>
 public class BallManager : MonoBehaviour
 {
     public static BallManager Instance;
 
-    //Scriptable Objects
     [SerializeField]
     private ChooseBall _ballPool;
 
+    /// <summary>Index of the chosen skin, clamped to something the pool can actually supply.</summary>
+    public int SelectedBallId => ClampToPool(SaveService.SelectedBallId);
+
+    /// <summary>The chosen skin's prefab, or null when the pool is empty.</summary>
+    public GameObject SelectedBallPrefab
+    {
+        get
+        {
+            if (_ballPool == null || _ballPool.BallPool == null || _ballPool.BallPool.Length == 0)
+                return null;
+
+            return _ballPool.BallPool[SelectedBallId];
+        }
+    }
+
     private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
         }
 
-        SetPreviousBall();
         DontDestroyOnLoad(this);
-    }
-
-    private void SetPreviousBall()
-    {
-        _ballPool.PreviousBall = _ballPool.BallPool[PlayerPrefs.GetInt("PreviousBall")];
-        _ballPool.PreviousBall.SetActive(true);
     }
 
     public void ActivateParticularBall(int ballId)
     {
-        for (int i = 0; i < _ballPool.BallPool.Length; i++)
-        {
-            if (i == ballId)
-            {
-                _ballPool.BallPool[i].SetActive(true);
-                _ballPool.PreviousBall = _ballPool.BallPool[i];
-                SetPreviousBallName(_ballPool.PreviousBall.gameObject.name);
-            }
-            else
-            {
-                _ballPool.BallPool[i].SetActive(false);
-            }
-        }
-    }
+        SaveService.SelectedBallId = ClampToPool(ballId);
 
-    private void SetPreviousBallName(string ballName)
-    {
-        if (ballName == "robot_ball")
-        {
-            PlayerPrefs.SetInt("PreviousBall", 0);
-        }
-        if (ballName == "rocket ball")
-        {
-            PlayerPrefs.SetInt("PreviousBall", 1);
-        }
-        if (ballName == "poke bola")
-        {
-            PlayerPrefs.SetInt("PreviousBall", 2);
-        }
-        if (ballName == "FootBall")
-        {
-            PlayerPrefs.SetInt("PreviousBall", 3);
-        }
+        // Skin choice is cheap to write and annoying to lose, so it does not wait for the next
+        // pause or quit.
+        SaveService.Flush();
     }
 
     public int GetActiveball()
     {
-        if (_ballPool.BallPool.Length > 0)
-        {
-            for (int i = 0; i < _ballPool.BallPool.Length; i++)
-            {
-                if (_ballPool.BallPool[i].activeSelf)
-                {
-                    return i;
-                }
-            }
-        }
-        return 0;
+        return SelectedBallId;
+    }
 
+    private int ClampToPool(int ballId)
+    {
+        if (_ballPool == null || _ballPool.BallPool == null || _ballPool.BallPool.Length == 0)
+            return 0;
+
+        return Mathf.Clamp(ballId, 0, _ballPool.BallPool.Length - 1);
     }
 }

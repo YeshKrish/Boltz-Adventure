@@ -7,8 +7,6 @@ public class Item : ScriptableObject
 {
     public string objectName;
 
-    public static int quatity = 0;
-
     public bool stackable;
 
     public enum ItemType

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Boltz.Save;
 
 public class Lever : MonoBehaviour
 {
@@ -22,7 +23,7 @@ public class Lever : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             _leverOn.SetBool("canLevelOn", true);
-            if(PlayerPrefs.GetInt("Current Level") == 5)
+            if (GameSession.CurrentLevelBuildIndex == 5)
             {
                 AllSceneManager.instance.ActivateWayPointBasedOnCondition(_wayPointsBricksToActivate);
 

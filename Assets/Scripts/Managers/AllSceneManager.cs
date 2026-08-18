@@ -7,9 +7,6 @@ public class AllSceneManager : MonoBehaviour
     public static AllSceneManager instance;
     public Sprite[] _audioSprites;
 
-    [SerializeField]
-    private LevelSelectScriptableObject _owlSO;
-
     private string _previousScene; 
 
     private void Awake()
@@ -24,20 +21,6 @@ public class AllSceneManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(this);
-
-        //GameOver Level index
-        PlayerPrefs.SetInt("GameOverLevel", 7);
-    }
-
-    private void Start()
-    {
-        bool owlTriggered = SaveManager.Instance.GetIsOwlTriggeredOnce();
-        Debug.Log("Owwl" + owlTriggered);
-        if (owlTriggered)
-        {
-            Debug.Log("Hiii");
-            _owlSO.IsOwlDisappereadOnce = owlTriggered;
-        }
     }
 
     //Activate Objects
@@ -62,11 +45,6 @@ public class AllSceneManager : MonoBehaviour
                 gameObjToDeactivate[i].SetActive(false);
             }
         }
-    }
-
-    private void OnApplicationQuit()
-    {
-        PlayerPrefs.SetInt("IsMainMenuChnagedAtLeastOnce", 0);
     }
 
     public void ActivateWayPointBasedOnCondition(List<GameObject> wayPoinObjectToActivate)

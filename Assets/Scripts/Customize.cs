@@ -5,13 +5,6 @@ using UnityEngine.UI;
 
 public class Customize : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject _player;
-
-    [SerializeField]
-    private ChooseBall _ballPool;
-
-
     public List<GameObject> SpotLights = new List<GameObject>();
 
     private void Start()
@@ -33,18 +26,9 @@ public class Customize : MonoBehaviour
 
     private void SpotLightChoose(int ballId)
     {
-        for (int i = 0; i < _ballPool.SpotLight.Length; i++)
+        for (int i = 0; i < SpotLights.Count; i++)
         {
-            if(i == ballId)
-            {
-                _ballPool.SpotLight[i].SetActive(true);
-                SpotLights[i].SetActive(true);
-            }
-            else
-            {
-                _ballPool.SpotLight[i].SetActive(false);
-                SpotLights[i].SetActive(false);
-            }
+            SpotLights[i].SetActive(i == ballId);
         }
     }
 

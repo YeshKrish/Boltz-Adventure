@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Boltz.Save;
 
 public class GameManager : MonoBehaviour
 {
@@ -103,27 +104,11 @@ public class GameManager : MonoBehaviour
         _scriptsToBeDeactivated.Add(_lever);
 
         isDoorOpened = false;
-        PlayerPrefs.SetInt("IsLastSceneMainMenu", 0);
 
-        if (PlayerPrefs.HasKey("LevelCleared"))
-        {
+        GameSession.CameFromMainMenu = false;
+        GameSession.CurrentLevelBuildIndex = SceneManager.GetActiveScene().buildIndex;
 
-        }
-        else
-        {
-            PlayerPrefs.SetInt("LevelCleared", 0);
-            if (PlayerPrefs.HasKey("LevelClearedCount"))
-            {
-
-            }
-            else
-            {
-                PlayerPrefs.SetInt("LevelClearedCount", 0);
-            }
-        }
-        PlayerPrefs.SetInt("Current Level", SceneManager.GetActiveScene().buildIndex);
-
-        if(PlayerPrefs.GetInt("Current Level") == 1)
+        if (GameSession.CurrentLevelBuildIndex == 1)
         {
             Time.timeScale = 0;
             UIManager.Instance.JoyStick.SetActive(false);
@@ -135,7 +120,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        Item.quatity = 0;
+        GameSession.CoinsThisLevel = 0;
         isPlayerDead = true;
         Destroy(_player.gameObject);
         DeactivateScripts();
@@ -164,76 +149,77 @@ public class GameManager : MonoBehaviour
 
     public void NextLevel()
     {
-        int prevoiusBuildIndex = PlayerPrefs.GetInt("LevelCleared");
-        int currentBuildIndex = SceneManager.GetActiveScene().buildIndex;
-        int previousLevelCount = PlayerPrefs.GetInt("LevelClearedCount");
+        int coinsThisRun = GameSession.CoinsThisLevel;
+        string levelId = SceneManager.GetActiveScene().name;
+        int stars = StarsForCoins(coinsThisRun, _coinCount);
 
+        SaveService.AddCoins(coinsThisRun);
+        SaveService.RecordLevelResult(levelId, stars, coinsThisRun);
 
-        PlayerPrefs.SetInt("CoinsCollectedQuantity", Item.quatity + PlayerPrefs.GetInt("CoinsCollectedQuantity"));
+        // The level select screen reads these to decide which stars to pop on the way in.
+        GameSession.LastRunLevelId = levelId;
+        GameSession.LastRunStars = stars;
 
-        //Total Coin quatity checking
-        if(Item.quatity == _coinCount)
-        {
-            PlayerPrefs.SetString("CoinsCollected", "CollectedAll");
-        }
-        else if(Item.quatity < _coinCount && Item.quatity >= Mathf.Ceil(_coinCount / 2))
-        {
-            PlayerPrefs.SetString("CoinsCollected", "Collected Half");
-        }
-        else if(Item.quatity < _coinCount && Item.quatity >= Mathf.Ceil(_coinCount / 4))
-        {
-            PlayerPrefs.SetString("CoinsCollected", "Collected Quater");
-        }
-
-        if(currentBuildIndex > prevoiusBuildIndex)
-        {
-            PlayerPrefs.SetInt("LevelCleared", SceneManager.GetActiveScene().buildIndex);
-            PlayerPrefs.SetInt("LevelClearedCount", previousLevelCount + 1);
-        }
+        // Finishing a level is the one moment worth writing immediately, rather than waiting for
+        // the app to be paused or closed.
+        SaveService.Flush();
 
         int nextScene = SceneManager.GetActiveScene().buildIndex + 1;
 
-        if (PlayerPrefs.GetInt("GameOverLevel") != nextScene)
-        {  
+        if (nextScene != GameSession.GameCompletedBuildIndex)
+        {
             SceneManager.LoadScene("LevelSelect");
-            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
         else
         {
-            int levelClearedCount = PlayerPrefs.GetInt("LevelClearedCount");
-            if (PlayerPrefs.GetString("CoinsCollected") == "CollectedAll")
-            {
-                SaveManager.Instance.SaveJson(3, levelClearedCount - 1);
-
-            }
-            if (PlayerPrefs.GetString("CoinsCollected") == "Collected Half")
-            {
-                SaveManager.Instance.SaveJson(2, levelClearedCount - 1);
-            }
-            if (PlayerPrefs.GetString("CoinsCollected") == "Collected Quater")
-            {
-                SaveManager.Instance.SaveJson(1, levelClearedCount - 1);
-            }
             SceneManager.LoadScene("GameCompleted");
         }
+    }
 
+    /// <summary>
+    /// Stars awarded for collecting <paramref name="collected"/> of <paramref name="total"/> coins:
+    /// all of them for three, half for two, a quarter for one.
+    ///
+    /// The halves and quarters used to be computed as Mathf.Ceil(total / 2), where the integer
+    /// division happened first and made the rounding a no-op, so both thresholds could sit one coin
+    /// below their intended value. Phase 6 replaces this with authored per-level thresholds.
+    /// </summary>
+    private static int StarsForCoins(int collected, int total)
+    {
+        if (total <= 0)
+            return 0;
 
+        if (collected >= total)
+            return 3;
+
+        if (collected >= Mathf.CeilToInt(total / 2f))
+            return 2;
+
+        if (collected >= Mathf.CeilToInt(total / 4f))
+            return 1;
+
+        return 0;
     }
 
     public int GetCurrentScene()
     {
-        return (PlayerPrefs.GetInt("Current Level"));
+        return GameSession.CurrentLevelBuildIndex;
     }
 
     private void SetPlayerBall()
     {
-        for (int i = 0; i < _ballPool.BallPool.Length; i++)
-        {
-            if (_ballPool.BallPool[i].activeSelf)
-            {
-                Instantiate(_ballPool.BallPool[i].gameObject, _player.position, Quaternion.Euler(_ballPool.BallPool[i].gameObject.transform.localRotation.eulerAngles.x, _ballPool.BallPool[i].gameObject.transform.localRotation.eulerAngles.y, _ballPool.BallPool[i].gameObject.transform.localRotation.eulerAngles.z), _player);
-            }
-        }
+        if (_ballPool == null || _ballPool.BallPool == null || _ballPool.BallPool.Length == 0)
+            return;
+
+        int ballId = Mathf.Clamp(SaveService.SelectedBallId, 0, _ballPool.BallPool.Length - 1);
+        var prefab = _ballPool.BallPool[ballId];
+        if (prefab == null)
+            return;
+
+        // The ball prefabs are committed inactive, because selection used to be stored as their
+        // active flag. Instantiating one by index therefore has to switch it on explicitly.
+        var ball = Instantiate(prefab, _player.position, prefab.transform.localRotation, _player);
+        ball.SetActive(true);
     }
 
     //W

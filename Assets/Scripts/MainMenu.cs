@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using System.Threading.Tasks;
+using Boltz.Save;
 
 
 public class MainMenu : MonoBehaviour
@@ -47,21 +48,9 @@ public class MainMenu : MonoBehaviour
             _musicImage.sprite = AllSceneManager.instance._audioSprites[1];
         }
 
-        PlayerPrefs.SetInt("IsLastSceneMainMenu", 1);
+        GameSession.CameFromMainMenu = true;
 
-        int coins = 0;
-        if (!PlayerPrefs.HasKey("CoinsCollectedQuantity"))
-        {
-            coins = 0;
-            PlayerPrefs.SetInt("CoinsCollectedQuantity", 0);
-           
-        }
-        else
-        {
-            coins = PlayerPrefs.GetInt("CoinsCollectedQuantity");
-        }
-
-        Coinstext.SetText(coins.ToString());
+        Coinstext.SetText(SaveService.TotalCoins.ToString());
 
     }
 
@@ -138,12 +127,12 @@ public class MainMenu : MonoBehaviour
 
     private void MainMenuChangedOnce()
     {
-        PlayerPrefs.SetInt("IsMainMenuChnagedAtLeastOnce", 1);
+        GameSession.HasLeftMainMenu = true;
     }
 
     private void PlayAnimation()
     {
-        if(PlayerPrefs.GetInt("IsMainMenuChnagedAtLeastOnce") == 0)
+        if (!GameSession.HasLeftMainMenu)
         {
             _logoAnimation.enabled = true;
             _boardAnimation.enabled = true;

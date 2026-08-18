@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using System.Collections.Generic;
+using Boltz.Save;
 
 public class UIManager : MonoBehaviour
 {
@@ -44,20 +45,20 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        Item.quatity = 0;
-        _coinText.text = Item.quatity.ToString();
+        GameSession.CoinsThisLevel = 0;
+        _coinText.text = GameSession.CoinsThisLevel.ToString();
     }
 
     public void UpdateScoreText()
     {
-        Item.quatity = Item.quatity + 1;
-        if (Item.quatity < 10)
+        GameSession.CoinsThisLevel++;
+        if (GameSession.CoinsThisLevel < 10)
         {
-            _coinText.text = "0" + Item.quatity.ToString();
+            _coinText.text = "0" + GameSession.CoinsThisLevel.ToString();
         }
         else
         {
-            _coinText.text = Item.quatity.ToString();
+            _coinText.text = GameSession.CoinsThisLevel.ToString();
         }
     }
 

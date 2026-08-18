@@ -9,6 +9,4 @@ public class ChooseBall : ScriptableObject
     public GameObject[] BallPool;
 
     public GameObject[] SpotLight;
-
-    public GameObject PreviousBall;
 }

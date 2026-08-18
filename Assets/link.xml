@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  IL2CPP managed stripping is enabled for Android (level: Low). DOTween resolves
+  tween plugins and shortcut extensions by reflection, so the stripper cannot see
+  those call sites and will happily remove types that are only ever reached that
+  way. Preserving both DOTween assemblies is Demigiant's own recommendation.
+
+  DOTween.Modules is the loose-script assembly under
+  Assets/Plugins/Demigiant/DOTween/Modules/. It supplies the UI shortcuts
+  (Image.DOFade and friends) that DOTween.dll itself does not contain.
+-->
+<linker>
+  <assembly fullname="DOTween" preserve="all" />
+  <assembly fullname="DOTween.Modules" preserve="all" />
+</linker>

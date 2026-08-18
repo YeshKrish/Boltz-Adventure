@@ -1,0 +1,20 @@
+{
+    "name": "Boltz.Runtime",
+    "rootNamespace": "",
+    "references": [
+        "UnityEngine.UI",
+        "Unity.TextMeshPro",
+        "PathCreator",
+        "Boltz.ThirdParty.Joystick",
+        "DOTween.Modules"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

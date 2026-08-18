@@ -1,0 +1,19 @@
+{
+    "name": "Boltz.ThirdParty.Joystick.Editor",
+    "rootNamespace": "",
+    "references": [
+        "Boltz.ThirdParty.Joystick",
+        "UnityEngine.UI"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

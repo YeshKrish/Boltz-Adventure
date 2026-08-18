@@ -10,6 +10,10 @@
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
 
+# Native build cache written by IL2CPP during Android development builds.
+# Not in the upstream Unity.gitignore yet.
+/.utmp/
+
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
 /[Mm]emoryCaptures/

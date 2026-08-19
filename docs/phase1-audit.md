@@ -404,3 +404,91 @@ never at risk, since it has no `LightMode` tag and URP draws it normally. And th
 legacy particle materials (`Legacy Shaders/Particles/*`, `Mobile/Particles/*`) already render
 correctly for the same reason, so converting them to `Particles/Unlit` is optional
 modernization rather than a fix, and is not blocking anything.
+
+## 15. The assembly split exposed a dependency cycle
+
+Phase 4 put the game code in `Boltz.Runtime`. Three things about that were not in the plan.
+
+**`Assets/Joystick Pack/Scripts/Editor/` needed its own assembly.** An assembly definition
+overrides special folder behaviour, so once the pack has an asmdef the four `[CustomEditor]`
+scripts under `Editor/` stop being treated as editor-only and land in the runtime assembly,
+where `using UnityEditor` does not compile. Any third-party folder that gets an asmdef and
+has an `Editor` subfolder needs a second, editor-only asmdef alongside it.
+
+**DOTween's modules are loose `.cs` files, not part of `DOTween.dll`.** They live in
+`Assets/Plugins/Demigiant/DOTween/Modules/` and so compile into `Assembly-CSharp-firstpass`,
+which nothing with an asmdef can reference. That matters because `Image.DOFade` is defined
+there rather than in the DLL, and `MainMenu.cs` calls it.
+
+Do not hand-write an asmdef into that folder. `ASMDEFManager` inside `DOTweenEditor.dll`
+owns it and deletes any file it finds there while `createASMDEF` is `0` in
+`Assets/Resources/DOTweenSettings.asset`. Setting that flag is the fix, and DOTween then
+generates and maintains the file itself, which is why it looks nothing like the hand-written
+ones. A file written by hand disappears on the next domain reload with no error.
+
+**`SpecialMonsters` and `ProjectileMoveScript` reference each other.**
+
+| Direction | Sites |
+|---|---|
+| `SpecialMonsters.cs` 50 and 217 | `ProjectileMoveScript.DeactivateAllActiveBullets` |
+| `ProjectileMoveScript.cs` 60 | `SpecialMonsters._startPos` |
+| `ProjectileMoveScript.cs` 71 | `GameManager.instance.GameOver()` |
+
+Two assemblies cannot reference each other, so giving the projectile pack its own asmdef is
+not possible while those upward references exist. The pack's
+`Scripts/UniqueProjectiles/` folder is folded into `Boltz.Runtime` by an `.asmref` instead.
+That changes no code and moves no files, and the cycle simply never forms.
+
+The sibling `Scripts/ParticleSystemController/` folder was checked in both directions, shares
+nothing with `UniqueProjectiles/`, and stays in `Assembly-CSharp`.
+
+The real fix is to delete the two upward references so the pack knows nothing about game
+code, which means changing how the Level 6 boss reports a game over and where the arena's
+start position is read from. That is a gameplay change to the file with the highest defect
+density in the project, so it was left out of a phase whose whole point was that the compiler
+answers whether anything broke.
+
+`Boltz.Editor` and `Boltz.Tests.PlayMode` still hold no scripts and Unity warns about each on
+every compile. Expected, and it stops once either gets its first file.
+
+## 16. What the save rewrite covers, and what it does not
+
+The 29 EditMode tests pass. They cover the corruption path against real malformed JSON, both
+the fall back to `.bak` and the fall back to defaults, that repeated saves do not grow the
+file, that a weaker replay does not overwrite a better result, and that a repeated ordinal in
+the legacy star file takes the best value rather than the last.
+
+Two gaps worth knowing about.
+
+`Boltz.Tests.PlayMode` is empty, so nothing exercises `SaveFlushBehaviour.OnApplicationPause`.
+Android kills backgrounded apps without firing `OnApplicationQuit`, so that hook is the one
+that saves most players' progress and it is the only part of the save system with no
+automated coverage.
+
+Migration is tested against synthetic input, not against real data. The nine shipped
+`PlayerPrefs` keys and an actual `levelAndStar.txt` from a store install have not been run
+through `LegacySaveMigrator`. Only a device upgrading from the old build proves that, and it
+is one shot, because the migrator deletes the legacy keys once it has read them.
+
+## 17. The customize screen is built for exactly four skins
+
+`ChooseBall.BallPool` now holds six. `orgballex` and `WaterMelon` were appended rather than
+inserted, so the four existing indices keep their meaning and no migrated `SelectedBallId`
+moves. Neither is reachable yet.
+
+Selection lives in `Assets/Scenes/Customize.unity`, and four is baked into it four separate
+ways.
+
+- `Customize.SpotLights` has four entries. `Customize.cs:31` runs
+  `SpotLights[i].SetActive(i == ballId)`, so an index the list does not contain matches
+  nothing and switches every spotlight off. A button reaching skin 4 or 5 before this list
+  grows would blank the selection screen rather than fail loudly.
+- Four `Image` cells under `HorizontalGrid`, with four `onClick` entries into
+  `ActivateParticularBall`. Nothing can send 4 or 5 today.
+- `Assets/Animation/BallChoose.anim` binds its curves by child name, `Image (2)` and
+  `Image (3)` among them. New cells inherit no curves and sit still while the others move.
+- The cells pair with `SpotLight1` through `SpotLight4` in `Assets/Prefab/SpotLight/`.
+
+One trap. `ChooseBall.SpotLight`, the array directly below `BallPool` in the same asset, is
+dead. Nothing reads it. The live list is `Customize.SpotLights` in the scene, and extending
+the asset's array looks like the fix while doing nothing at all.

@@ -492,3 +492,78 @@ ways.
 One trap. `ChooseBall.SpotLight`, the array directly below `BallPool` in the same asset, is
 dead. Nothing reads it. The live list is `Customize.SpotLights` in the scene, and extending
 the asset's array looks like the fix while doing nothing at all.
+
+## 18. Four level select tiles opened the wrong scenes
+
+Found while mapping the level select screen for Phase 6. The screen lays out ten tiles across
+two arenas, but only six levels exist. The four spare tiles in arena 2 were not empty
+placeholders. Each carried a live `onClick` calling `LevelToBeOpened` with a build index.
+
+| Tile | Argument | Scene at that build index |
+|---|---|---|
+| Level7 | 7 | GameOver |
+| Level8 | 8 | LevelSelect |
+| Level9 | 9 | GameCompleted |
+| Level10 | 10 | Customize |
+
+They were reachable. On returning from a level the screen ran
+`_levelsToUnlock[levelClearedCount]` to open the next tile, and once all six levels were
+cleared that index is 6, which is Level7. The guard in front of it was
+`levelClearedCount % 5 != 0`, and 6 % 5 is 1, so it passed.
+
+The route in: clear all six levels, relaunch so the static `_previousLevelClearedCount` is
+empty again, replay any level that is not the last, then return to the level select screen. A
+seventh tile unlocks and opens the GameOver scene.
+
+An earlier note in this document described that line as indexing past the end of the array.
+That was wrong. Only six levels exist so the cleared count never exceeds 6 and the array holds
+ten, meaning it never overruns. It indexes into the bogus tiles instead, which is worse than a
+crash because nothing reports it.
+
+Related, `FindIfArenaCompleted` summed a six wide window, `levelCompleted - 5` through
+`levelCompleted` inclusive, against a hardcoded 15. At a cleared count of 6 that window covers
+levels 1-2 through 2-1 rather than arena 1, so "arena 1 fully starred" could be satisfied by
+the wrong five levels. The window also counted the arena 2 level towards the total that
+unlocks arena 2.
+
+Fixed by giving the tiles no build index at all. `LevelButtonView` holds a `LevelDefinition` or
+null, a null tile renders permanently locked and cannot be tapped, and the unlock rule moved to
+`LevelProgression.IsUnlocked`, which checks that every earlier level is cleared and that the
+arena's star requirement is met by the arenas ahead of it only.
+
+## 19. What Phase 6 replaced, and what is still unproven
+
+The level order, the end of the game and the star thresholds are authored now. Coin counts were
+read from each scene's `CoinBag`, the same source `GameManager` counts at runtime, and the
+thresholds reproduce the old ratio behaviour exactly. That was checked by running the previous
+formula against the new one for every coin count on every level rather than by reading them
+side by side.
+
+| Level | Coins | 1 star | 2 stars | 3 stars |
+|---|---|---|---|---|
+| Level1-1 | 15 | 4 | 8 | 15 |
+| Level1-2 | 15 | 4 | 8 | 15 |
+| Level1-3 | 15 | 4 | 8 | 15 |
+| Level1-4 | 15 | 4 | 8 | 15 |
+| Level1-5 | 20 | 5 | 10 | 20 |
+| Level2-1 | 15 | 4 | 8 | 15 |
+
+`GameManager` now warns when a level's authored coin count disagrees with the number of coins
+actually in the scene. Authored thresholds go stale the moment somebody adds or removes a coin,
+and nothing else would notice.
+
+Three things worth carrying forward.
+
+The level select entry animation is unexercised. Binding was verified in play mode against a
+real profile, but the star pop, the arena crossing and the owl only run on arriving from a
+level with 15 stars in arena 1. The code is reviewed, not run.
+
+`Lever.cs:26` still reads `GameSession.CurrentLevelBuildIndex == 5`. It is the last hardcoded
+build index in the project. It gates activating a waypoint list that is probably only populated
+on that level, so testing whether the list is empty would likely remove the check outright,
+but that needs confirming against all six scenes.
+
+Re-saving `Level1.prefab` migrated it to the Unity 6 serialization format, dropping
+`m_RootOrder`, moving `Animator` to serializedVersion 7 and renaming TextMeshPro's
+`m_enableWordWrapping` to `m_TextWrappingMode`. That accounts for most of that file's diff and
+is not a behaviour change. Expect the same the first time any other old prefab is re-saved.

@@ -1,431 +1,293 @@
 using System.Collections;
-using System.Threading.Tasks;
 using System.Collections.Generic;
+using Boltz.Levels;
+using Boltz.Save;
+using Boltz.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using Boltz.Save;
 
+/// <summary>
+/// The level select screen.
+///
+/// This used to work out what to show from a cleared count and the build index order, in two nearly
+/// identical forty line branches, with a static list carried between scene loads deciding which of
+/// them ran. It also polled the save every frame from Update to notice when an arena was finished.
+///
+/// It is now a straight read of the level database and the save profile: bind every tile once, then
+/// play the entry animation if the player arrived by finishing a level. Nothing here writes progress
+/// apart from the owl's one time flag.
+/// </summary>
 public class LevelSelect : MonoBehaviour
 {
+    [Tooltip("Every tile, in play order. Slots past the last authored level render permanently locked.")]
     [SerializeField]
-    private Button[] _levelsToUnlock;
+    private LevelButtonView[] _buttons;
+
+    [Tooltip("One page per arena, matching the database's arena order.")]
     [SerializeField]
-    private GameObject[] _locksToUnlock;
-    [SerializeField]
-    private GameObject[] _stars;
-    [SerializeField]
-    private List<GameObject> _arena;
+    private List<GameObject> _arenaPages;
+
+    [Tooltip("Next and previous arena buttons, in that order.")]
     [SerializeField]
     private List<Button> _nextAndPreviousArenaButtons;
+
     [SerializeField]
-    private Animator _ownDisappearingAnimation;
+    private Animator _owlDisappearingAnimation;
+
     [SerializeField]
     private GameObject _owl;
+
     [SerializeField]
-    private GameObject _OwlTextPrompt;
-    [SerializeField]
-    private AnimationClip _owlMoveAnim;
+    private GameObject _owlTextPrompt;
 
-    private bool _allStarsCollected = false;
+    /// <summary>Beat before the owl reacts to a newly opened arena, so the page change reads first.</summary>
+    private const float OwlReactionDelay = 0.3f;
 
-    private static LevelSelect instance;
+    /// <summary>How long the owl stays visible after reacting, before leaving for good.</summary>
+    private const float OwlDepartureSeconds = 4f;
 
-    private static List<int> _previousLevelClearedCount = new List<int>();
+    private const float OwlPromptSeconds = 2.5f;
 
-    private Dictionary<int, int> _levelCompleteAndStarsGainedDict = new Dictionary<int, int>();
-
-    private int _presentArena = 0;
-
-    //total Arena stars
-    private int _totalArenaStars = 15;
-    private int totalStars = 0;
+    private LevelDatabase _database;
+    private int _currentPage;
+    private Coroutine _promptRoutine;
 
     private void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
+        _database = LevelFlow.Database;
 
-        if (SaveService.IsOwlDisappearedOnce)
-        {
+        if (_owl != null && SaveService.IsOwlDisappearedOnce)
             _owl.SetActive(false);
-        }
+
+        foreach (var button in Buttons())
+            button.Clicked += OnLevelChosen;
+    }
+
+    private void OnDestroy()
+    {
+        foreach (var button in Buttons())
+            button.Clicked -= OnLevelChosen;
     }
 
     private void Start()
     {
-        Debug.Log("total" + totalStars);
-        LoadDictionary();
+        BindAll();
 
-        DisableAll();
+        var justPlayed = _database == null ? null : _database.GetById(GameSession.LastRunLevelId);
+        bool arrivedFromALevel = !GameSession.CameFromMainMenu && justPlayed != null;
 
-        int levelClearedCount = SaveService.ClearedCount;
+        ShowPage(arrivedFromALevel ? PageOf(justPlayed) : FurthestOpenPage());
 
-        //Checking if it is a new level, if nw adding the levelCleareddCount to previouseLevelCount list
-        if (levelClearedCount > 0 && !_previousLevelClearedCount.Contains(levelClearedCount))
+        if (arrivedFromALevel)
+            StartCoroutine(PlayEntrySequence(justPlayed));
+    }
+
+    /// <summary>Shows every tile's current state, with no animation.</summary>
+    private void BindAll()
+    {
+        if (_database == null || _buttons == null)
+            return;
+
+        var levels = _database.All;
+
+        for (int i = 0; i < _buttons.Length; i++)
         {
-            //If LevelSelect screen loads from a Level
-            if (!GameSession.CameFromMainMenu)
-            {
-                //No of stars to be poped up
-                int startsColected = GameSession.LastRunStars;
-                if (startsColected > 0)
-                {
-                    StarPopper(levelClearedCount - 1, startsColected);
-                }
+            if (_buttons[i] == null)
+                continue;
 
-                LoadDictionary();
-
-                for (int i = 0; i < levelClearedCount; i++)
-                {
-                    foreach (KeyValuePair<int, int> keyValuePair in _levelCompleteAndStarsGainedDict)
-                    {
-                        StarPopper(keyValuePair.Key, keyValuePair.Value);
-                    }
-                    _levelsToUnlock[i].interactable = true;
-                    _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
-                }
-
-                if(levelClearedCount % 5 != 0)
-                {
-                    _levelsToUnlock[levelClearedCount].transform.GetChild(0).GetChild(1).gameObject.GetComponent<Animator>().enabled = true;
-                    StartCoroutine(DisableLockWithAnimation(levelClearedCount));
-                }
-                else if(levelClearedCount % 5 == 0)
-                {
-                    _arena[0].SetActive(false);
-                    _arena[1].SetActive(true);
-                    if (_allStarsCollected)
-                    {
-                        SaveService.IsOwlDisappearedOnce = true;
-                        _presentArena = 1;
-                        _nextAndPreviousArenaButtons[0].interactable = true;
-                        _nextAndPreviousArenaButtons[1].interactable = false;
-                        ArenaCompletionAnimationAndUnlockLogic(levelClearedCount);
-                    }
-                }
-            }
-            //If LevelSelect screen loads from a Menu
-            else
-            {
-
-                //if (_allStarsCollected && SaveService.IsOwlDisappearedOnce)
-                //{
-                //    ArenaCompletionAnimationAndUnlockLogic(levelClearedCount);
-                //}
-
-                if (levelClearedCount == 6)
-                {
-                    foreach (KeyValuePair<int, int> keyValuePair in _levelCompleteAndStarsGainedDict)
-                    {
-                        StarPopper(keyValuePair.Key, keyValuePair.Value);
-                    }
-                    for (int i = 0; i < levelClearedCount; i++)
-                    {
-                        _levelsToUnlock[i].interactable = true;
-                        _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
-                    }
-                }
-                else
-                {
-                    FindIfArenaCompleted(levelClearedCount);
-                    Debug.Log("1");
-                    foreach (KeyValuePair<int, int> keyValuePair in _levelCompleteAndStarsGainedDict)
-                    {
-                        StarPopper(keyValuePair.Key, keyValuePair.Value);
-                    }
-                    if (_allStarsCollected)
-                    {
-                        Debug.Log("All");
-                        for (int i = 0; i <= levelClearedCount; i++)
-                        {
-                            Debug.Log("i" + i);
-                            _levelsToUnlock[i].interactable = true;
-                            _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
-                        }
-                    }
-                    else
-                    {
-                        Debug.Log("NotAll");
-                        for (int i = 0; i < levelClearedCount; i++)
-                        {
-                            Debug.Log("i" + i);
-                            _levelsToUnlock[i].interactable = true;
-                            _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
-                        }
-                    }
-                }
-            }
-            _previousLevelClearedCount.Add(levelClearedCount);
-        }
-        else if (levelClearedCount > 0 && _previousLevelClearedCount.Contains(levelClearedCount))
-        {
-            int startsColected = GameSession.LastRunStars;
-            if (startsColected > 0 && !GameSession.CameFromMainMenu)
-            {
-                LoadDictionary();
-            }
-
-            //Stars has to be collected and owl should not have been disappered and it should not be from menu
-            if (_allStarsCollected && !SaveService.IsOwlDisappearedOnce && !GameSession.CameFromMainMenu)
-            {
-                SaveService.IsOwlDisappearedOnce = true;
-                _arena[0].SetActive(false);
-                _arena[1].SetActive(true);
-                _presentArena = 1;
-                _nextAndPreviousArenaButtons[0].interactable = true;
-                _nextAndPreviousArenaButtons[1].interactable = false;
-                ArenaCompletionAnimationAndUnlockLogic(levelClearedCount);
-            }
-
-            if (levelClearedCount == 6)
-            {
-                foreach (KeyValuePair<int, int> keyValuePair in _levelCompleteAndStarsGainedDict)
-                {
-                    StarPopper(keyValuePair.Key, keyValuePair.Value);
-                }
-                for (int i = 0; i < levelClearedCount; i++)
-                {
-                    _levelsToUnlock[i].interactable = true;
-                    _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
-                }
-            }
-            else
-            {
-                FindIfArenaCompleted(levelClearedCount);
-                Debug.Log("2");
-                foreach (KeyValuePair<int, int> keyValuePair in _levelCompleteAndStarsGainedDict)
-                {
-                    StarPopper(keyValuePair.Key, keyValuePair.Value);
-                }
-                if(_allStarsCollected)
-                {
-                    Debug.Log("All");
-                    for (int i = 0; i <= levelClearedCount; i++)
-                    {
-                        Debug.Log("i" + i);
-                        _levelsToUnlock[i].interactable = true;
-                        _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
-                    }
-                }
-                else
-                {
-                    Debug.Log("NotAll");
-                    for (int i = 0; i < levelClearedCount; i++)
-                    {
-                        Debug.Log("i" + i);
-                        _levelsToUnlock[i].interactable = true;
-                        _levelsToUnlock[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
-                    }
-                }
-            }
-        }
-        else if (levelClearedCount == 0)
-        {
-            _levelsToUnlock[levelClearedCount].interactable = true;
-            _levelsToUnlock[levelClearedCount].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
-        }
-        
-        if (_arena[0].activeSelf)
-        {
-            Debug.Log("Areana1");
-            _presentArena = 0;
-            _nextAndPreviousArenaButtons[0].interactable = false;
-            _nextAndPreviousArenaButtons[1].interactable = true;
-        }
-        else if (_arena[1].activeSelf)
-        {
-            Debug.Log("Areana2");
-            _presentArena = 1;
-            _nextAndPreviousArenaButtons[0].interactable = true;
-            _nextAndPreviousArenaButtons[1].interactable = false;
+            var level = i < levels.Count ? levels[i] : null;
+            int stars = level == null ? 0 : SaveService.GetStars(level.LevelId);
+            _buttons[i].Bind(level, stars, level != null && LevelProgression.IsUnlocked(_database, i));
         }
     }
 
-    private void Update()
+    /// <summary>
+    /// Pops the stars just earned, then opens the next level, crossing to a new arena if that is
+    /// where it lives. Deliberately the same order and timing the screen has always had.
+    /// </summary>
+    private IEnumerator PlayEntrySequence(LevelDefinition justPlayed)
     {
-        int levelClearedCount = SaveService.ClearedCount;
-
-        FindIfArenaCompleted(levelClearedCount);
-
-        if (_allStarsCollected && GameSession.CameFromMainMenu)
+        if (GameSession.LastRunStars > 0)
         {
-            _owl.SetActive(false);
-        }
-        if (_allStarsCollected && !SaveService.IsOwlDisappearedOnce && !GameSession.CameFromMainMenu)
-        {
-            SaveService.IsOwlDisappearedOnce = true;
-            Destroy(_OwlTextPrompt);
-            DisableOwl();
-            _arena[0].SetActive(false);
-            _arena[1].SetActive(true);
-            ArenaCompletionAnimationAndUnlockLogic(levelClearedCount);
+            var tile = ButtonFor(justPlayed);
+            if (tile != null)
+                tile.ShowStars(GameSession.LastRunStars);
         }
 
+        var next = _database.Next(justPlayed);
+        if (next == null)
+            yield break;
+
+        int nextIndex = _database.IndexOf(next);
+        if (!LevelProgression.IsUnlocked(_database, nextIndex))
+            yield break;
+
+        if (nextIndex < 0 || nextIndex >= _buttons.Length)
+            yield break;
+
+        var tileToOpen = _buttons[nextIndex];
+        if (tileToOpen == null || tileToOpen.IsUnlocked)
+            yield break;
+
+        if (_database.ArenaOf(next) != _database.ArenaOf(justPlayed))
+        {
+            ShowPage(PageOf(next));
+            yield return StartCoroutine(SendTheOwlAway());
+        }
+
+        yield return StartCoroutine(tileToOpen.PlayUnlock());
     }
 
-    async void DisableOwl()
+    /// <summary>
+    /// The owl's one appearance, when a new arena opens. Its flag is the only thing this screen
+    /// writes to the save profile.
+    /// </summary>
+    private IEnumerator SendTheOwlAway()
     {
-        await Task.Delay(4000);
-        _owl.SetActive(false);
         if (SaveService.IsOwlDisappearedOnce)
-        {
-            SaveService.Flush();
-        }
+            yield break;
+
+        SaveService.IsOwlDisappearedOnce = true;
+        SaveService.Flush();
+
+        if (_owlTextPrompt != null)
+            _owlTextPrompt.SetActive(false);
+
+        yield return new WaitForSeconds(OwlReactionDelay);
+
+        if (_owlDisappearingAnimation != null)
+            _owlDisappearingAnimation.SetBool("isNewArenaUnlocked", true);
+
+        StartCoroutine(HideOwlAfterItLeaves());
     }
 
-    async void ArenaCompletionAnimationAndUnlockLogic(int levelClearedCount)
+    private IEnumerator HideOwlAfterItLeaves()
     {
-        _presentArena = 1;
-        _nextAndPreviousArenaButtons[0].interactable = true;
-        _nextAndPreviousArenaButtons[1].interactable = false;
-        await Task.Delay(300);
-        _ownDisappearingAnimation.SetBool("isNewArenaUnlocked", true);
-        _levelsToUnlock[levelClearedCount].transform.GetChild(0).GetChild(1).gameObject.GetComponent<Animator>().enabled = true;
-        StartCoroutine(DisableLockWithAnimation(levelClearedCount));
+        yield return new WaitForSeconds(OwlDepartureSeconds);
+
+        if (_owl != null)
+            _owl.SetActive(false);
     }
 
-    IEnumerator DisableLockWithAnimation(int lockNo)
+    /// <summary>Called by the owl's own button.</summary>
+    public void ActivateOwlPrompt()
     {
-        yield return new WaitForSeconds(1f);
-        _levelsToUnlock[lockNo].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
-        _levelsToUnlock[lockNo].interactable = true;
+        if (_owlTextPrompt == null || _owlTextPrompt.activeSelf)
+            return;
+
+        _owlTextPrompt.SetActive(true);
+
+        if (_promptRoutine != null)
+            StopCoroutine(_promptRoutine);
+
+        _promptRoutine = StartCoroutine(HidePromptAfterAWhile());
     }
 
-
-    public void LevelToBeOpened(int level)
+    private IEnumerator HidePromptAfterAWhile()
     {
-        MusicManager.instance.ButtonClickSound();
-        MusicManager.instance.GameMusic();
-        MusicManager.instance.MainMenuMusicStop();
-        SceneManager.LoadScene(level);
+        yield return new WaitForSeconds(OwlPromptSeconds);
+
+        if (_owlTextPrompt != null)
+            _owlTextPrompt.SetActive(false);
+
+        _promptRoutine = null;
     }
 
-    private void DisableAll()
+    public void NextArena()
     {
-        foreach (var levels in _levelsToUnlock)
-        {
-            levels.interactable = false;
-        }
-        foreach (GameObject animators in _locksToUnlock)
-        {
-            animators.GetComponent<Animator>().enabled = false;
-        }
+        ShowPage(_currentPage + 1 >= _arenaPages.Count ? 0 : _currentPage + 1);
     }
+
+    public void PreviousArena()
+    {
+        ShowPage(_currentPage - 1 < 0 ? _arenaPages.Count - 1 : _currentPage - 1);
+    }
+
     public void MainMenu()
     {
         NavigationManager.Instance.MainMenu();
     }
 
-    private void StarPopper(int level, int starCount)
+    private void ShowPage(int page)
     {
-        if (starCount == 3)
+        if (_arenaPages == null || _arenaPages.Count == 0)
+            return;
+
+        _currentPage = Mathf.Clamp(page, 0, _arenaPages.Count - 1);
+
+        for (int i = 0; i < _arenaPages.Count; i++)
         {
-            _levelsToUnlock[level].transform.GetChild(0).GetChild(2).GetChild(0).gameObject.SetActive(true);
-            _levelsToUnlock[level].transform.GetChild(0).GetChild(2).GetChild(1).gameObject.SetActive(true);
-            _levelsToUnlock[level].transform.GetChild(0).GetChild(2).GetChild(2).gameObject.SetActive(true);
+            if (_arenaPages[i] != null)
+                _arenaPages[i].SetActive(i == _currentPage);
         }
-        if (starCount == 2)
+
+        if (_nextAndPreviousArenaButtons != null && _nextAndPreviousArenaButtons.Count >= 2)
         {
-            _levelsToUnlock[level].transform.GetChild(0).GetChild(2).GetChild(0).gameObject.SetActive(true);
-            _levelsToUnlock[level].transform.GetChild(0).GetChild(2).GetChild(1).gameObject.SetActive(true);
-            _levelsToUnlock[level].transform.GetChild(0).GetChild(2).GetChild(2).gameObject.SetActive(false);
-        }
-        if (starCount == 1)
-        {
-            _levelsToUnlock[level].transform.GetChild(0).GetChild(2).GetChild(0).gameObject.SetActive(true);
-            _levelsToUnlock[level].transform.GetChild(0).GetChild(2).GetChild(1).gameObject.SetActive(false);
-            _levelsToUnlock[level].transform.GetChild(0).GetChild(2).GetChild(2).gameObject.SetActive(false);
+            if (_nextAndPreviousArenaButtons[0] != null)
+                _nextAndPreviousArenaButtons[0].interactable = _currentPage > 0;
+
+            if (_nextAndPreviousArenaButtons[1] != null)
+                _nextAndPreviousArenaButtons[1].interactable = _currentPage < _arenaPages.Count - 1;
         }
     }
 
-    private void LoadDictionary()
+    /// <summary>The furthest arena the player has opened, so arriving from the menu lands there.</summary>
+    private int FurthestOpenPage()
     {
-        _levelCompleteAndStarsGainedDict.Clear();
+        if (_database == null)
+            return 0;
 
-        for (int ordinal = 0; ordinal < _levelsToUnlock.Length; ordinal++)
+        int page = 0;
+        var levels = _database.All;
+
+        for (int i = 0; i < levels.Count; i++)
         {
-            var levelId = LevelId.ForOrdinal(ordinal);
-            if (string.IsNullOrEmpty(levelId))
-                continue;
+            if (LevelProgression.IsUnlocked(_database, i))
+                page = Mathf.Max(page, PageOf(levels[i]));
+        }
 
-            int stars = SaveService.GetStars(levelId);
-            if (stars > 0)
-                _levelCompleteAndStarsGainedDict[ordinal] = stars;
+        return page;
+    }
+
+    private int PageOf(LevelDefinition level)
+    {
+        var arena = _database.ArenaOf(level);
+        var arenas = _database.Arenas;
+
+        for (int i = 0; i < arenas.Length; i++)
+        {
+            if (arenas[i] == arena)
+                return i;
+        }
+
+        return 0;
+    }
+
+    private LevelButtonView ButtonFor(LevelDefinition level)
+    {
+        int index = _database.IndexOf(level);
+        return index >= 0 && index < _buttons.Length ? _buttons[index] : null;
+    }
+
+    private IEnumerable<LevelButtonView> Buttons()
+    {
+        if (_buttons == null)
+            yield break;
+
+        foreach (var button in _buttons)
+        {
+            if (button != null)
+                yield return button;
         }
     }
 
-    public void NextArena()
+    private void OnLevelChosen(LevelDefinition level)
     {
-        _nextAndPreviousArenaButtons[0].interactable = true;
-        _nextAndPreviousArenaButtons[1].interactable = false;
+        MusicManager.instance.ButtonClickSound();
+        MusicManager.instance.GameMusic();
+        MusicManager.instance.MainMenuMusicStop();
 
-        _presentArena = _presentArena + 1;
-        int previousArena = _presentArena - 1;
-        if (_presentArena == _arena.Count)
-        {
-            _presentArena = 0;
-        }
-        _arena[_presentArena].SetActive(true);
-        _arena[previousArena].SetActive(false);
-    }
-    public void PreviousArena()
-    {
-        _nextAndPreviousArenaButtons[0].interactable = false;
-        _nextAndPreviousArenaButtons[1].interactable = true;
-
-        _presentArena = _presentArena - 1;
-        int previousArena = _presentArena + 1;
-        if (_presentArena < 0)
-        {
-            _presentArena = _arena.Count - 1;
-        }
-        _arena[_presentArena].SetActive(true);
-        _arena[previousArena].SetActive(false);
-    }
-    /// <summary>
-    /// Sums the stars for the arena the player is currently looking at, which is the window of five
-    /// levels ending at <paramref name="levelCompleted"/>.
-    ///
-    /// This used to re-read the save file from disk on every call, and Update calls it every frame.
-    /// On a fresh install the read returned null and the sum threw, so the level select screen
-    /// logged an error and raised an exception once per frame until the first level was finished.
-    /// </summary>
-    private void FindIfArenaCompleted(int levelCompleted)
-    {
-        int startLevel = Mathf.Max(levelCompleted - 5, 0);
-
-        totalStars = 0;
-        for (int level = startLevel; level <= levelCompleted; level++)
-        {
-            if (_levelCompleteAndStarsGainedDict.TryGetValue(level, out int stars))
-                totalStars += stars;
-        }
-
-        if (totalStars == _totalArenaStars)
-        {
-            _allStarsCollected = true;
-        }
-    }
-
-    public void ActivateOwlPrompt()
-    {
-        if (!_OwlTextPrompt.activeSelf)
-        {
-            _OwlTextPrompt.SetActive(true);
-            DeActivateOwlPromptAfterSecs();
-        }
-    }
-
-    async void DeActivateOwlPromptAfterSecs()
-    {
-        await Task.Delay(2500);
-        _OwlTextPrompt.SetActive(false);
+        SceneManager.LoadScene(level.SceneName);
     }
 }

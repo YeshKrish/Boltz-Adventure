@@ -352,14 +352,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1710140206895059725, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 681847329}
-    - target: {fileID: 1710140206895059725, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 1710140206895059727, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
       propertyPath: m_Name
       value: Level6
@@ -454,22 +446,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1710140206895059724, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
   m_PrefabInstance: {fileID: 456426754}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &456426756 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1037761998, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
-  m_PrefabInstance: {fileID: 456426754}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &456426757 stripped
+--- !u!114 &456426756 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1710140206895059725, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
+  m_CorrespondingSourceObject: {fileID: 2779141539809264530, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
   m_PrefabInstance: {fileID: 456426754}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 3b9273b0d27729643a83782475428357, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Boltz.Runtime::Boltz.UI.LevelButtonView
 --- !u!1 &510747072
 GameObject:
   m_ObjectHideFlags: 0
@@ -639,11 +626,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &671015408 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1037761998, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
-  m_PrefabInstance: {fileID: 1806275724}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &681847328
 GameObject:
   m_ObjectHideFlags: 0
@@ -673,40 +655,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbf325c773142a04690c9301c25a9f46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _levelsToUnlock:
-  - {fileID: 2050391127}
+  _buttons:
+  - {fileID: 1727200051}
   - {fileID: 1806275726}
   - {fileID: 1017568201}
   - {fileID: 1782753730}
   - {fileID: 1223613842}
-  - {fileID: 456426757}
-  - {fileID: 1546569521}
-  - {fileID: 1849526044}
-  - {fileID: 1222407872}
-  - {fileID: 1255880179}
-  _locksToUnlock:
-  - {fileID: 1859424239}
-  - {fileID: 671015408}
-  - {fileID: 1461553514}
-  - {fileID: 873203867}
-  - {fileID: 2015113175}
   - {fileID: 456426756}
   - {fileID: 1546569520}
   - {fileID: 1849526043}
   - {fileID: 1222407871}
   - {fileID: 1255880177}
-  _stars: []
-  _arena:
+  _arenaPages:
   - {fileID: 1625726002}
   - {fileID: 1734359719}
   _nextAndPreviousArenaButtons:
   - {fileID: 1445756472}
   - {fileID: 1863050452}
-  _ownDisappearingAnimation: {fileID: 1742039794}
+  _owlDisappearingAnimation: {fileID: 1742039794}
   _owl: {fileID: 543921824}
-  _OwlTextPrompt: {fileID: 913906399}
-  _owlMoveAnim: {fileID: 7400000, guid: ad0ae538dca7dfe4fbd065515d748950, type: 2}
-  LevelSelectSO: {fileID: 11400000, guid: 7bd070d1c8bdec84982dcc02b092e042, type: 2}
+  _owlTextPrompt: {fileID: 913906399}
 --- !u!4 &681847330
 Transform:
   m_ObjectHideFlags: 0
@@ -984,11 +952,6 @@ MonoBehaviour:
   m_Spacing: {x: 225, y: 15.3}
   m_Constraint: 0
   m_ConstraintCount: 2
---- !u!1 &873203867 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1037761998, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
-  m_PrefabInstance: {fileID: 1782753728}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &913906399
 GameObject:
   m_ObjectHideFlags: 0
@@ -1176,18 +1139,6 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1710140206895059725, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 681847329}
-    - target: {fileID: 1710140206895059725, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LevelToBeOpened
-      objectReference: {fileID: 0}
-    - target: {fileID: 1710140206895059725, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 1710140206895059727, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
       propertyPath: m_Name
       value: Level3
@@ -1224,15 +1175,15 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &1017568201 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1710140206895059725, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
+  m_CorrespondingSourceObject: {fileID: 2779141539809264530, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
   m_PrefabInstance: {fileID: 1017568199}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 3b9273b0d27729643a83782475428357, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Boltz.Runtime::Boltz.UI.LevelButtonView
 --- !u!1 &1088244571
 GameObject:
   m_ObjectHideFlags: 0
@@ -1546,18 +1497,6 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1710140206895059725, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 681847329}
-    - target: {fileID: 1710140206895059725, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LevelToBeOpened
-      objectReference: {fileID: 0}
-    - target: {fileID: 1710140206895059725, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
-      value: 9
-      objectReference: {fileID: 0}
     - target: {fileID: 1710140206895059727, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
       propertyPath: m_Name
       value: Level9
@@ -1596,22 +1535,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1710140206895059724, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
   m_PrefabInstance: {fileID: 1222407869}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1222407871 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1037761998, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
-  m_PrefabInstance: {fileID: 1222407869}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1222407872 stripped
+--- !u!114 &1222407871 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1710140206895059725, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
+  m_CorrespondingSourceObject: {fileID: 2779141539809264530, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
   m_PrefabInstance: {fileID: 1222407869}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 3b9273b0d27729643a83782475428357, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Boltz.Runtime::Boltz.UI.LevelButtonView
 --- !u!1001 &1223613840
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1720,18 +1654,6 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1710140206895059725, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 681847329}
-    - target: {fileID: 1710140206895059725, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LevelToBeOpened
-      objectReference: {fileID: 0}
-    - target: {fileID: 1710140206895059725, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 1710140206895059727, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
       propertyPath: m_Name
       value: Level5
@@ -1768,15 +1690,15 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &1223613842 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1710140206895059725, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
+  m_CorrespondingSourceObject: {fileID: 2779141539809264530, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
   m_PrefabInstance: {fileID: 1223613840}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 3b9273b0d27729643a83782475428357, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Boltz.Runtime::Boltz.UI.LevelButtonView
 --- !u!1001 &1255880176
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1885,18 +1807,6 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1710140206895059725, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 681847329}
-    - target: {fileID: 1710140206895059725, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LevelToBeOpened
-      objectReference: {fileID: 0}
-    - target: {fileID: 1710140206895059725, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 1710140206895059727, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
       propertyPath: m_Name
       value: Level10
@@ -1930,27 +1840,22 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
---- !u!1 &1255880177 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1037761998, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
-  m_PrefabInstance: {fileID: 1255880176}
-  m_PrefabAsset: {fileID: 0}
---- !u!224 &1255880178 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 1710140206895059724, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
-  m_PrefabInstance: {fileID: 1255880176}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1255880179 stripped
+--- !u!114 &1255880177 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1710140206895059725, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
+  m_CorrespondingSourceObject: {fileID: 2779141539809264530, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
   m_PrefabInstance: {fileID: 1255880176}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 3b9273b0d27729643a83782475428357, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Boltz.Runtime::Boltz.UI.LevelButtonView
+--- !u!224 &1255880178 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1710140206895059724, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
+  m_PrefabInstance: {fileID: 1255880176}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1256920657
 GameObject:
   m_ObjectHideFlags: 0
@@ -2220,11 +2125,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!1 &1461553514 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1037761998, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
-  m_PrefabInstance: {fileID: 1017568199}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1536333714
 GameObject:
   m_ObjectHideFlags: 0
@@ -2469,14 +2369,6 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1710140206895059725, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 681847329}
-    - target: {fileID: 1710140206895059725, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
-      value: 7
-      objectReference: {fileID: 0}
     - target: {fileID: 1710140206895059727, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
       propertyPath: m_Name
       value: Level7
@@ -2515,22 +2407,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1710140206895059724, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
   m_PrefabInstance: {fileID: 1546569518}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1546569520 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1037761998, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
-  m_PrefabInstance: {fileID: 1546569518}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1546569521 stripped
+--- !u!114 &1546569520 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1710140206895059725, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
+  m_CorrespondingSourceObject: {fileID: 2779141539809264530, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
   m_PrefabInstance: {fileID: 1546569518}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 3b9273b0d27729643a83782475428357, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Boltz.Runtime::Boltz.UI.LevelButtonView
 --- !u!1001 &1562508803
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2969,14 +2856,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1710140206895059725, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 681847329}
-    - target: {fileID: 1710140206895059725, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1710140206895059727, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
       propertyPath: m_Name
       value: Level1
@@ -3059,6 +2938,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1710140206895059724, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
   m_PrefabInstance: {fileID: 1727200049}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1727200051 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2779141539809264530, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
+  m_PrefabInstance: {fileID: 1727200049}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b9273b0d27729643a83782475428357, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Boltz.Runtime::Boltz.UI.LevelButtonView
 --- !u!1 &1734359719
 GameObject:
   m_ObjectHideFlags: 0
@@ -3368,18 +3258,6 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1710140206895059725, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 681847329}
-    - target: {fileID: 1710140206895059725, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LevelToBeOpened
-      objectReference: {fileID: 0}
-    - target: {fileID: 1710140206895059725, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 1710140206895059727, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
       propertyPath: m_Name
       value: Level4
@@ -3416,15 +3294,15 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &1782753730 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1710140206895059725, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
+  m_CorrespondingSourceObject: {fileID: 2779141539809264530, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
   m_PrefabInstance: {fileID: 1782753728}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 3b9273b0d27729643a83782475428357, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Boltz.Runtime::Boltz.UI.LevelButtonView
 --- !u!1001 &1806275724
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3537,10 +3415,6 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1710140206895059725, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 681847329}
     - target: {fileID: 1710140206895059727, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
       propertyPath: m_Name
       value: Level2
@@ -3577,15 +3451,15 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &1806275726 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1710140206895059725, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
+  m_CorrespondingSourceObject: {fileID: 2779141539809264530, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
   m_PrefabInstance: {fileID: 1806275724}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 3b9273b0d27729643a83782475428357, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Boltz.Runtime::Boltz.UI.LevelButtonView
 --- !u!1001 &1849526041
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3698,18 +3572,6 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1710140206895059725, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 681847329}
-    - target: {fileID: 1710140206895059725, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LevelToBeOpened
-      objectReference: {fileID: 0}
-    - target: {fileID: 1710140206895059725, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
-      value: 8
-      objectReference: {fileID: 0}
     - target: {fileID: 1710140206895059727, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
       propertyPath: m_Name
       value: Level8
@@ -3748,27 +3610,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1710140206895059724, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
   m_PrefabInstance: {fileID: 1849526041}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1849526043 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1037761998, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
-  m_PrefabInstance: {fileID: 1849526041}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1849526044 stripped
+--- !u!114 &1849526043 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1710140206895059725, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
+  m_CorrespondingSourceObject: {fileID: 2779141539809264530, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
   m_PrefabInstance: {fileID: 1849526041}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 3b9273b0d27729643a83782475428357, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
---- !u!1 &1859424239 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1037761998, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
-  m_PrefabInstance: {fileID: 1727200049}
-  m_PrefabAsset: {fileID: 0}
+  m_EditorClassIdentifier: Boltz.Runtime::Boltz.UI.LevelButtonView
 --- !u!1 &1863050448
 GameObject:
   m_ObjectHideFlags: 0
@@ -4188,22 +4040,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1991830612}
   m_CullTransparentMesh: 1
---- !u!1 &2015113175 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1037761998, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
-  m_PrefabInstance: {fileID: 1223613840}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2050391127 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1710140206895059725, guid: 738c49f2d2ef1ee4fbc1a9e682978a22, type: 3}
-  m_PrefabInstance: {fileID: 1727200049}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

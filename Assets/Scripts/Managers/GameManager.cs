@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Boltz.Levels;
 using Boltz.Save;
 
 public class GameManager : MonoBehaviour
@@ -108,7 +109,19 @@ public class GameManager : MonoBehaviour
         GameSession.CameFromMainMenu = false;
         GameSession.CurrentLevelBuildIndex = SceneManager.GetActiveScene().buildIndex;
 
-        if (GameSession.CurrentLevelBuildIndex == 1)
+        var level = LevelFlow.Current;
+
+        // The star thresholds are authored, so they go stale the moment somebody adds or removes a
+        // coin in the scene. Cheap to check, and silent drift here quietly changes what three stars
+        // means.
+        if (level != null && level.TotalCoins != _coinCount)
+        {
+            Debug.LogWarning(
+                level.name + " is authored with " + level.TotalCoins + " coins but the scene contains "
+                + _coinCount + ".", this);
+        }
+
+        if (level != null && level.ShowsIntro)
         {
             Time.timeScale = 0;
             UIManager.Instance.JoyStick.SetActive(false);
@@ -149,56 +162,9 @@ public class GameManager : MonoBehaviour
 
     public void NextLevel()
     {
-        int coinsThisRun = GameSession.CoinsThisLevel;
-        string levelId = SceneManager.GetActiveScene().name;
-        int stars = StarsForCoins(coinsThisRun, _coinCount);
+        bool wasFinalLevel = LevelFlow.CompleteCurrent(GameSession.CoinsThisLevel);
 
-        SaveService.AddCoins(coinsThisRun);
-        SaveService.RecordLevelResult(levelId, stars, coinsThisRun);
-
-        // The level select screen reads these to decide which stars to pop on the way in.
-        GameSession.LastRunLevelId = levelId;
-        GameSession.LastRunStars = stars;
-
-        // Finishing a level is the one moment worth writing immediately, rather than waiting for
-        // the app to be paused or closed.
-        SaveService.Flush();
-
-        int nextScene = SceneManager.GetActiveScene().buildIndex + 1;
-
-        if (nextScene != GameSession.GameCompletedBuildIndex)
-        {
-            SceneManager.LoadScene("LevelSelect");
-        }
-        else
-        {
-            SceneManager.LoadScene("GameCompleted");
-        }
-    }
-
-    /// <summary>
-    /// Stars awarded for collecting <paramref name="collected"/> of <paramref name="total"/> coins:
-    /// all of them for three, half for two, a quarter for one.
-    ///
-    /// The halves and quarters used to be computed as Mathf.Ceil(total / 2), where the integer
-    /// division happened first and made the rounding a no-op, so both thresholds could sit one coin
-    /// below their intended value. Phase 6 replaces this with authored per-level thresholds.
-    /// </summary>
-    private static int StarsForCoins(int collected, int total)
-    {
-        if (total <= 0)
-            return 0;
-
-        if (collected >= total)
-            return 3;
-
-        if (collected >= Mathf.CeilToInt(total / 2f))
-            return 2;
-
-        if (collected >= Mathf.CeilToInt(total / 4f))
-            return 1;
-
-        return 0;
+        SceneManager.LoadScene(wasFinalLevel ? "GameCompleted" : "LevelSelect");
     }
 
     public int GetCurrentScene()

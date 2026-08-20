@@ -11,9 +11,6 @@ namespace Boltz.Save
     /// </summary>
     public static class GameSession
     {
-        /// <summary>Build index that follows the last playable level. Reaching it means the game is finished.</summary>
-        public const int GameCompletedBuildIndex = 7;
-
         /// <summary>Build index of the level being played.</summary>
         public static int CurrentLevelBuildIndex { get; set; }
 

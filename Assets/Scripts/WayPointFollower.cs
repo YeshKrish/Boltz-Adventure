@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// Walks an object around a loop of waypoints.
@@ -16,9 +17,15 @@ public class WayPointFollower : MonoBehaviour
     /// <summary>How close counts as having reached a waypoint.</summary>
     private const float ArrivalDistance = 0.1f;
 
-    public GameObject[] wayPoints;
+    [SerializeField]
+    [FormerlySerializedAs("wayPoints")]
+    [Tooltip("Points visited in order, looping back to the first.")]
+    private GameObject[] _wayPoints;
 
-    public float wayPointSpeed = 2f;
+    [SerializeField]
+    [FormerlySerializedAs("wayPointSpeed")]
+    [Tooltip("Metres per second along the loop.")]
+    private float _wayPointSpeed = 2f;
 
     private Rigidbody _rb;
     private int _currentWayPointIndex = 0;
@@ -32,12 +39,12 @@ public class WayPointFollower : MonoBehaviour
     {
         // Indexing straight into the array is what this did before, so an object left without
         // waypoints threw on its first frame.
-        if (wayPoints == null || wayPoints.Length == 0)
+        if (_wayPoints == null || _wayPoints.Length == 0)
         {
             return;
         }
 
-        GameObject target = wayPoints[_currentWayPointIndex];
+        GameObject target = _wayPoints[_currentWayPointIndex];
         if (target == null)
         {
             return;
@@ -47,10 +54,10 @@ public class WayPointFollower : MonoBehaviour
 
         if (Vector3.Distance(_rb.position, targetPosition) < ArrivalDistance)
         {
-            _currentWayPointIndex = (_currentWayPointIndex + 1) % wayPoints.Length;
+            _currentWayPointIndex = (_currentWayPointIndex + 1) % _wayPoints.Length;
             return;
         }
 
-        _rb.MovePosition(Vector3.MoveTowards(_rb.position, targetPosition, wayPointSpeed * Time.fixedDeltaTime));
+        _rb.MovePosition(Vector3.MoveTowards(_rb.position, targetPosition, _wayPointSpeed * Time.fixedDeltaTime));
     }
 }

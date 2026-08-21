@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Invulnerable : MonoBehaviour
 {
-    public static bool _isPlayerInInVulnerableArea = false;
+    public static bool IsPlayerInInvulnerableArea = false;
 
     [SerializeField]
     private GameObject _hitMyFace;
@@ -13,7 +13,7 @@ public class Invulnerable : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            _isPlayerInInVulnerableArea = true; 
+            IsPlayerInInvulnerableArea = true; 
             _hitMyFace.SetActive(true);
 
         }
@@ -23,7 +23,7 @@ public class Invulnerable : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            _isPlayerInInVulnerableArea = false;
+            IsPlayerInInvulnerableArea = false;
             _hitMyFace.SetActive(false);
         }
     }

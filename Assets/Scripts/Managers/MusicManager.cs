@@ -1,10 +1,11 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.SceneManagement;
 
 
 public class MusicManager : MonoBehaviour
 {
-    public static MusicManager instance;
+    public static MusicManager Instance;
     
     public AudioSource[] GameAudios;
 
@@ -23,25 +24,26 @@ public class MusicManager : MonoBehaviour
     [SerializeField]
     private AudioSource _springSound;
 
-    public bool _isGameAudioMuted = false;
+    [FormerlySerializedAs("_isGameAudioMuted")]
+    public bool IsGameAudioMuted = false;
 
     private void Awake()
     {
-        if (instance != null && instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
 
-        instance = this;
+        Instance = this;
         DontDestroyOnLoad(gameObject);
     }
 
     private void OnDestroy()
     {
-        if (instance == this)
+        if (Instance == this)
         {
-            instance = null;
+            Instance = null;
         }
     }
 
@@ -52,7 +54,7 @@ public class MusicManager : MonoBehaviour
 
     public void GameMusic()
     {
-        if (!_isGameAudioMuted)
+        if (!IsGameAudioMuted)
         {
             GameAudios[1].Play();
         }
@@ -82,9 +84,9 @@ public class MusicManager : MonoBehaviour
 
     public void MuteOrUmuteGameAudio()
     {
-        if (!_isGameAudioMuted)
+        if (!IsGameAudioMuted)
         {
-            _isGameAudioMuted = true;
+            IsGameAudioMuted = true;
             for(int i = 0; i < GameAudios.Length; i++)
             {
                 if (GameAudios[i].isPlaying)
@@ -93,9 +95,9 @@ public class MusicManager : MonoBehaviour
                 }
             }
         }
-        else if (_isGameAudioMuted)
+        else if (IsGameAudioMuted)
         {
-            _isGameAudioMuted = false;
+            IsGameAudioMuted = false;
             if(SceneManager.GetActiveScene().name == "MainMenu")
             {
                 GameAudios[0].UnPause();

@@ -7,22 +7,22 @@ public class SpecialFish : MonoBehaviour
     [SerializeField]
     private List<GameObject> _objectsToDeactivate;
 
-    public static bool _isFishDead = false;
+    public static bool IsFishDead = false;
 
     private void Start()
     {
-        _isFishDead = false;
+        IsFishDead = false;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            MusicManager.instance.FishDyingSound();
-            _isFishDead=true;
+            MusicManager.Instance.FishDyingSound();
+            IsFishDead=true;
             Debug.Log("Comeon");
             gameObject.SetActive(false);
-            AllSceneManager.instance.DeactivateObjects(_objectsToDeactivate);
+            AllSceneManager.Instance.DeactivateObjects(_objectsToDeactivate);
         }
     }
 }

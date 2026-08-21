@@ -26,7 +26,8 @@ public class MainMenu : MonoBehaviour
     [SerializeField]
     private GameObject _musicButton;
 
-    public Image _musicImage;
+    [SerializeField]
+    private Image _musicImage;
 
     private bool _isSettingsActivated = false;
     private float _originalAlpha;
@@ -34,18 +35,18 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
-        MusicManager.instance.ChangeMainMenuMusic();
+        MusicManager.Instance.ChangeMainMenuMusic();
         PlayAnimation();
         _originalAlpha = _musicButton.GetComponent<Image>().color.a;
 
         //Is music playing check
-        if (MusicManager.instance.GameAudios[0].isPlaying)
+        if (MusicManager.Instance.GameAudios[0].isPlaying)
         {
-            _musicImage.sprite = AllSceneManager.instance._audioSprites[0];
+            _musicImage.sprite = AllSceneManager.Instance.AudioSprites[0];
         }
         else
         {
-            _musicImage.sprite = AllSceneManager.instance._audioSprites[1];
+            _musicImage.sprite = AllSceneManager.Instance.AudioSprites[1];
         }
 
         GameSession.CameFromMainMenu = true;
@@ -62,21 +63,21 @@ public class MainMenu : MonoBehaviour
 
     public void MuteAudio()
     {
-        if (MusicManager.instance._isGameAudioMuted)
+        if (MusicManager.Instance.IsGameAudioMuted)
         {
-            _musicImage.sprite = AllSceneManager.instance._audioSprites[0];
-            MusicManager.instance.MuteOrUmuteGameAudio();
+            _musicImage.sprite = AllSceneManager.Instance.AudioSprites[0];
+            MusicManager.Instance.MuteOrUmuteGameAudio();
         }
         else
         {
-            _musicImage.sprite = AllSceneManager.instance._audioSprites[1];
-            MusicManager.instance.MuteOrUmuteGameAudio();
+            _musicImage.sprite = AllSceneManager.Instance.AudioSprites[1];
+            MusicManager.Instance.MuteOrUmuteGameAudio();
         }
     }
 
     public void StartGame()
     {
-        MusicManager.instance.ButtonClickSound();
+        MusicManager.Instance.ButtonClickSound();
         MainMenuChangedOnce();
         SceneManager.LoadScene("LevelSelect");
     }

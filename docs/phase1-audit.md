@@ -656,3 +656,18 @@ added. Scene diffs in this phase are between 29 and 64 lines and all of it is re
 `ProjectSettings/TimeManager.asset` is the opposite case. Unity 6 rewrites the fixed timestep as
 a rational the first time anything saves project settings, and it came back after every save
 during this phase, so it has its own commit.
+
+### The naming sweep, and the four names left alone
+
+The sweep went last so a rename could not hide a logic change, and every serialized rename
+carries a `[FormerlySerializedAs]`. To prove nothing reset, the 208 affected serialized values
+across all 11 scenes and every prefab were dumped before the rename and again after. The two
+dumps are identical, and no scene or prefab was dirtied by the sweep.
+
+`Item.objectName`, `Item.stackable`, `Item.item` and `Consumables.item` are still lower case.
+They are the only naming violations left. Renaming them would touch every collectable asset in
+the game for no behavioural gain, and nothing in Phase 7 went near them, so they are left for
+whenever the collectables are worked on properly.
+
+`SpecialMonsters` had a public field called `Animator`, of type `Animator`, which shadowed the
+type name inside the class. It is `_animator` now.

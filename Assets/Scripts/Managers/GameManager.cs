@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -7,7 +8,7 @@ using Boltz.Save;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance;
+    public static GameManager Instance;
     [SerializeField]
     private Transform _player;
     [SerializeField]
@@ -39,37 +40,38 @@ public class GameManager : MonoBehaviour
 
     private List<object> _scriptsToBeDeactivated;  
 
-    private bool isPlayerDead = false;
+    private bool _isPlayerDead = false;
     private bool _isPlayerKilledByEnemy = false;
-    public bool isDoorOpened = false;
+    [FormerlySerializedAs("isDoorOpened")]
+    public bool IsDoorOpened = false;
 
     private int _coinCount;
 
     public bool IsPlayerDead
     {
-        get { return isPlayerDead; }
-        set { isPlayerDead = value; }
+        get { return _isPlayerDead; }
+        set { _isPlayerDead = value; }
     }
     private void Awake()
     {
-        if (instance != null && instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
 
-        instance = this;
+        Instance = this;
 
         SetPlayerBall();
 
         //Is music playing check
-        if (MusicManager.instance.GameAudios[1].isPlaying)
+        if (MusicManager.Instance.GameAudios[1].isPlaying)
         {
-            UIManager.Instance.MusicImage.sprite = AllSceneManager.instance._audioSprites[2];
+            UIManager.Instance.MusicImage.sprite = AllSceneManager.Instance.AudioSprites[2];
         }
         else
         {
-            UIManager.Instance.MusicImage.sprite = AllSceneManager.instance._audioSprites[3];
+            UIManager.Instance.MusicImage.sprite = AllSceneManager.Instance.AudioSprites[3];
         }
     }
     private void OnEnable()
@@ -103,7 +105,7 @@ public class GameManager : MonoBehaviour
         _scriptsToBeDeactivated.Add(_shootTrigger);
         _scriptsToBeDeactivated.Add(_lever);
 
-        isDoorOpened = false;
+        IsDoorOpened = false;
 
         GameSession.CameFromMainMenu = false;
         GameSession.CurrentLevelBuildIndex = SceneManager.GetActiveScene().buildIndex;
@@ -133,7 +135,7 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         GameSession.CoinsThisLevel = 0;
-        isPlayerDead = true;
+        _isPlayerDead = true;
         Destroy(_player.gameObject);
         DeactivateScripts();
         if (!_isPlayerKilledByEnemy)
@@ -156,7 +158,7 @@ public class GameManager : MonoBehaviour
     public void OpenDoor()
     {
         _doorOpenAnimator.enabled = true;
-        isDoorOpened = true;
+        IsDoorOpened = true;
     }
 
     public void NextLevel()

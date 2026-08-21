@@ -57,7 +57,7 @@ public class ProjectileMoveScript : MonoBehaviour {
 
     private void Update()
     {
-        if (transform.position.x < SpecialMonsters._startPos.x - 15)
+        if (transform.position.x < SpecialMonsters.LastShotOrigin.x - 15)
         {
             gameObject.SetActive(false);
         }
@@ -68,7 +68,7 @@ public class ProjectileMoveScript : MonoBehaviour {
         {
             _playerHit = true;
             DeactivateAllActiveBullets?.Invoke();
-            GameManager.instance.GameOver();
+            GameManager.Instance.GameOver();
         }
         if (co.gameObject.CompareTag("BulletEnd"))
         {

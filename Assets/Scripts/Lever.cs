@@ -25,11 +25,11 @@ public class Lever : MonoBehaviour
             _leverOn.SetBool("canLevelOn", true);
             if (GameSession.CurrentLevelBuildIndex == 5)
             {
-                AllSceneManager.instance.ActivateWayPointBasedOnCondition(_wayPointsBricksToActivate);
+                AllSceneManager.Instance.ActivateWayPointBasedOnCondition(_wayPointsBricksToActivate);
 
             }
-            AllSceneManager.instance.DeactivateObjects(_gameObjectsToDeActivate);
-            AllSceneManager.instance.ActivateObjects(_gameObjectsToActivate);
+            AllSceneManager.Instance.DeactivateObjects(_gameObjectsToDeActivate);
+            AllSceneManager.Instance.ActivateObjects(_gameObjectsToActivate);
 
             DoorOpen?.Invoke();
         }

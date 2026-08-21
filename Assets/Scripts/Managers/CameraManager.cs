@@ -72,7 +72,7 @@ public class CameraManager : MonoBehaviour
     {
         // PlayerController raises this from Update on every frame once the boss is dead, so
         // without a guard this started a fresh handback timer on each of those frames.
-        if (_isReturningFromFight || !SpecialMonsters._isAlienDead || _mainCamera.activeSelf)
+        if (_isReturningFromFight || !SpecialMonsters.IsAlienDead || _mainCamera.activeSelf)
         {
             return;
         }

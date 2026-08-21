@@ -15,7 +15,7 @@ public class Follower : MonoBehaviour
     public float Speed = 5;
     public GameObject Setting;
 
-    private float travelledDistance;
+    private float _travelledDistance;
     private Vector3 _initialPosition;
 
     private void Awake()
@@ -30,17 +30,17 @@ public class Follower : MonoBehaviour
             return;
         }
 
-        if (travelledDistance <= PathCreation.path.length - 10)
+        if (_travelledDistance <= PathCreation.path.length - 10)
         {
-            travelledDistance += Speed * Time.deltaTime;
+            _travelledDistance += Speed * Time.deltaTime;
         }
 
-        transform.position = PathCreation.path.GetPointAtDistance(travelledDistance);
+        transform.position = PathCreation.path.GetPointAtDistance(_travelledDistance);
     }
 
     private void OnDisable()
     {
         transform.position = _initialPosition;
-        travelledDistance = 0;
+        _travelledDistance = 0;
     }
 }

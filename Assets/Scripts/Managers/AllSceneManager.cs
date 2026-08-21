@@ -1,31 +1,34 @@
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class AllSceneManager : MonoBehaviour
 {
-    public static AllSceneManager instance;
-    public Sprite[] _audioSprites;
+    public static AllSceneManager Instance;
+    [FormerlySerializedAs("_audioSprites")]
+    [Tooltip("Speaker icons: 0 and 1 for the menu, 2 and 3 for in game.")]
+    public Sprite[] AudioSprites;
 
     private string _previousScene; 
 
     private void Awake()
     {
-        if (instance != null && instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
 
-        instance = this;
+        Instance = this;
         DontDestroyOnLoad(gameObject);
     }
 
     private void OnDestroy()
     {
-        if (instance == this)
+        if (Instance == this)
         {
-            instance = null;
+            Instance = null;
         }
     }
 

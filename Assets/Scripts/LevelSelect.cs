@@ -284,9 +284,9 @@ public class LevelSelect : MonoBehaviour
 
     private void OnLevelChosen(LevelDefinition level)
     {
-        MusicManager.instance.ButtonClickSound();
-        MusicManager.instance.GameMusic();
-        MusicManager.instance.MainMenuMusicStop();
+        MusicManager.Instance.ButtonClickSound();
+        MusicManager.Instance.GameMusic();
+        MusicManager.Instance.MainMenuMusicStop();
 
         SceneManager.LoadScene(level.SceneName);
     }

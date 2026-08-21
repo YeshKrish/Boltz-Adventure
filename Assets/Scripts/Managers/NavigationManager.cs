@@ -30,7 +30,7 @@ public class NavigationManager : MonoBehaviour
 
     public void MainMenu()
     {
-        MusicManager.instance.ButtonClickSound();
+        MusicManager.Instance.ButtonClickSound();
         SceneManager.LoadScene("MainMenu");
     }
 }

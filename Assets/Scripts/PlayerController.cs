@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.SceneManagement;
 
 
@@ -12,12 +13,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private GameObject _fish;    
     [SerializeField]
-    private float speed;
+    [FormerlySerializedAs("speed")]
+    [Tooltip("How hard the joystick pushes the ball along the x axis.")]
+    private float _speed;
     [SerializeField]
     private int _jumpHeight = 6;
 
     [SerializeField]
-    private VariableJoystick variableJoystick;
+    [FormerlySerializedAs("variableJoystick")]
+    private VariableJoystick _variableJoystick;
     
     [SerializeField]
     private LayerMask _groundLayer;  
@@ -53,8 +57,15 @@ public class PlayerController : MonoBehaviour
     public static event Action DeActivateFightCamera;
 
     private Vector3 _ballVelocity;
-    public float joystickSensitivity = 2.0f;
-    public float maxVelocity = 7.5f;
+    [SerializeField]
+    [FormerlySerializedAs("joystickSensitivity")]
+    [Tooltip("Multiplier on the joystick's horizontal reading before it becomes force.")]
+    private float _joystickSensitivity = 2.0f;
+
+    [SerializeField]
+    [FormerlySerializedAs("maxVelocity")]
+    [Tooltip("Fastest the ball may travel along the x axis.")]
+    private float _maxVelocity = 7.5f;
 
     private void Start()
     {
@@ -70,23 +81,23 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (Vector3.Distance(transform.position, _tower.transform.position) > _doorToBeOpenedDist && SceneManager.GetActiveScene().name == _fifthLevelName && !GameManager.instance.isDoorOpened)
+        if (Vector3.Distance(transform.position, _tower.transform.position) > _doorToBeOpenedDist && SceneManager.GetActiveScene().name == _fifthLevelName && !GameManager.Instance.IsDoorOpened)
         {
             UIManager.Instance.QuestTextObj.SetActive(false);
         }
         if(SceneManager.GetActiveScene().name == _sixthLevelName)
         {
             //SecondCameraTrigger
-            if(!SpecialMonsters._isAlienDead && ShootTrigger._isPlayerInShootingArea)
+            if(!SpecialMonsters.IsAlienDead && ShootTrigger.IsPlayerInShootingArea)
             {
                 ActivateFightCamera?.Invoke();
             }
-            else if (SpecialMonsters._isAlienDead)
+            else if (SpecialMonsters.IsAlienDead)
             {
                 DeActivateFightCamera?.Invoke();
             }
 
-            if (Vector3.Distance(transform.position, _fish.transform.position) < _fishImageToBeSpawnedDistance && !SpecialFish._isFishDead)
+            if (Vector3.Distance(transform.position, _fish.transform.position) < _fishImageToBeSpawnedDistance && !SpecialFish.IsFishDead)
             {
                 UIManager.Instance.FishTextObj.SetActive(true);
             }
@@ -95,7 +106,7 @@ public class PlayerController : MonoBehaviour
                 UIManager.Instance.FishTextObj.SetActive(false);
             }
 
-            if (SpecialFish._isFishDead)
+            if (SpecialFish.IsFishDead)
             {
                 UIManager.Instance.FishTextObj.SetActive(false);
             }
@@ -105,7 +116,7 @@ public class PlayerController : MonoBehaviour
         {
             DoorOpen?.Invoke();
         }
-        else if(Vector3.Distance(transform.position, _tower.transform.position) < _doorToBeOpenedDist && !GameManager.instance.isDoorOpened)
+        else if(Vector3.Distance(transform.position, _tower.transform.position) < _doorToBeOpenedDist && !GameManager.Instance.IsDoorOpened)
         {
             UIManager.Instance.QuestTextObj.SetActive(true);
         }
@@ -120,17 +131,17 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        float moveHorizontal = variableJoystick.Horizontal * joystickSensitivity;
+        float moveHorizontal = _variableJoystick.Horizontal * _joystickSensitivity;
         Vector3 direction = Vector3.right * moveHorizontal;
 
-        _rb.AddForce(direction * speed * Time.fixedDeltaTime, ForceMode.VelocityChange);
+        _rb.AddForce(direction * _speed * Time.fixedDeltaTime, ForceMode.VelocityChange);
 
         // Clamping used to assign a Vector2 to Rigidbody.linearVelocity, which converts with
         // z = 0 and silently killed any depth movement the ball had picked up.
-        if (Mathf.Abs(_rb.linearVelocity.x) > maxVelocity)
+        if (Mathf.Abs(_rb.linearVelocity.x) > _maxVelocity)
         {
             Vector3 velocity = _rb.linearVelocity;
-            velocity.x = Mathf.Sign(velocity.x) * maxVelocity;
+            velocity.x = Mathf.Sign(velocity.x) * _maxVelocity;
             _rb.linearVelocity = velocity;
         }
 
@@ -143,7 +154,7 @@ public class PlayerController : MonoBehaviour
     {
         if (IsGrounded())
         {
-            MusicManager.instance.JumpSound();
+            MusicManager.Instance.JumpSound();
             _rb.AddForce(new Vector3(0f, Math.Abs(transform.position.y), 0f).normalized * _jumpHeight, ForceMode.Impulse);
         }
     }
@@ -164,11 +175,11 @@ public class PlayerController : MonoBehaviour
         if((( 1 << collision.gameObject.layer) & _enemyLayer) != 0)
         {
             KilledByEnemy?.Invoke();
-            GameManager.instance.GameOver();
+            GameManager.Instance.GameOver();
         }
         if (collision.gameObject.CompareTag("Spikes"))
         {
-            GameManager.instance.GameOver();
+            GameManager.Instance.GameOver();
         }
     }
 
@@ -179,7 +190,7 @@ public class PlayerController : MonoBehaviour
             Enemy enemy = other.GetComponentInParent<Enemy>();
             if (enemy != null)
             {
-                MusicManager.instance.EnemyDyingSound();
+                MusicManager.Instance.EnemyDyingSound();
                 _rb.AddForce(new Vector3(0f, Math.Abs(transform.position.y), 0f).normalized * _enemyDeadJumpHeight, ForceMode.Impulse);
                 enemy.Kill();
             }
@@ -190,7 +201,7 @@ public class PlayerController : MonoBehaviour
         } 
         if (other.gameObject.CompareTag("BouncingHead"))
         {
-            MusicManager.instance.SpringSound();
+            MusicManager.Instance.SpringSound();
             if (_ballVelocity.y < 0f)
             {
                 _ballVelocity.y = 0f;
@@ -205,14 +216,14 @@ public class PlayerController : MonoBehaviour
             Item hitObject = other.gameObject.GetComponent<Consumables>().item;
             if(hitObject != null)
             {
-                MusicManager.instance.CoinCollectSound();
+                MusicManager.Instance.CoinCollectSound();
                 UIManager.Instance.UpdateScoreText();
                 other.gameObject.SetActive(false);
             }
         } 
         if(((1 << other.gameObject.layer) & _waterLayer) != 0)
         {
-            GameManager.instance.GameOver();
+            GameManager.Instance.GameOver();
         }
     }
 
@@ -234,7 +245,7 @@ public class PlayerController : MonoBehaviour
 
         if (!groundWithinReach && transform.position.y < -10f)
         {
-            GameManager.instance.GameOver();
+            GameManager.Instance.GameOver();
         }
     }
 

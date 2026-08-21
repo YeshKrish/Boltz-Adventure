@@ -1,35 +1,38 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ShootTrigger : MonoBehaviour
 {
     [SerializeField]
     private GameObject _shootEffect;
     [SerializeField]
-    private List<GameObject> _boundry = new List<GameObject>();
+    [FormerlySerializedAs("_boundry")]
+    [Tooltip("Walls that become solid once the player enters the arena.")]
+    private List<GameObject> _boundary = new List<GameObject>();
 
     private bool _canBulletsSpawn = false;
-    public static bool _isPlayerInShootingArea = false;
+    public static bool IsPlayerInShootingArea = false;
 
     public static event Action StartShooting;
 
     private void Start()
     {
         _canBulletsSpawn = false;
-        _isPlayerInShootingArea = false;
+        IsPlayerInShootingArea = false;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         _canBulletsSpawn = true;
-        _isPlayerInShootingArea = true;
-        Debug.Log("is" + _isPlayerInShootingArea);
+        IsPlayerInShootingArea = true;
+        Debug.Log("is" + IsPlayerInShootingArea);
         if (other.gameObject.CompareTag("Player"))
         {
-            for (int i = 0; i < _boundry.Count; i++)
+            for (int i = 0; i < _boundary.Count; i++)
             {
-                _boundry[i].GetComponent<BoxCollider>().isTrigger = false;
+                _boundary[i].GetComponent<BoxCollider>().isTrigger = false;
             }
             if (_canBulletsSpawn)
             {
@@ -42,7 +45,7 @@ public class ShootTrigger : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         _canBulletsSpawn = false;
-        _isPlayerInShootingArea = false;
+        IsPlayerInShootingArea = false;
     }
 
 }

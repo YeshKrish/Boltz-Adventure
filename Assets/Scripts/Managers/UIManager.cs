@@ -70,27 +70,27 @@ public class UIManager : MonoBehaviour
 
     public void RetryLevel()
     {
-        MusicManager.instance.ButtonClickSound();
+        MusicManager.Instance.ButtonClickSound();
         PauseService.ReleaseAll();
-        SceneManager.LoadScene(GameManager.instance.GetCurrentScene());
+        SceneManager.LoadScene(GameManager.Instance.GetCurrentScene());
     }
 
     public void QuitGame()
     {
-        MusicManager.instance.ButtonClickSound();
+        MusicManager.Instance.ButtonClickSound();
         Application.Quit();
     }
 
     public void MainMenu()
     {
-        MusicManager.instance.ButtonClickSound();
+        MusicManager.Instance.ButtonClickSound();
         PauseService.ReleaseAll();
         SceneManager.LoadScene("MainMenu");
     }
 
     public void PauseScreen()
     {
-        MusicManager.instance.ButtonClickSound();
+        MusicManager.Instance.ButtonClickSound();
 
         if (PauseService.IsHeldBy(PauseReason.PauseScreen))
         {
@@ -105,7 +105,7 @@ public class UIManager : MonoBehaviour
 
     public void ResumeGame()
     {
-        MusicManager.instance.ButtonClickSound();
+        MusicManager.Instance.ButtonClickSound();
         ClosePauseScreen();
     }
 
@@ -116,15 +116,15 @@ public class UIManager : MonoBehaviour
     }
     public void MuteAudio()
     {
-        if (MusicManager.instance._isGameAudioMuted)
+        if (MusicManager.Instance.IsGameAudioMuted)
         {
-            MusicImage.sprite = AllSceneManager.instance._audioSprites[2];
-            MusicManager.instance.MuteOrUmuteGameAudio();
+            MusicImage.sprite = AllSceneManager.Instance.AudioSprites[2];
+            MusicManager.Instance.MuteOrUmuteGameAudio();
         }
         else
         {
-            MusicImage.sprite = AllSceneManager.instance._audioSprites[3];
-            MusicManager.instance.MuteOrUmuteGameAudio();
+            MusicImage.sprite = AllSceneManager.Instance.AudioSprites[3];
+            MusicManager.Instance.MuteOrUmuteGameAudio();
         }
     }
 

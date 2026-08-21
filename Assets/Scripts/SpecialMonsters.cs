@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// The level 6 boss.
@@ -8,7 +9,7 @@ using UnityEngine;
 /// The attack loop, the shot windup, the animation hold and the despawn were all async void
 /// methods chained off Task.Delay. Nothing cancelled them. The loop outlived the GameObject it
 /// belonged to, kept firing at objects that had been destroyed, and went on reaching through
-/// GameManager.instance after a scene change while that static still pointed at a destroyed
+/// GameManager.Instance after a scene change while that static still pointed at a destroyed
 /// manager. They are coroutines now, so Unity stops them when this object is disabled or
 /// destroyed, and they run on scaled time, which means the boss stops attacking while the game
 /// is paused instead of queueing up shots behind the pause screen.
@@ -22,13 +23,13 @@ public class SpecialMonsters : MonoBehaviour
     /// True from the moment the boss takes its final hit. Read by CameraManager to hand the
     /// camera back and by PlayerController to stop asking for the fight camera.
     /// </summary>
-    public static bool _isAlienDead;
+    public static bool IsAlienDead;
 
     /// <summary>
     /// Where the most recent shot was fired from. Read by ProjectileMoveScript, which retires a
     /// bullet once it has travelled far enough past this point.
     /// </summary>
-    public static Vector3 _startPos;
+    public static Vector3 LastShotOrigin;
 
     [SerializeField]
     private GameObject _burstEffect;
@@ -45,7 +46,9 @@ public class SpecialMonsters : MonoBehaviour
     [SerializeField]
     private List<GameObject> _enemyHealth;
     [SerializeField]
-    private List<GameObject> _boundry = new List<GameObject>();
+    [FormerlySerializedAs("_boundry")]
+    [Tooltip("Walls that become triggers once the boss dies, opening the arena.")]
+    private List<GameObject> _boundary = new List<GameObject>();
 
     [Header("Attack timing, in seconds")]
     [SerializeField]
@@ -70,12 +73,16 @@ public class SpecialMonsters : MonoBehaviour
     [Tooltip("Gap between the boss dying and its body being removed from the scene.")]
     private float _despawnDelay = 0.2f;
 
-    public Animator Animator;
-    public List<GameObject> _bulletsList;
+    [SerializeField]
+    [FormerlySerializedAs("Animator")]
+    [Tooltip("Drives the boss's shoot and hit reactions.")]
+    private Animator _animator;
+
+    private List<GameObject> _bulletsList;
 
     private int _maxHitFromPlayer = 3;
     private int _hit = 0;
-    private int _maxBulltsToBeSpawned = 5;
+    private int _maxBulletsInPool = 5;
     private bool _canShootAnimationPlay = false;
     private int _noOfBulletsSpawned = 0;
     private bool _isAttacking = false;
@@ -88,9 +95,9 @@ public class SpecialMonsters : MonoBehaviour
 
     private void Start()
     {
-        _isAlienDead = false;
+        IsAlienDead = false;
         _bulletsList = new List<GameObject>();
-        for (int i = 0; i < _maxBulltsToBeSpawned; i++)
+        for (int i = 0; i < _maxBulletsInPool; i++)
         {
             GameObject bullet = Instantiate(_bullets);
             bullet.SetActive(false);
@@ -103,18 +110,18 @@ public class SpecialMonsters : MonoBehaviour
         // The log that used to sit at the top of this method indexed _enemyHealth with the hit
         // count before anything had checked either the tag or the bounds, so the collision after
         // the killing blow threw.
-        if (_isAlienDead || !collision.gameObject.CompareTag("Player"))
+        if (IsAlienDead || !collision.gameObject.CompareTag("Player"))
         {
             return;
         }
 
-        if (Invulnerable._isPlayerInInVulnerableArea || _hit >= _enemyHealth.Count)
+        if (Invulnerable.IsPlayerInInvulnerableArea || _hit >= _enemyHealth.Count)
         {
             return;
         }
 
         _enemyHealth[_hit].SetActive(false);
-        Animator.SetBool(IsHitReceivedParam, true);
+        _animator.SetBool(IsHitReceivedParam, true);
         _hit++;
 
         if (_hit == _maxHitFromPlayer)
@@ -127,7 +134,7 @@ public class SpecialMonsters : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Animator.SetBool(IsHitReceivedParam, false);
+            _animator.SetBool(IsHitReceivedParam, false);
         }
     }
 
@@ -137,7 +144,7 @@ public class SpecialMonsters : MonoBehaviour
     /// </summary>
     private void BeginAttacking()
     {
-        if (_isAttacking || _isAlienDead)
+        if (_isAttacking || IsAlienDead)
         {
             return;
         }
@@ -148,7 +155,7 @@ public class SpecialMonsters : MonoBehaviour
 
     private IEnumerator Attack()
     {
-        while (!_isAlienDead && !GameManager.instance.IsPlayerDead)
+        while (!IsAlienDead && !GameManager.Instance.IsPlayerDead)
         {
             float delay;
 
@@ -188,7 +195,7 @@ public class SpecialMonsters : MonoBehaviour
     {
         yield return new WaitForSeconds(_shotWindup);
 
-        if (!_isAlienDead && !GameManager.instance.IsPlayerDead)
+        if (!IsAlienDead && !GameManager.Instance.IsPlayerDead)
         {
             FireBullets();
         }
@@ -215,7 +222,7 @@ public class SpecialMonsters : MonoBehaviour
 
         bullet.transform.position = _bulletPlace.transform.position;
         bullet.transform.rotation = Quaternion.Euler(0f, -90f, 0f);
-        _startPos = _bulletPlace.transform.position;
+        LastShotOrigin = _bulletPlace.transform.position;
 
         Rigidbody bulletRigid = bullet.GetComponent<Rigidbody>();
 
@@ -227,7 +234,7 @@ public class SpecialMonsters : MonoBehaviour
 
     private GameObject RetriveBullets()
     {
-        if (_isAlienDead)
+        if (IsAlienDead)
         {
             return null;
         }
@@ -265,7 +272,7 @@ public class SpecialMonsters : MonoBehaviour
         }
 
         _canShootAnimationPlay = isShooting;
-        Animator.SetBool(IsShootParam, isShooting);
+        _animator.SetBool(IsShootParam, isShooting);
     }
 
     private void Dead()
@@ -273,18 +280,18 @@ public class SpecialMonsters : MonoBehaviour
         GameObject burstEffect = Instantiate(_burstEffect, transform.position, Quaternion.Euler(0f, 90f, 0f));
         Destroy(burstEffect, 1f);
 
-        for (int i = 0; i < _boundry.Count; i++)
+        for (int i = 0; i < _boundary.Count; i++)
         {
-            _boundry[i].GetComponent<BoxCollider>().isTrigger = true;
+            _boundary[i].GetComponent<BoxCollider>().isTrigger = true;
         }
 
-        MusicManager.instance.MosterDead();
-        AllSceneManager.instance.DeactivateObjects(_objectsToDestroy);
-        AllSceneManager.instance.ActivateWayPointBasedOnCondition(_movingCube);
+        MusicManager.Instance.MosterDead();
+        AllSceneManager.Instance.DeactivateObjects(_objectsToDestroy);
+        AllSceneManager.Instance.ActivateWayPointBasedOnCondition(_movingCube);
 
         // Set here rather than from a delayed callback. OnDisable used to set this back to false
         // on the way past, so whether the camera ever saw it true came down to callback ordering.
-        _isAlienDead = true;
+        IsAlienDead = true;
 
         // The pool was five objects instantiated with no parent that nothing ever cleaned up.
         DestroyBullets();

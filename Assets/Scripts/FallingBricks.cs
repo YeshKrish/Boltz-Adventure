@@ -1,65 +1,59 @@
+using System.Collections;
 using UnityEngine;
-using System.Threading.Tasks;
 
-public static class CharacterAnimatorParamId
-{
-    public static readonly int BrickFalling = Animator.StringToHash("BrickFall");
-}
-
+/// <summary>
+/// A platform that drops out from under the player a moment after being stood on.
+///
+/// None of the three conditions that used to gate this worked. The starting position was
+/// reassigned from the current position every frame and then compared against itself, so the
+/// "has already fallen" flag was always false. The burst flag was an integer modulo one, which
+/// is zero for every integer, so it was always true. And the timer it checked counted up from
+/// the start of the level rather than from being stood on, so the brick's behaviour depended on
+/// how long the player had been in the level rather than on the brick. What survived was a
+/// brick that fell one second after contact, provided the level had been running a second, with
+/// a fresh one second timer started on every frame of that contact.
+/// </summary>
+[RequireComponent(typeof(Rigidbody))]
 public class FallingBricks : MonoBehaviour
 {
+    private static readonly int CanFallParam = Animator.StringToHash("canFall");
+
+    [SerializeField]
+    [Tooltip("Seconds between the player landing on the brick and the brick starting to drop.")]
+    private float _fallDelay = 1f;
+
     private Animator _animator;
     private Rigidbody _rb;
+    private bool _isFalling;
 
-    private float _currentTime;
-    private bool _isPlatformBurst;
-    private bool _hasfallen = false;
-    private Vector3 _intialPos;
-    private float _platStartToShake = 1f;
-
-    private void Start()
+    private void Awake()
     {
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
     }
 
-    private void Update()
+    private void OnCollisionEnter(Collision collision)
     {
-        _currentTime += Time.deltaTime;
-        _isPlatformBurst = Mathf.FloorToInt(Time.time) % 1 == 0;
-
-        _intialPos = transform.position;
-
-        if(transform.position.y < _intialPos.y - 2f)
+        if (_isFalling || !collision.gameObject.CompareTag("Player"))
         {
-            _hasfallen = true;
+            return;
         }
-        else
+
+        _isFalling = true;
+
+        if (_animator != null)
         {
-            _hasfallen = false;
+            _animator.SetBool(CanFallParam, true);
         }
+
+        StartCoroutine(Fall());
     }
 
-    private void OnCollisionStay(Collision collision)
+    private IEnumerator Fall()
     {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            if (_isPlatformBurst && !_hasfallen && _currentTime > _platStartToShake)
-            {
-                if(_animator != null)
-                {
-                    _animator.SetBool("canFall", true);
-                    BrickStartFalling();
-                }
-            }
-        }
-    }
-    async private void BrickStartFalling()
-    {
-        await Task.Delay(1000);
-        _hasfallen = true;
+        yield return new WaitForSeconds(_fallDelay);
+
         _rb.isKinematic = false;
         _rb.useGravity = true;
     }
-
 }

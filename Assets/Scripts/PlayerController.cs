@@ -12,8 +12,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private GameObject _fish;    
     [SerializeField]
-    private GameObject _alien;
-    [SerializeField]
     private float speed;
     [SerializeField]
     private int _jumpHeight = 6;
@@ -40,7 +38,6 @@ public class PlayerController : MonoBehaviour
     private int _doorToBeOpenedDist = 10;
     private int _enemyDeadJumpHeight = 4;
     private int _fishImageToBeSpawnedDistance = 8;
-    private int _distanceBetweenAlienAndPlayer = 12;
 
     //Special Levels
     private string _fifthLevel;
@@ -56,7 +53,6 @@ public class PlayerController : MonoBehaviour
     public static event Action DeActivateFightCamera;
 
     private Vector3 _ballVelocity;
-    private Vector3 _initialVelocity;
     public float joystickSensitivity = 2.0f;
     public float maxVelocity = 7.5f;
 
@@ -70,8 +66,6 @@ public class PlayerController : MonoBehaviour
 
         _rb = GetComponent<Rigidbody>();
         _ballSphereCollider = GetComponent<SphereCollider>();
-
-        _initialVelocity = _rb.linearVelocity;
     }
 
     private void Update()
@@ -116,14 +110,12 @@ public class PlayerController : MonoBehaviour
             UIManager.Instance.QuestTextObj.SetActive(true);
         }
 
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Jump();
         }
-
-        OnFalling();
-
-        _ballVelocity = _rb.linearVelocity;
+#endif
     }
 
     private void FixedUpdate()
@@ -132,12 +124,19 @@ public class PlayerController : MonoBehaviour
         Vector3 direction = Vector3.right * moveHorizontal;
 
         _rb.AddForce(direction * speed * Time.fixedDeltaTime, ForceMode.VelocityChange);
-        // Limit the velocity of the ball
+
+        // Clamping used to assign a Vector2 to Rigidbody.linearVelocity, which converts with
+        // z = 0 and silently killed any depth movement the ball had picked up.
         if (Mathf.Abs(_rb.linearVelocity.x) > maxVelocity)
         {
-            float sign = Mathf.Sign(_rb.linearVelocity.x);
-            _rb.linearVelocity = new Vector2(sign * maxVelocity, _rb.linearVelocity.y);
+            Vector3 velocity = _rb.linearVelocity;
+            velocity.x = Mathf.Sign(velocity.x) * maxVelocity;
+            _rb.linearVelocity = velocity;
         }
+
+        _ballVelocity = _rb.linearVelocity;
+
+        OnFalling();
     }
 
     public void Jump()
@@ -149,13 +148,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private bool IsGrounded(float length = 0.2f)
+    private bool IsGrounded()
     {
-        if(Physics.SphereCast(_ballSphereCollider.transform.position, _ballSphereCollider.radius/2f, Vector3.down, out RaycastHit hit, _ballSphereCollider.bounds.extents.y + 0.1f, _groundLayer))
-        {
-            return true;
-        }
-        return false;
+        return Physics.SphereCast(
+            _ballSphereCollider.transform.position,
+            _ballSphereCollider.radius / 2f,
+            Vector3.down,
+            out _,
+            _ballSphereCollider.bounds.extents.y + 0.1f,
+            _groundLayer);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -175,26 +176,13 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("EnemyHead"))
         {
-            other.gameObject.SetActive(false);
-            MusicManager.instance.EnemyDyingSound();
-            _rb.AddForce(new Vector3(0f, Math.Abs(transform.position.y), 0f).normalized * _enemyDeadJumpHeight, ForceMode.Impulse);
-            if (other.transform.parent.gameObject.GetComponentInChildren<MeshCollider>() != null)
+            Enemy enemy = other.GetComponentInParent<Enemy>();
+            if (enemy != null)
             {
-                if(other.transform.parent.gameObject.name == "EnemyBody")
-                {
-                    for (int i = 0; i < 3; i++)
-                    {
-                        other.transform.parent.gameObject.GetComponentsInChildren<MeshCollider>()[i].enabled = false;
-                    }
-                }
-                else
-                {
-                    other.transform.parent.gameObject.GetComponentInChildren<MeshCollider>().enabled = false;
-                }
+                MusicManager.instance.EnemyDyingSound();
+                _rb.AddForce(new Vector3(0f, Math.Abs(transform.position.y), 0f).normalized * _enemyDeadJumpHeight, ForceMode.Impulse);
+                enemy.Kill();
             }
-            other.GetComponentInParent<WayPointFollower>().enabled = false;
-            other.transform.parent.gameObject.transform.parent.GetComponent<Animator>().SetBool("isDead", true);
-            Destroy(other.transform.parent.gameObject, 2f);
         }
         if (((1 << other.gameObject.layer) & _winLayer) != 0)
         {
@@ -234,13 +222,19 @@ public class PlayerController : MonoBehaviour
         LevelCompleted?.Invoke();
     }
 
-    void OnFalling()
+    private void OnFalling()
     {
-        if(!Physics.SphereCast(_ballSphereCollider.transform.position, _ballSphereCollider.radius / 2f, Vector3.down, out RaycastHit hit, _ballSphereCollider.bounds.extents.y + 10f, _groundLayer) )
-        {
-            if(transform.position.y < -10f)
-            GameManager.instance.GameOver();
+        bool groundWithinReach = Physics.SphereCast(
+            _ballSphereCollider.transform.position,
+            _ballSphereCollider.radius / 2f,
+            Vector3.down,
+            out _,
+            _ballSphereCollider.bounds.extents.y + 10f,
+            _groundLayer);
 
+        if (!groundWithinReach && transform.position.y < -10f)
+        {
+            GameManager.instance.GameOver();
         }
     }
 

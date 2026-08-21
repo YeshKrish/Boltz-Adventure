@@ -1,10 +1,14 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A pad that throws the player upward when they land on it.
+/// </summary>
 [RequireComponent(typeof(Animator))]
 public class Bouncer : MonoBehaviour
 {
+    private static readonly int CanBounceParam = Animator.StringToHash("canBounce");
+
     [SerializeField]
     private Animator _bounceAnimator;
     [SerializeField]
@@ -15,13 +19,9 @@ public class Bouncer : MonoBehaviour
     private GameObject _player;
 
     private Rigidbody _playerRigidBody;
+    private float _bounceImpulse;
+    private bool _isBounced;
 
-    private bool _isBounced = false;
-
-    private Vector3 _distanceBetweenBouncerAndBrick;
-    private Vector3 _distanceBetweenBouncerAndBrickNor;
-    private float _verticalDistanceBetweenBouncerAndBrick;
-    private Vector3 _ballVelocity;
     private void OnEnable()
     {
         PlayerController.Bounce += Bounce;
@@ -30,37 +30,49 @@ public class Bouncer : MonoBehaviour
     private void Start()
     {
         _playerRigidBody = _player.GetComponent<Rigidbody>();
+        _bounceImpulse = CalculateBounceImpulse();
     }
 
-    //Find the Vertical distance betweem the Bouncer and the Nearby Store and find the angle betwwn those and add the Angle with the Vertical Distance
+    /// <summary>
+    /// The strength this pad has always bounced with: the vertical gap to the reference brick,
+    /// plus the angle to that brick in radians, plus two.
+    ///
+    /// Adding an angle to a distance and then to a bare constant does not mean anything, but it
+    /// is the number every one of these pads was tuned around, so it is kept rather than
+    /// replaced with a value nobody has felt. It used to be worked out afresh on every bounce,
+    /// along with a hypotenuse and a dot product angle that were computed and then discarded.
+    /// The pad and its reference brick are both static geometry and the bounce animation only
+    /// moves bones below this object, so the result cannot change while the level runs.
+    /// </summary>
+    private float CalculateBounceImpulse()
+    {
+        Vector3 toBrick = _nearByBrick.position - transform.position;
+        float verticalDistance = Mathf.Abs(transform.position.y - _nearByBrick.position.y);
+        float angle = Mathf.Atan2(toBrick.y, toBrick.x);
+
+        return verticalDistance + angle + 2f;
+    }
+
     private void Bounce()
     {
-        if (!_isBounced)
+        if (_isBounced)
         {
-            _isBounced = true;
-
-            _verticalDistanceBetweenBouncerAndBrick = Mathf.Abs(transform.position.y - _nearByBrick.position.y);
-
-            _distanceBetweenBouncerAndBrick = _nearByBrick.position - transform.position;
-            float opp = _distanceBetweenBouncerAndBrick.y;
-            float adj = _distanceBetweenBouncerAndBrick.x;
-            float hypotenuse = Mathf.Sqrt(opp * opp + adj * adj);
-            float angle = Mathf.Atan2(opp, adj);
-
-            _distanceBetweenBouncerAndBrickNor = (_nearByBrick.position - transform.position).normalized;
-            float dot = Vector3.Dot(transform.up, _distanceBetweenBouncerAndBrickNor);
-            float dotAngle = Mathf.Acos(dot);
-      
-            _playerRigidBody.AddForce(transform.up * (_verticalDistanceBetweenBouncerAndBrick + angle + 2), ForceMode.Impulse);
-            _bounceAnimator.SetBool("canBounce", true);
-            StartCoroutine(IdleState());
+            return;
         }
+
+        _isBounced = true;
+
+        _playerRigidBody.AddForce(transform.up * _bounceImpulse, ForceMode.Impulse);
+        _bounceAnimator.SetBool(CanBounceParam, true);
+
+        StartCoroutine(IdleState());
     }
 
-    IEnumerator IdleState()
+    private IEnumerator IdleState()
     {
         yield return new WaitForSeconds(_bounceAnimationClip.length);
-        _bounceAnimator.SetBool("canBounce", false);
+
+        _bounceAnimator.SetBool(CanBounceParam, false);
         _isBounced = false;
     }
 
@@ -68,5 +80,4 @@ public class Bouncer : MonoBehaviour
     {
         PlayerController.Bounce -= Bounce;
     }
-
 }

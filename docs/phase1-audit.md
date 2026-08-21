@@ -567,3 +567,92 @@ Re-saving `Level1.prefab` migrated it to the Unity 6 serialization format, dropp
 `m_RootOrder`, moving `Animator` to serializedVersion 7 and renaming TextMeshPro's
 `m_enableWordWrapping` to `m_TextWrappingMode`. That accounts for most of that file's diff and
 is not a behaviour change. Expect the same the first time any other old prefab is re-saved.
+
+## 20. Input stays on the legacy Input Manager
+
+Recorded here rather than in a README because the project does not have one.
+
+The whole shipping input path is uGUI plus an EventSystem: the joystick from the Joystick Pack
+and every button in the game are pointer handlers, and those are backend agnostic. After this
+phase there is exactly one raw `Input.` call left in the project, the debug jump key at
+`PlayerController.cs:119`, and it is now behind `#if UNITY_EDITOR || DEVELOPMENT_BUILD` so it
+cannot reach a release build.
+
+Moving to the Input System would cost a package, an input module swap across eleven scenes and a
+fresh class of "nothing responds to touch" bugs, to buy rebinding that nothing asks for, gamepad
+support on a touch only title, and hotplug. The editor's deprecation warning for the Input
+Manager is noise in that light. Revisit only if the game gains a control scheme it does not have
+today.
+
+The standard's "no raw pixel thresholds" rule still applies and has not been checked against the
+Joystick Pack's handle range. That is open.
+
+## 21. Where the plan's Phase 7 was wrong
+
+Five items on the plan's Phase 7 list did not survive contact with this base.
+
+| Plan said | Reality |
+|---|---|
+| `EnemyController` polls a static singleton every frame; delete `Update` | It has no `Update` at all and is already event driven. Nothing to do |
+| `UIManager`'s `_isGamePaused &= false` is the pause desync | That line is ugly but sets the flag false correctly. The desync is that `ResumeGame` never cleared the flag, so the next pause press took the resume branch and it took two presses to pause again |
+| `FallingBricks` gates on wall clock `Time.time % 3` | It is `% 1`, which is zero for every integer, so that gate was always true. All three of its conditions were broken, not one |
+| `CameraManager`'s float equality means the camera may never hand back | It does hand back. `Level6Record`'s final keyframe is bit for bit the same value as the literal in the code, so the comparison is true once the clip holds. It is fragile, not broken |
+| Moving platforms: `WayPointFollower`, `Follower`, `StickyPlatform` | `StickyPlatform` was deleted in Phase 2. `Follower` is not a platform at all: its only user is the music button on the main menu, a Canvas element with no collider |
+
+### Things the audit did not have
+
+- `ShootTrigger` raises `StartShooting` on every trigger entry, so walking out of the boss arena
+  and back in started a second attack loop alongside the first. The unused `int called = 0;
+  called++;` and its log in the old loop look like an attempt to find this.
+- Six of the nine `FallingBricks` in the game have no Animator, and the old code wrapped both the
+  animation call and the fall trigger in a null check on it, so the script never made those six
+  fall. They are dynamic bodies with gravity already on, which is why they behaved like bricks
+  anyway.
+- The four patrolling `Cube_Bricks` were dynamic rigidbodies with gravity enabled, held in place
+  only by `WayPointFollower` overwriting their position every frame.
+- `Bouncer`'s impulse works out to 9.78, 6.72, 3.95 and 9.95 on the four pads in the game. There
+  is one pad per level and the value is different in each, so there was no single number to
+  replace the formula with.
+- `SpecialMonsters.EndBlockPosition` and the `ProjectileEnd` field feeding it are written and
+  never read anywhere.
+
+## 22. What Phase 7 changed, and what is still unproven
+
+Ten commits, behaviour first and naming last so a rename never hid a logic change.
+
+The three crash paths in the enemy kill are gone, replaced by an `Enemy` component on the body
+object of the three enemy prefabs. The magic `for (i = 0; i < 3; i++)` was encoding the fact that
+`Enemy.prefab` has three meshes with colliders while Bee and Crab have one. Every enemy in all
+six levels is a prefab instance, so no scene needed touching for it.
+
+Sixteen waypoint driven objects moved from `transform.position` writes to kinematic rigidbodies
+moved with `MovePosition` on the physics step, with interpolation so they still render smoothly.
+The nine enemy bodies and five saws had no rigidbody at all before this.
+
+`Time.timeScale` has one owner. It had eight.
+
+**None of this has been run.** There is still no device build, and there has not been one for six
+phases now. Specifically unproven:
+
+- The boss fight. The attack pattern's timing is preserved on paper, by keeping the shot count
+  raised when the bullet leaves rather than when it is scheduled, but nobody has watched it.
+- The camera handback, which now triggers 200ms earlier because the alien dead flag is set when
+  the boss takes its final hit rather than from a delayed callback.
+- Every one of the sixteen objects converted to physics movement. Enemies and saws never carried
+  the player, so the conversion was about correctness rather than a symptom anyone reported.
+- The four patrolling bricks, which are kinematic now. The two that wait for a lever no longer
+  sit there being pulled down by gravity, which is a visible change.
+- Safe area on a real device with a cutout. The arithmetic is tested, the wiring is not.
+- `Bouncer` feel. The number is preserved exactly, so this should be a no-op, but it is computed
+  in `Start` now rather than per bounce.
+
+### Re-saving scenes did not migrate them
+
+Section 19 expected the Unity 6 format migration to inflate the diff of anything re-saved. That
+held for prefabs but not for scenes. Saving Level1-5, Level2-1, MainMenu, LevelSelect and
+Customize left their `m_RootOrder` counts untouched and grew each file only by the lines actually
+added. Scene diffs in this phase are between 29 and 64 lines and all of it is real content.
+
+`ProjectSettings/TimeManager.asset` is the opposite case. Unity 6 rewrites the fixed timestep as
+a rational the first time anything saves project settings, and it came back after every save
+during this phase, so it has its own commit.

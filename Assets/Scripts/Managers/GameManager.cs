@@ -122,7 +122,7 @@ public class GameManager : MonoBehaviour
 
         if (level != null && level.ShowsIntro)
         {
-            Time.timeScale = 0;
+            PauseService.Hold(PauseReason.Instructions);
             UIManager.Instance.JoyStick.SetActive(false);
             UIManager.Instance.JumpButton.SetActive(false);
             UIManager.Instance.PauseButton.SetActive(false);

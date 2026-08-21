@@ -27,7 +27,6 @@ public class UIManager : MonoBehaviour
 
     public Image MusicImage;
 
-    private bool _isGamePaused = false;
     private int _presentInstruction = 0;
 
 
@@ -69,16 +68,11 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void GameStart()
-    {
-        Time.timeScale = 1f;
-    }
-
     public void RetryLevel()
     {
         MusicManager.instance.ButtonClickSound();
+        PauseService.ReleaseAll();
         SceneManager.LoadScene(GameManager.instance.GetCurrentScene());
-        Time.timeScale = 1f;
     }
 
     public void QuitGame()
@@ -89,31 +83,35 @@ public class UIManager : MonoBehaviour
 
     public void MainMenu()
     {
-        Time.timeScale = 1;
         MusicManager.instance.ButtonClickSound();
+        PauseService.ReleaseAll();
         SceneManager.LoadScene("MainMenu");
     }
 
     public void PauseScreen()
     {
         MusicManager.instance.ButtonClickSound();
-        if (!_isGamePaused)
+
+        if (PauseService.IsHeldBy(PauseReason.PauseScreen))
         {
-            _isGamePaused = true;
-            Time.timeScale = 0;
-            _pauseScreen.SetActive(true);
+            ClosePauseScreen();
         }
         else
         {
-            Time.timeScale = 1;
-            _isGamePaused &= false;
-            _pauseScreen.SetActive(false);
+            PauseService.Hold(PauseReason.PauseScreen);
+            _pauseScreen.SetActive(true);
         }
     }
+
     public void ResumeGame()
     {
         MusicManager.instance.ButtonClickSound();
-        Time.timeScale = 1;
+        ClosePauseScreen();
+    }
+
+    private void ClosePauseScreen()
+    {
+        PauseService.Release(PauseReason.PauseScreen);
         _pauseScreen.SetActive(false);
     }
     public void MuteAudio()
@@ -139,7 +137,7 @@ public class UIManager : MonoBehaviour
             JumpButton.SetActive(true);
             PauseButton.SetActive(true);
             Coin.SetActive(true);
-            Time.timeScale = 1;
+            PauseService.Release(PauseReason.Instructions);
         }
     }
 
@@ -164,7 +162,6 @@ public class UIManager : MonoBehaviour
 
     public void HideUI()
     {
-        Debug.Log("Hide");
         JoyStick.SetActive(false);
         JumpButton.SetActive(false);
         PauseButton.SetActive(false);
@@ -172,7 +169,6 @@ public class UIManager : MonoBehaviour
     }
     public void ActivateUI()
     {
-        Debug.Log("Active");
         JoyStick.SetActive(true);
         JumpButton.SetActive(true);
         PauseButton.SetActive(true);

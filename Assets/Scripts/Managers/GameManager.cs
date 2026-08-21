@@ -52,14 +52,13 @@ public class GameManager : MonoBehaviour
     }
     private void Awake()
     {
-        if (instance == null)
+        if (instance != null && instance != this)
         {
-            instance = this;
+            Destroy(gameObject);
+            return;
         }
-        else
-        {
-            Destroy(this.gameObject);
-        }
+
+        instance = this;
 
         SetPlayerBall();
 

@@ -27,16 +27,22 @@ public class MusicManager : MonoBehaviour
 
     private void Awake()
     {
-        if(instance == null)
+        if (instance != null && instance != this)
         {
-            instance = this;
-        }
-        else
-        {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
+            return;
         }
 
-        DontDestroyOnLoad(this.gameObject);
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        if (instance == this)
+        {
+            instance = null;
+        }
     }
 
     public void ButtonClickSound()

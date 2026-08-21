@@ -11,16 +11,22 @@ public class AllSceneManager : MonoBehaviour
 
     private void Awake()
     {
-        if(instance == null)
+        if (instance != null && instance != this)
         {
-            instance = this;
-        }
-        else
-        {
-            Destroy(this);
+            Destroy(gameObject);
+            return;
         }
 
-        DontDestroyOnLoad(this);
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        if (instance == this)
+        {
+            instance = null;
+        }
     }
 
     //Activate Objects

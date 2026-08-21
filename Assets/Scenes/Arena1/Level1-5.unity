@@ -5019,6 +5019,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1353236150}
     m_Modifications:
+    - target: {fileID: 5803440181770343128, guid: 975fb819b2a163c40bd634abf1e28a00, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5803440181770343128, guid: 975fb819b2a163c40bd634abf1e28a00, type: 3}
+      propertyPath: m_Constraints
+      value: 112
+      objectReference: {fileID: 0}
+    - target: {fileID: 5803440181770343128, guid: 975fb819b2a163c40bd634abf1e28a00, type: 3}
+      propertyPath: m_Interpolate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5803440181770343128, guid: 975fb819b2a163c40bd634abf1e28a00, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7440809126175861895, guid: 975fb819b2a163c40bd634abf1e28a00, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -5376,6 +5392,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 68483254}
     m_Modifications:
+    - target: {fileID: 5803440181770343128, guid: 975fb819b2a163c40bd634abf1e28a00, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5803440181770343128, guid: 975fb819b2a163c40bd634abf1e28a00, type: 3}
+      propertyPath: m_Constraints
+      value: 112
+      objectReference: {fileID: 0}
+    - target: {fileID: 5803440181770343128, guid: 975fb819b2a163c40bd634abf1e28a00, type: 3}
+      propertyPath: m_Interpolate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5803440181770343128, guid: 975fb819b2a163c40bd634abf1e28a00, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7440809126175861895, guid: 975fb819b2a163c40bd634abf1e28a00, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -5478,6 +5510,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 748098154}
     m_Modifications:
+    - target: {fileID: 5803440181770343128, guid: 975fb819b2a163c40bd634abf1e28a00, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5803440181770343128, guid: 975fb819b2a163c40bd634abf1e28a00, type: 3}
+      propertyPath: m_Constraints
+      value: 112
+      objectReference: {fileID: 0}
+    - target: {fileID: 5803440181770343128, guid: 975fb819b2a163c40bd634abf1e28a00, type: 3}
+      propertyPath: m_Interpolate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5803440181770343128, guid: 975fb819b2a163c40bd634abf1e28a00, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7440809126175861895, guid: 975fb819b2a163c40bd634abf1e28a00, type: 3}
       propertyPath: m_RootOrder
       value: 0

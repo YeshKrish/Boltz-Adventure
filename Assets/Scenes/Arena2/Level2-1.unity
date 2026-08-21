@@ -2054,6 +2054,22 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5803440181770343128, guid: 975fb819b2a163c40bd634abf1e28a00, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5803440181770343128, guid: 975fb819b2a163c40bd634abf1e28a00, type: 3}
+      propertyPath: m_Constraints
+      value: 112
+      objectReference: {fileID: 0}
+    - target: {fileID: 5803440181770343128, guid: 975fb819b2a163c40bd634abf1e28a00, type: 3}
+      propertyPath: m_Interpolate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5803440181770343128, guid: 975fb819b2a163c40bd634abf1e28a00, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7440809126175861895, guid: 975fb819b2a163c40bd634abf1e28a00, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -11124,6 +11140,8 @@ MonoBehaviour:
   _mainCamera: {fileID: 1747117556}
   _fightCamera: {fileID: 805785318}
   _level6Camera: {fileID: 841987429}
+  _introEndX: 116.1
+  _fightHandbackDelay: 0.5
 --- !u!4 &621180943
 Transform:
   m_ObjectHideFlags: 0
@@ -18704,7 +18722,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _audioSprites: []
-  _owlSO: {fileID: 0}
 --- !u!4 &1046402607
 Transform:
   m_ObjectHideFlags: 0
@@ -37211,8 +37228,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _burstEffect: {fileID: 1000012903210382, guid: 801c56597287a4a49b09aee4555278d6, type: 3}
   _bullets: {fileID: 3781525134215523747, guid: b68368246b4208f4d9f680e57bc87b91, type: 3}
-  _player: {fileID: 2071174842}
-  _triggerPoint: {fileID: 1481661593}
   _bulletPlace: {fileID: 1695151500}
   _bulletSpeed: 10
   _objectsToDestroy:
@@ -37232,7 +37247,13 @@ MonoBehaviour:
   - {fileID: 1071896121}
   - {fileID: 520082282}
   - {fileID: 1425905154}
-  ProjectileEnd: {fileID: 1554848704}
+  _openingShotDelay: 2.8
+  _volleyChangeDelay: 3
+  _closingShotDelay: 1.2
+  _cycleRestDelay: 3
+  _shotWindup: 0.1
+  _shootAnimationHold: 0.2
+  _despawnDelay: 0.2
   Animator: {fileID: 2130943079}
   _bulletsList: []
 --- !u!1001 &6657006064712383078

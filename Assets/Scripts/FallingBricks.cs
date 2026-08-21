@@ -24,12 +24,14 @@ public class FallingBricks : MonoBehaviour
 
     private Animator _animator;
     private Rigidbody _rb;
+    private WayPointFollower _patrol;
     private bool _isFalling;
 
     private void Awake()
     {
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
+        _patrol = GetComponent<WayPointFollower>();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -52,6 +54,14 @@ public class FallingBricks : MonoBehaviour
     private IEnumerator Fall()
     {
         yield return new WaitForSeconds(_fallDelay);
+
+        // Three of these bricks also patrol a waypoint loop. That loop drives the body with
+        // MovePosition, which would go on steering the brick along the path while gravity was
+        // supposed to be taking it, so the patrol stops before the body becomes dynamic.
+        if (_patrol != null)
+        {
+            _patrol.enabled = false;
+        }
 
         _rb.isKinematic = false;
         _rb.useGravity = true;
